@@ -1,0 +1,48 @@
+.cta-grid {
+  .cta-grid-cell {
+    .cta-grid-cell-contents {
+      &.cell-pad {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        @include breakpoint(medium) {
+          padding-bottom: 1rem;
+        }
+      }
+      &.left-cell-pad {
+        padding-left: 0.5rem;
+        @include breakpoint(medium) {
+          padding-bottom: 1rem;
+        }
+      }
+      &.right-cell-pad {
+        padding-right: 0.5rem;
+        @include breakpoint(medium) {
+          padding-bottom: 1rem;
+        }
+      }
+      .cta-link-anchor {
+        .image {
+          width: 100%;
+          background-size: auto 90%;
+          background-repeat: no-repeat;
+          background-position: center right;
+          .cta-heading {
+
+          }
+          .cta-strapline {
+
+          }
+          .cta-subheading {
+
+          }
+          .cta-description {
+
+          }
+          .cta-button {
+
+          }
+        }
+      }
+    }
+  }
+}

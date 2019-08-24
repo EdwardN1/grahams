@@ -1,0 +1,37 @@
+.image-link-grid {
+  .image-link-grid-cell {
+    .image-link-grid-cell-contents {
+      &.cell-pad {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        @include breakpoint(medium) {
+          padding-bottom: 1rem;
+        }
+      }
+      &.left-cell-pad {
+        padding-left: 0.5rem;
+        @include breakpoint(medium) {
+          padding-bottom: 1rem;
+        }
+      }
+      &.right-cell-pad {
+        padding-right: 0.5rem;
+        @include breakpoint(medium) {
+          padding-bottom: 1rem;
+        }
+      }
+      .image-grid-link-anchor {
+        .image {
+          padding-top: 75%;
+          width: 100%;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+        .description {
+
+        }
+      }
+    }
+  }
+}
