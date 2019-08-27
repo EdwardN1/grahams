@@ -56,7 +56,7 @@
                         <div class="cell shrink">
                             <div class="grid-x top-icons">
                                 <div class="cell shrink grey-background white">
-                                    <span>All prices Ex VAT</span>
+                                    <span style="padding-left: 1rem;">All prices Ex VAT</span>
                                 </div>
                                 <div class="cell shrink grey-background white">
                                     <a href="/find-branch/">
@@ -72,19 +72,19 @@
                                 </div>
                                 <div class="cell shrink grey-background white">
                                     <a href="https://www.getplumbedin.co.uk/" target="_blank">
-                                        <img src="<?php get_icon( 'plumbed in' ); ?>">
+                                        <img src="<?php echo get_icon( 'plumbed in' ); ?>">
                                     </a>
                                 </div>
-                                <div class="cell shrink grey-background white">
+                                <div class="cell shrink white">
 									<?php $facebook = get_social_media( 'Facebook' ); ?>
                                     <a href="<?php echo $facebook['link']; ?>>" target="_blank">
-                                        <img src="<?php $facebook['icon']; ?>">
+                                        <img src="<?php echo $facebook['icon']; ?>">
                                     </a>
                                 </div>
-                                <div class="cell shrink grey-background white no-right-margin">
+                                <div class="cell shrink white no-right-margin">
 									<?php $twitter = get_social_media( 'Twitter' ); ?>
                                     <a href="<?php echo $twitter['link']; ?>>" target="_blank">
-                                        <img src="<?php $twitter['icon']; ?>">
+                                        <img src="<?php echo $twitter['icon']; ?>">
                                     </a>
                                 </div>
                             </div>

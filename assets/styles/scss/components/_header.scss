@@ -16,5 +16,23 @@ header {
       line-height: 42px;
     }
 
+    .grey-background {
+      background-color: #6f6f6e;
+
+      span {
+        padding-left: 0;
+      }
+    }
+    .white {
+      color: $white;
+      margin-right: 2px;
+      &.no-right-margin {
+        margin-right: 0;
+      }
+      a, a:hover, a:focus, a:active {
+        color: $white;
+      }
+    }
+
   }
 }
