@@ -65,8 +65,13 @@
 // 1. Global
 // ---------
 
+$archivo: 'Archivo', sans-serif;
+$archivonarrow: 'Archivo Narrow', sans-serif;
+$pacifico: 'Pacifico', cursive;
+$roboto: 'Roboto', sans-serif;
+
 $global-font-size: 100%;
-$global-width: rem-calc(1200);
+$global-width: rem-calc(1470);
 $global-lineheight: 1.5;
 $foundation-palette: (
   primary: #1779ba,

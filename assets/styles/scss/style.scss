@@ -64,9 +64,12 @@ CSS file.
 @include foundation-visibility-classes;
 @include foundation-float-classes;
 
+@import url('https://fonts.googleapis.com/css?family=Archivo:400,500,600,700|Archivo+Narrow:400,500,600,700|Pacifico|Roboto:700,900&display=swap');
+
 // Import your custom styles
 @import "global";
 @import "slick/slick";
 @import "slick/slick-theme";
 @import "components/hero-section";
 @import "components/image_grid_links";
+@import "components/header";

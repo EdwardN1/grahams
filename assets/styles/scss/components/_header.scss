@@ -1,0 +1,20 @@
+header {
+  .top-row {
+    background-color: #dad9d2;
+    max-height: 42px;
+    font-family: $archivonarrow;
+    font-size: 14px;
+    color: #666666;
+    text-align: left;
+    img {
+      height: 42px;
+      width: auto;
+    }
+    span {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      line-height: 42px;
+    }
+
+  }
+}
