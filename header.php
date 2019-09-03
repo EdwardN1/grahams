@@ -91,7 +91,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="second-row">
+            </div>
+
+            <div class="second-row">
+                <div class="grid-container">
                     <div class="grid-x">
                         <div class="cell auto secondary-logo">
                             <img src="<?php echo get_secondary_logo( 'Always Available' ); ?>">
@@ -104,7 +107,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="nav-row">
@@ -114,22 +116,24 @@
             </div>
 
             <div class="bottom-row">
-                <div class="grid-x">
-                    <div class="cell auto">
-                        <img src="<?php echo get_icon( 'checklist' ); ?>">
-                        Get the products you're after
-                    </div>
-                    <div class="cell auto">
-                        <img src="<?php echo get_icon( 'stopwatch' ); ?>">
-                        Get the products you're after
-                    </div>
-                    <div class="cell auto">
-                        <img src="<?php echo get_icon( 'gearhead' ); ?>">
-                        Get the products you're after
-                    </div>
-                    <div class="cell auto show-for-medium">
-                        <img src="<?php echo get_icon( 'pound' ); ?>">
-                        Get the products you're after
+                <div class="grid-container">
+                    <div class="grid-x">
+                        <div class="cell auto text-center">
+                            <img src="<?php echo get_icon( 'checklist' ); ?>">
+                            Get the products you're after
+                        </div>
+                        <div class="cell auto text-center">
+                            <img src="<?php echo get_icon( 'stopwatch' ); ?>">
+                            Get the products you're after
+                        </div>
+                        <div class="cell auto text-center">
+                            <img src="<?php echo get_icon( 'gearhead' ); ?>">
+                            Get the products you're after
+                        </div>
+                        <div class="cell auto show-for-medium text-center">
+                            <img src="<?php echo get_icon( 'pound' ); ?>" style="height: auto; width: auto;">
+                            Get the products you're after
+                        </div>
                     </div>
                 </div>
             </div>

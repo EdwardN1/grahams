@@ -1,10 +1,12 @@
 header {
+
   .top-row {
-    background-color: #dad9d2;
+    background-color: $light-gray;
     max-height: 42px;
     font-family: $archivonarrow;
     font-size: 14px;
-    color: #666666;
+    color: $dark-gray;
+    font-weight: bold;
     text-align: left;
     img {
       height: 42px;
@@ -17,7 +19,7 @@ header {
     }
 
     .grey-background {
-      background-color: #6f6f6e;
+      background-color: $medium-gray;
 
       span {
         padding-left: 0;
@@ -33,6 +35,82 @@ header {
         color: $white;
       }
     }
-
   }
+
+  .second-row {
+    max-height: 116px;
+    line-height: 116px;
+    .secondary-logo {
+      height: 116px;
+      img {
+        max-height: 116px;
+        width: auto;
+      }
+    }
+    .telephone-number {
+      color: $green;
+      font-family: $archivonarrow;
+      font-size: 52px;
+      font-weight: bold;
+      a, a:hover, a:focus, a:active {
+        color: $green;
+        font-family: $archivonarrow;
+        font-size: 60px;
+        font-weight: bold;
+        img {
+          height: 50px;
+          width: auto;
+          display: inline-block;
+          margin-top: -8px;
+        }
+      }
+    }
+  }
+
+  .bottom-row {
+    img {
+      height: 60px;
+      width: auto;
+      margin-right: 0.5rem;
+    }
+    color: $green;
+    font-family: $archivonarrow;
+    font-size: 18px;
+    font-weight: bold;
+    height: 90px;
+    line-height: 90px;
+  }
+
+  .nav-row {
+    .top-bar, .top-bar ul {
+      background-color: $white;
+      li {
+        background-color: $green;
+        a, a:hover, a:focus, a:active {
+          color: $white;
+          font-family: $archivonarrow;
+          font-size: 16px;
+        }
+      }
+    }
+    #main-nav {
+      @include xy-grid();
+      > li {
+        @include xy-cell(auto,false);
+        text-align: center;
+        height: 65px;
+        a:after {
+          content: none;
+        }
+        > a {
+          padding: 0;
+          line-height: 65px;
+        }
+        > ul {
+          width: 100%;
+        }
+      }
+    }
+  }
+
 }

@@ -1,23 +1,46 @@
 <?php $id = get_field( 'id' ); ?>
 <div id="<?php echo $id; ?>" class="hero-section">
 	<?php $section_type = get_field( 'section_type' ); ?>
-	<?php if ( $section_type == 'image' ): ?>
+	<?php if ( $section_type == 'Image' ): ?>
 		<?php $image = get_field( 'image' ); ?>
 		<?php $imageURL = $image['url']; ?>
 		<?php $imageALT = $image['alt']; ?>
-		<?php if ( $image ) { ?>
-            <img src="<?php echo $imageURL; ?>" alt="<?php echo $imageALT; ?>"/>
-		<?php } ?>
-		<?php $image_title = get_field( 'image_title' ); ?>
-		<?php echo $image_title; ?>
-		<?php $image_link_title = get_field( 'image_link_title' ); ?>
-		<?php echo $image_link_title; ?>
-		<?php $image_link_type = get_field( 'image_link_type' ); ?>
-		<?php $image_external_url = get_field( 'image_external_url' ); ?>
-		<?php echo $image_external_url; ?>
-		<?php $image_text_link = get_field( 'image_text_link' ); ?>
-		<?php echo $image_text_link; ?>
-		<?php the_field( 'image_internal_page' ); ?>
+        <div class="hero-image-section" style="background-image: url(<?php echo $imageURL; ?>)">
+            <div class="hero-image-section-description">
+				<?php $image_title = get_field( 'image_title' ); ?>
+				<?php echo $image_title; ?>
+				<?php $title_type = get_field( 'title_type' ); ?>
+				<?php $title_type = get_sub_field( 'title_type' ); ?>
+
+				<?php if ( $title_type == 'H1 Heading' ): ?>
+                    <h1><?php echo $image_title; ?></h1>
+				<?php else: ?>
+					<?php if ( $title_type == 'H2 Heading' ): ?>
+                        <h2><?php echo $image_title; ?></h2>
+					<?php else: ?>
+                        <span><?php echo $image_title; ?></span>
+					<?php endif; ?>
+				<?php endif; ?>
+				<?php $image_link_title = get_field( 'image_link_title' ); ?>
+				<?php $image_link_type = get_field( 'image_link_type' ); ?>
+
+				<?php if ( $image_link_type == 'External URL' ): ?>
+					<?php $image_external_url = get_sub_field( 'image_external_url' ); ?>
+                    <a href="<?php echo $image_external_url; ?>"
+                       target="_blank" class="button"><?php echo $image_link_title; ?></a>
+				<?php endif; ?>
+				<?php if ( $image_link_type == 'Text' ): ?>
+					<?php $image_text_link = get_sub_field( 'image_text_link' ); ?>
+                    <a href="<?php echo $image_text_link; ?>"
+                       class="button"><?php echo $image_link_title; ?></a>
+				<?php endif; ?>
+				<?php if ( $image_link_type == 'Internal Page' ): ?>
+					<?php $image_internal_page = get_sub_field( 'image_internal_page' ); ?>
+                    <a href="<?php echo $image_internal_page; ?>"
+                       class="button"><?php echo $image_link_title; ?></a>
+				<?php endif; ?>
+            </div>
+        </div>
 	<?php else: ?>
 		<?php if ( have_rows( 'slides' ) ) : ?>
             <div data-slick-slider class="hero-slides">

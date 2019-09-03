@@ -18,3 +18,43 @@
     }
   }
 }
+
+#home-section-1 {
+  @include xy-grid-container();
+  margin-bottom: 2rem;
+  .hero-image-section {
+    max-height: 154px;
+    height: 10.694vw;
+    .button {
+      max-height: 154px;
+      height: 10.694vw;
+      width: 100%;
+      color: transparent;
+      background-color: transparent;
+      &:hover {
+        color: transparent;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+#home-section-2 {
+  @include xy-grid-container();
+  margin-bottom: 2rem;
+  .hero-image-section {
+    max-height: 477px;
+    height: 33.125vw;
+    .button {
+      max-height: 477px;
+      height: 33.125vw;
+      width: 100%;
+      color: transparent;
+      background-color: transparent;
+      &:hover {
+        color: transparent;
+        background-color: transparent;
+      }
+    }
+  }
+}
