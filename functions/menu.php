@@ -4,7 +4,10 @@ register_nav_menus(
 	array(
 		'main-nav'		=> __( 'The Main Menu', 'jointswp' ),		// Main nav in header
 		'offcanvas-nav'	=> __( 'The Off-Canvas Menu', 'jointswp' ),	// Off-Canvas nav
-		'footer-links'	=> __( 'Footer Links', 'jointswp' )			// Secondary nav in footer
+		'footer-product-categories'	=> __( 'Footer Product Categories', 'jointswp' ),
+        'footer-website'	=> __( 'Footer Website Links', 'jointswp' ),
+        'footer-services'	=> __( 'Footer Our Services Links', 'jointswp' ),
+        'footer-other-sites'	=> __( 'Footer Other Graham Sites', 'jointswp' )
 	)
 );
 
