@@ -1,6 +1,17 @@
 footer {
   .explore-row {
     background-color: $green;
+    .title-container {
+      border-bottom: 1px solid $white;
+      font-family: $archivonarrow;
+      font-size: 22px;
+      line-height: 50px;
+      color: $white;
+      font-weight: bold;
+      .title {
+        padding-left: 0.5rem;
+      }
+    }
   }
   
 }
