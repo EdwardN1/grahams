@@ -57,6 +57,7 @@
                     ?>
                     <a href="<?php echo $facebook['link']; ?>" target="_blank" class="social-link"><img
                                 src="<?php echo $facebook['icon-reversed']; ?>"></a>
+                    &nbsp;
                     <a href="<?php echo $twitter['link']; ?>" target="_blank" class="social-link"><img
                                 src="<?php echo $twitter['icon-reversed']; ?>"></a>
                 </div>
