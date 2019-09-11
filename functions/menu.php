@@ -7,7 +7,8 @@ register_nav_menus(
 		'footer-product-categories'	=> __( 'Footer Product Categories', 'jointswp' ),
         'footer-website'	=> __( 'Footer Website Links', 'jointswp' ),
         'footer-services'	=> __( 'Footer Our Services Links', 'jointswp' ),
-        'footer-other-sites'	=> __( 'Footer Other Graham Sites', 'jointswp' )
+        'footer-other-sites'	=> __( 'Footer Other Graham Sites', 'jointswp' ),
+		'footer'	=> __( 'Footer Menu', 'jointswp' )
 	)
 );
 

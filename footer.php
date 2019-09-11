@@ -65,19 +65,21 @@
         </div>
     </div>
 
-    <div class="inner-footer grid-x grid-margin-x grid-padding-x">
-
-        <div class="small-12 medium-12 large-12 cell">
-            <nav role="navigation">
-                <?php joints_footer_links(); ?>
-            </nav>
-        </div>
-
-        <div class="small-12 medium-12 large-12 cell">
-            <p class="source-org copyright">&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>.</p>
-        </div>
-
-    </div> <!-- end #inner-footer -->
+   <div class="copyright">
+       <div class="grid-container">
+           <div class="grid-x">
+               <div class="footer-logo cell shrink">
+                   <a href="/" style="padding-right: 1.5rem;"><img src="<?php echo get_field('logo','option')['url'];?>" style="width: 100px; height: auto;"></a>
+               </div>
+               <div class="notice cell auto">
+                   <?php echo get_field('copyright_notice',option);?>
+               </div>
+               <div class="cell shrink footer-menu">
+	               <?php wp_nav_menu(array('theme_location' => "footer",)); ?>
+               </div>
+           </div>
+       </div>
+   </div>
 
 </footer> <!-- end .footer -->
 

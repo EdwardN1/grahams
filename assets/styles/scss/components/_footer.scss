@@ -13,7 +13,16 @@ footer {
     }
     .logo-phone-contact {
       padding-top: 1rem;
-      padding-right: 1rem;
+      padding-right: 2rem;
+      .telephone-number {
+        a {
+          color: $white;
+          line-height: 2;
+          font-size: 31px;
+          font-family: $archivonarrow;
+          font-weight: bold;
+        }
+      }
     }
     .menus {
       padding-top: 1rem;
@@ -59,5 +68,25 @@ footer {
       }
     }
   }
-  
+
+  .copyright {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: $dark-gray;
+    font-family: $archivonarrow;
+    font-size: 11px;
+    line-height: 1.2;
+    .notice {
+      padding-top: 1em;
+    }
+    .footer-menu {
+      text-align: right;
+      a {
+        padding: 0;
+        color: $dark-gray;
+        padding-top: 2em;
+        padding-left: 2em;
+      }
+    }
+  }
 }
