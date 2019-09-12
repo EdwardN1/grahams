@@ -78,3 +78,23 @@
     }
   }
 }
+
+#single-product {
+  @include xy-grid-container();
+  margin-bottom: 2rem;
+  .hero-image-section {
+    max-height: 815px;
+    height: 56.597vw;
+    .button {
+      max-height: 815px;
+      height: 56.597vw;
+      width: 100%;
+      color: transparent;
+      background-color: transparent;
+      &:hover {
+        color: transparent;
+        background-color: transparent;
+      }
+    }
+  }
+}
