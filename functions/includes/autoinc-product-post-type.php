@@ -19,21 +19,21 @@ function grahams_product_post() {
 	register_post_type( 'grahams_product', /* (http://codex.wordpress.org/Function_Reference/register_post_type) */
 		// let's now add all the options for this post type
 		array('labels' => array(
-			'name' => __('Grahams Product', 'jointswp'), /* This is the Title of the Group */
+			'name' => __('Graham Product', 'jointswp'), /* This is the Title of the Group */
 			'singular_name' => __('Product', 'jointswp'), /* This is the individual type */
 			'all_items' => __('All Products', 'jointswp'), /* the all items menu item */
 			'add_new' => __('Add New', 'jointswp'), /* The add new menu item */
 			'add_new_item' => __('Add New Product', 'jointswp'), /* Add New Display Title */
 			'edit' => __( 'Edit', 'jointswp' ), /* Edit Dialog */
 			'edit_item' => __('Edit Products', 'jointswp'), /* Edit Display Title */
-			'new_item' => __('New Grahams Product', 'jointswp'), /* New Display Title */
-			'view_item' => __('View Grahams Product', 'jointswp'), /* View Display Title */
-			'search_items' => __('Search Grahams Product', 'jointswp'), /* Search Custom Type Title */
+			'new_item' => __('New Graham Product', 'jointswp'), /* New Display Title */
+			'view_item' => __('View Graham Product', 'jointswp'), /* View Display Title */
+			'search_items' => __('Search Graham Product', 'jointswp'), /* Search Custom Type Title */
 			'not_found' =>  __('Nothing found in the Database.', 'jointswp'), /* This displays if there are no entries yet */
 			'not_found_in_trash' => __('Nothing found in Trash', 'jointswp'), /* This displays if there is nothing in the trash */
 			'parent_item_colon' => ''
 		), /* end of arrays */
-		      'description' => __( 'A product for the Grahams Always Available website', 'jointswp' ), /* Custom Type Description */
+		      'description' => __( 'A product for the Graham Always Available website', 'jointswp' ), /* Custom Type Description */
 		      'public' => true,
 		      'publicly_queryable' => true,
 		      'exclude_from_search' => false,
