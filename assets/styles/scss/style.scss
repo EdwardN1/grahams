@@ -68,6 +68,7 @@ CSS file.
 
 // Import your custom styles
 @import "global";
+@import "components/global";
 @import "slick/slick";
 @import "slick/slick-theme";
 @import "components/hero-section";
@@ -75,3 +76,4 @@ CSS file.
 @import "components/header";
 @import "components/footer";
 @import "components/graham-product";
+@import "components/breadcrumbs";
