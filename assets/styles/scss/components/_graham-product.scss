@@ -1,4 +1,8 @@
 .graham-product {
+  > .grid-x {
+    padding-top: 2rem;
+    border-top: 1px solid $lime;
+  }
   h1 {
     color: $green;
     font-family: $archivonarrow;
@@ -6,18 +10,23 @@
     font-weight: bold;
     line-height: 1.1;
     margin: 0;
+    border-bottom: 1px solid $light-gray;
+    padding-right: 6em;
   }
   .code {
     font-family: $archivonarrow;
     font-weight: $semi-bold;
     font-size: 22px;
     color: $dark-gray;
+    padding-bottom: 1rem;
+    padding-top: 0.5rem;
   }
   .description, .accordion {
     font-family: $archivonarrow;
     font-weight: $regular;
     font-size: 16px;
     color: $black;
+    max-width: 700px;
   }
   .price {
     font-family: $roboto;
@@ -30,5 +39,14 @@
       font-size: 32px;
       color: $lime;
     }
+  }
+  .button.lime {
+    padding-left: 4rem;
+    padding-right: 4rem;
+    margin-right: 4rem;
+  }
+  .button.green {
+    padding-left: 5.1rem;
+    padding-right: 5.3rem;
   }
 }

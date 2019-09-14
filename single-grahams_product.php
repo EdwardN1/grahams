@@ -13,7 +13,10 @@ get_header(); ?>
 <?php $specifications = get_field( 'specifications' ); ?>
 <?php $availability = get_field( 'availability' ); ?>
 
-
+<div class="grid-container">
+    <?php if ( function_exists('yoast_breadcrumb') )
+    {yoast_breadcrumb('<p id="breadcrumbs">','</p>');} ?>
+</div>
     <div class="grid-container graham-product">
         <div class="grid-x">
             <div class="cell large-5 images">
@@ -46,7 +49,7 @@ get_header(); ?>
 					<?php // no rows found ?>
 				<?php endif; ?>
             </div>
-            <div class="cell auto content" style="padding-right: 2rem; padding-left: 2rem;">
+            <div class="cell auto content" style="padding-left: 2rem;">
                 <h1><?php the_title(); ?></h1>
                 <div class="code">
 					<?php echo $code; ?>
@@ -58,7 +61,7 @@ get_header(); ?>
                     <span class="only">Only</span>
 					£<?php echo $price; ?>
                 </div>
-                <div class="buttons"><a href="#" class="button">Enquire Now</a> <a href="#" class="button">Nearest
+                <div class="buttons"><a href="#" class="button lime">Enquire Now</a> <a href="#" class="button green">Nearest
                         Stockist</a></div>
                 <ul class="accordion" data-accordion>
 
