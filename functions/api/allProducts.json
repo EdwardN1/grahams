@@ -1,0 +1,481 @@
+{
+  "Start": 0,
+  "Limit": 27,
+  "TotalResults": 27,
+  "Results": [
+    {
+      "Id": 1806024,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Protects against corrosion and scale\r\nIncreased strength high-performance inhibitor\r\nTreats 125 liters\r\nMaintains heating efficiency\r\nHigh concentrate formula\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        357
+      ],
+      "VariationIds": [
+        3983839,
+        3983840
+      ],
+      "PictureIds": [
+        13580,
+        13581,
+        14448
+      ]
+    },
+    {
+      "Id": 1806030,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Protects against corrosion and limescale\r\nPrevents boiler noise\r\nStops frequent venting of radiators\r\nExtends system life\r\nPrevents sticking pumps\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        357
+      ],
+      "VariationIds": [
+        3983882,
+        3983883
+      ],
+      "PictureIds": [
+        13548,
+        21186
+      ]
+    },
+    {
+      "Id": 1806031,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Heavy-duty inhibitor\r\nProtects against limescale and corrosion\r\nEnergy Saving Trust Recommended\r\nTripleTech™ Anti-Corrosion Technology\r\nSuitable for all system metals\r\npH neutral formulation\r\nEnsures optimum system efficiency\r\nSuitable for hard, soft and artificially softened water\r\nHelps prevent the formation of hydrogen gas\r\nA simple test kit is available to check levels",
+      "WebDescription": null,
+      "CategoryIds": [
+        356
+      ],
+      "VariationIds": [
+        3983884,
+        3983885
+      ],
+      "PictureIds": [
+        13572,
+        14451
+      ]
+    },
+    {
+      "Id": 1806057,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Powerful removal of all major foulants and debris\r\nFor all systems, old or new, hot or cold\r\nIdeal with or without power flushing\r\nExceptional results when power flushing\r\nHarmless to the environment, completely non-toxic and biodegradable",
+      "WebDescription": null,
+      "CategoryIds": [
+        357
+      ],
+      "VariationIds": [
+        3983927
+      ],
+      "PictureIds": [
+        13577,
+        14451
+      ]
+    },
+    {
+      "Id": 1806058,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Works with a filter to protect the system against corrosion debris\r\nInhibitor with a dispersant to aid the collection of magnetite to a filter\r\nProlongs the life of the boiler, pump & heat exchanger\r\nDesigned to be left in the system permanently\r\nPrevents scale and corrosion formation\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        357
+      ],
+      "VariationIds": [
+        3983928,
+        3983929
+      ],
+      "PictureIds": [
+        13550,
+        13551,
+        21186
+      ]
+    },
+    {
+      "Id": 1806063,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Removes system sludge, debris, and scale\r\nAdvanced strength formula\r\nRecommended for MagnaCleanse flushing and power-flushing\r\nRestores system efficiency\r\n",
+      "WebDescription": null,
+      "CategoryIds": [
+        357
+      ],
+      "VariationIds": [
+        3983942
+      ],
+      "PictureIds": [
+        13582,
+        14448
+      ]
+    },
+    {
+      "Id": 1806112,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Removes sludge and scale and restores heating efficiency of the existing system\r\nRemoves flux residues and other debris\r\nCompatible with all metals and materials commonly used in heating systems\r\nEasy to use system can be left running normally during cleaning\r\nSuitable for use with all known power flushing machines\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        357
+      ],
+      "VariationIds": [
+        3984038,
+        3984039
+      ],
+      "PictureIds": [
+        13552,
+        13553,
+        21186
+      ]
+    },
+    {
+      "Id": 1806113,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Restores circulation to pipework and radiators\r\nIdeal for cleaning older heating systems\r\nHelps to eliminate cold spots and restore full heat emission\r\nPrepares existing systems for the installation of boilers pumps or panels\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        357
+      ],
+      "VariationIds": [
+        3984040
+      ],
+      "PictureIds": [
+        13578,
+        14451
+      ]
+    },
+    {
+      "Id": 1806133,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Cleans new heating systems up to 6 months old\r\nRemoves installation debris, swarf, flux residues and greases\r\nPowerful, heavy-duty cleaning action\r\nPrevents harmful copper deposits being left in the system\r\nIdeal preparation for X100 inhibitor",
+      "WebDescription": null,
+      "CategoryIds": [
+        357
+      ],
+      "VariationIds": [
+        3984071
+      ],
+      "PictureIds": [
+        13579,
+        14451
+      ]
+    },
+    {
+      "Id": 1806134,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Ideal for reducing pressure loss from sealed systems\r\nSeals most weep and small inaccessible leaks\r\nSaves time and money on draining down and repairing\r\nDoes not cause blockages of the pump, air vents, etc.\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        358
+      ],
+      "VariationIds": [
+        3984072,
+        3984073
+      ],
+      "PictureIds": [
+        13554,
+        13555,
+        21186
+      ]
+    },
+    {
+      "Id": 1806140,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "A simple way to seal small inaccessible leaks and weeping joints\r\nHelps avoid costly maintenance repairs\r\nNo blocked pumps, valves or air vents\r\nSuitable for all heating systems\r\nVersatile dosing options – via the radiator, air vent or boiler\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        359
+      ],
+      "VariationIds": [
+        3984080
+      ],
+      "PictureIds": [
+        13585,
+        14448
+      ]
+    },
+    {
+      "Id": 1806266,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "First ever wi-fi enabled magnetic filter\r\nSends system performance alerts to the Adey app\r\nProvides recommendations to help maintain system health\r\nLED light functionality indicating level of magnetic capture\r\nPredicts, prevents, protects",
+      "WebDescription": null,
+      "CategoryIds": [
+        81
+      ],
+      "VariationIds": [
+        3984505
+      ],
+      "PictureIds": [
+        13499,
+        14448
+      ]
+    },
+    {
+      "Id": 1806267,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Smallest installation and servicing height in the industry\r\nIn-line installation - Possible in a couple of minutes\r\nMultiple installation options\r\nLow profile drain valve - Easier servicing and dosing\r\nTwin reverse flow - Maximising debris capture\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        81
+      ],
+      "VariationIds": [
+        3984506
+      ],
+      "PictureIds": [
+        13500,
+        14448
+      ]
+    },
+    {
+      "Id": 1806268,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Smallest installation and servicing height in the industry\r\nIn-line installation - Possible in a couple of minutes\r\nMultiple installation options\r\nLow profile drain valve - Easier servicing and dosing\r\nTwin reverse flow - Maximising debris capture\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        81
+      ],
+      "VariationIds": [
+        3984507,
+        3984508
+      ],
+      "PictureIds": [
+        13501,
+        14448
+      ]
+    },
+    {
+      "Id": 1806269,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Allows for longer periods between cleaning\r\nClean regularly for low-pressure loss, important for reducing energy demands\r\nHaving the magnet below the flow line which improves the collection of ferrous particles\r\nSuitable for installation in horizontal, vertical or inclined pipes\r\nSupplied with hose union ball blowdown valve and manual air vent.\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        353
+      ],
+      "VariationIds": [
+        3984509
+      ],
+      "PictureIds": [
+        13502,
+        14436
+      ]
+    },
+    {
+      "Id": 1806270,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Prevents limescale in hard water and softwater corrosion\r\nProtects pipework and keep maintenance costs down\r\nCompact and quick to install on horizontal or vertical pipework\r\nFor single appliances or whole house supply\r\nWRAS approved - safe for drinking water",
+      "WebDescription": null,
+      "CategoryIds": [
+        354
+      ],
+      "VariationIds": [
+        3984510,
+        3984511
+      ],
+      "PictureIds": [
+        13528,
+        14449
+      ]
+    },
+    {
+      "Id": 1806271,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "High capacity and compact design\r\nUnique action, removes magnetic and non-magnetic contaminants from system water\r\nEasy to install – fits on horizontal and vertical pipework in both flow directions",
+      "WebDescription": null,
+      "CategoryIds": [
+        81
+      ],
+      "VariationIds": [
+        3984512
+      ],
+      "PictureIds": [
+        13530,
+        14450
+      ]
+    },
+    {
+      "Id": 1806272,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "High capacity and compact design\r\nFits on horizontal and vertical pipework in both flow directions\r\nWill not block or restrict the flow\r\nUnique manifold with double radial seals and multiple orientation capabilities\r\nPowerful neodymium magnet assembly with threaded magnet cap",
+      "WebDescription": null,
+      "CategoryIds": [
+        81
+      ],
+      "VariationIds": [
+        3984513
+      ],
+      "PictureIds": [
+        13533,
+        14450
+      ]
+    },
+    {
+      "Id": 1806273,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Powerful 9000 Gauss magnet assembly with Vortex Core to ensure max debris collection\r\nEquipped with dual seals\r\nCompact unit with 360° positionable T-piece for simple ease of fitting\r\nAnti-tamper drain valve\r\nManufactured to automotive standard TS16949 using high-quality brass valves",
+      "WebDescription": null,
+      "CategoryIds": [
+        81
+      ],
+      "VariationIds": [
+        3984514
+      ],
+      "PictureIds": [
+        13534,
+        14451
+      ]
+    },
+    {
+      "Id": 1806274,
+      "Name": null,
+      "BodyCopy": "* Independent research\r\ncarried out by GASTEC at CRE ",
+      "BulletText": "Twin action - magnetic and non-magnetic filtration\r\nHigh powered internal magnet\r\nPrevents blockages in radiators\r\nCan be installed under the boiler or away from the appliance\r\nOne-way valve for adding system chemicals\r\nLonger boiler lifespan\r\nCan help to reduce system running costs*\r\nIncrease the comfort and efficiency of your heating system\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        81
+      ],
+      "VariationIds": [
+        3984515
+      ],
+      "PictureIds": [
+        13536,
+        14421
+      ]
+    },
+    {
+      "Id": 1806276,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Cleaner for central heating systems\r\nTreats up to 10 radiators or 100 liters\r\nRemoves sludge, scale, and other contaminants",
+      "WebDescription": null,
+      "CategoryIds": [
+        357
+      ],
+      "VariationIds": [
+        3984517
+      ],
+      "PictureIds": [
+        13195,
+        13545
+      ]
+    },
+    {
+      "Id": 1806277,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Protects pipe systems from the formation of limescale\r\nNo power supply required, no pollutants released into the system\r\nCan provide whole house or single appliance protection\r\nLong-lasting protection\r\nFit and forget device, no regular maintenance after installation\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        356
+      ],
+      "VariationIds": [
+        3984518,
+        3984519
+      ],
+      "PictureIds": [
+        13546,
+        14451
+      ]
+    },
+    {
+      "Id": 1806278,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Whole house protection\r\nNo maintenance\r\nLasts for up to 10 years\r\nAn in-line scale reducer to prevent the build-up of scale using electrolytic principles\r\nA brass, nickel-plated unit",
+      "WebDescription": null,
+      "CategoryIds": [
+        356
+      ],
+      "VariationIds": [
+        3984520
+      ],
+      "PictureIds": [
+        13547,
+        21186
+      ]
+    },
+    {
+      "Id": 1806280,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Fast heat up (nine minutes for 50°C rise in 7 liters, 3kW unit).\r\nQuick and easy installation\r\nDesigned, engineered and manufactured in the UK",
+      "WebDescription": null,
+      "CategoryIds": [
+        360
+      ],
+      "VariationIds": [
+        3984522
+      ],
+      "PictureIds": [
+        13588,
+        14452
+      ]
+    },
+    {
+      "Id": 1806281,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Stabilised temperature control\r\nCombined Start/Stop and Power Control\r\n1-year guarantee\r\nApprovals: BEAB, CE, BSI Kitemark\r\nSingle control - for Start/Stop and temperature selection\r\nTemperature control - with a numbered dial\r\n200mm swivel arm\"k ",
+      "WebDescription": null,
+      "CategoryIds": [
+        360
+      ],
+      "VariationIds": [
+        3984523
+      ],
+      "PictureIds": [
+        13590,
+        14453
+      ]
+    },
+    {
+      "Id": 1806282,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": "Modern, cutting-edge and stylish design\r\nE’ setting on the dial to optimise comfort and energy saving\r\nFast reheat times\r\nCopper heating element (Nickel free)\r\nCompact Italian design\r\nTitanium enameled tank\r\n4-Bolt Flange\"",
+      "WebDescription": null,
+      "CategoryIds": [
+        360
+      ],
+      "VariationIds": [
+        3984524,
+        3984525
+      ],
+      "PictureIds": [
+        13591,
+        14454
+      ]
+    },
+    {
+      "Id": 1806283,
+      "Name": null,
+      "BodyCopy": null,
+      "BulletText": null,
+      "WebDescription": null,
+      "CategoryIds": [
+        355
+      ],
+      "VariationIds": [
+        3984526,
+        3984527
+      ],
+      "PictureIds": [
+        13593,
+        14454
+      ]
+    }
+  ]
+}
