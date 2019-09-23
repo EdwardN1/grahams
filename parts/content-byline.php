@@ -4,7 +4,7 @@
  */
 ?>
 
-<p class="byline">
+<p class="byline is-hidden">
 	<?php
 	printf( __( 'Posted on %1$s by %2$s - %3$s', 'jointswp' ),
 		get_the_time( __('F j, Y', 'jointswp') ),

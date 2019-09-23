@@ -46,7 +46,7 @@ displayJSON( $apiCall );
 displayJSON( $apiCall );
 */?>
 
-<h3>Products - Get all</h3>
+<!--<h3>Products - Get all</h3>-->
 <?php
 $apiCall = file_get_contents( 'https://epim.azure-api.net/Grahams/api/Products/', false, $context );
 $allProducts = json_decode($apiCall);
@@ -57,7 +57,7 @@ $allProducts = json_decode($apiCall);
 ?>
 
 <?php
-displayJSON( $apiCall );
+//displayJSON( $apiCall );
 ?>
 
 <h3>All Products Iterated</h3>
@@ -65,6 +65,7 @@ displayJSON( $apiCall );
 $allProductsResults=$allProducts->Results;
 foreach ($allProductsResults as $productResult) {
 	$apiCall = file_get_contents( 'https://epim.azure-api.net/Grahams/api/Products/'.$productResult->Id, false, $context );
+
 	displayJSON( $apiCall );
 	echo '<h4>Variations for '.$productResult->Id.'</h4>';
 	$productVariations = $productResult->VariationIds;
