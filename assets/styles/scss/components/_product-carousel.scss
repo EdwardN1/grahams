@@ -1,0 +1,77 @@
+.product-carousel {
+  border-top: 3px solid $light-gray;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  > .grid-container {
+    > h2 {
+      color: $dark-gray;
+      font-family: $archivonarrow;
+      font-weight: $bold;
+      font-size: 24px;
+    }
+  }
+  .slick-dotted.slick-slider {
+    margin-bottom: 50px;
+  }
+  .carousel-slide {
+    max-width: 208px;
+    border: 1px solid $dark-gray;
+    a.carousel-link-container {
+      background-color: $white;
+      padding: 0.5rem;
+      display: block;
+      .slide-title {
+        max-height: 41px;
+        overflow: hidden;
+        font-family: $archivonarrow;
+        font-weight: $bold;
+        font-size: 18px;
+        line-height: 1.15;
+        color: $green;
+      }
+      .slide-code {
+        font-family: $archivonarrow;
+        color: $black;
+        font-size: 10px;
+        text-transform: uppercase;
+      }
+      .only {
+        font-family: $roboto;
+        font-weight: $black;
+        color: $lime;
+        font-size: 15px;
+        line-height: 1.15;
+      }
+      .slide-price {
+        font-family: $roboto;
+        font-weight: $black;
+        color: $green;
+        font-size: 36px;
+        line-height: 1.15;
+      }
+    }
+  }
+  .slick-dots {
+    bottom: -45px;
+    li {
+      padding-right: 2px;
+      padding-left: 2px;
+      width: 35px;
+      height: 31px;
+      button {
+        &:before {
+          content: none;
+        }
+        width: 31px;
+        height: 31px;
+        background-color: $green;
+
+      }
+      &.slick-active {
+        button {
+          background-color: $lime;
+        }
+      }
+    }
+  }
+}

@@ -14,4 +14,12 @@ jQuery(document).ready(function ($) {
         /*centerMode: true,*/
         focusOnSelect: true
     });
+    $('.product-carousel .slider-container').slick({
+        slidesToShow: 6,
+        slidesToScroll: 2,
+        infinite: true,
+        dots: true,
+        arrows: false
+
+    });
 });
