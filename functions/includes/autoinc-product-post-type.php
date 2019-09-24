@@ -51,7 +51,7 @@ function grahams_product_post() {
 	); /* end of register post type */
 
 	/* this adds your post categories to your custom post type */
-	register_taxonomy_for_object_type('grahams_cat', 'grahams_product');
+	register_taxonomy_for_object_type('grahamscat', 'grahams_product');
 	/* this adds your post tags to your custom post type */
 	register_taxonomy_for_object_type('grahams_product_tag', 'grahams_product');
 
@@ -66,7 +66,7 @@ http://codex.wordpress.org/Function_Reference/register_taxonomy
 */
 
 // now let's add custom categories (these act like categories)
-register_taxonomy( 'grahams_cat',
+register_taxonomy( 'grahamscat',
 	array('grahams_product_post'), /* if you change the name of register_post_type( 'custom_type', then you have to change this */
 	array('hierarchical' => true,     /* if this is true, it acts like categories */
 	      'labels' => array(
