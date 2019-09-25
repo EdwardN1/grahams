@@ -20,9 +20,9 @@ get_header(); ?>
     <div class="grid-container graham-product">
         <div class="grid-x">
             <div class="cell large-5 images">
-				<?php if ( have_rows( 'images' ) ) : ?>
+				<?php if ( have_rows( 'product_images' ) ) : ?>
                     <div id="product-large">
-						<?php while ( have_rows( 'images' ) ) : the_row(); ?>
+						<?php while ( have_rows( 'product_images' ) ) : the_row(); ?>
 							<?php $image = get_sub_field( 'image' ); ?>
 							<?php $imageURL = $image['url']; ?>
 							<?php $imageALT = $image['alt']; ?>
@@ -34,7 +34,7 @@ get_header(); ?>
 						<?php endwhile; ?>
                     </div>
                     <div id="product-small" style="max-width: 609px; width:42.278vw;">
-	                    <?php while ( have_rows( 'images' ) ) : the_row(); ?>
+	                    <?php while ( have_rows( 'product_images' ) ) : the_row(); ?>
 		                    <?php $image = get_sub_field( 'image' ); ?>
 		                    <?php $imageURL = $image['url']; ?>
 		                    <?php $imageALT = $image['alt']; ?>

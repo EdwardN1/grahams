@@ -124,15 +124,15 @@
                         </div>
                         <div class="cell auto text-center">
                             <img src="<?php echo get_icon( 'stopwatch' ); ?>">
-                            Get the products you're after
+                            Get sorted fast
                         </div>
                         <div class="cell auto text-center">
                             <img src="<?php echo get_icon( 'gearhead' ); ?>">
-                            Get the products you're after
+                            Talk to people in the know
                         </div>
                         <div class="cell auto show-for-medium text-center">
                             <img src="<?php echo get_icon( 'pound' ); ?>" style="height: auto; width: auto;">
-                            Get the products you're after
+                            Great Value for service
                         </div>
                     </div>
                 </div>

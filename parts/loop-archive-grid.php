@@ -32,9 +32,9 @@ $grid_columns = 6; ?>
 					<?php /*the_content('<button class="tiny">' . __( 'Read more...', 'jointswp' ) . '</button>'); */?>
 				</section> -->
 
-                <?php if ( have_rows( 'images' ) ) : ?>
+                <?php if ( have_rows( 'product_images' ) ) : ?>
                     <?php $imageFirstURL = ''; ?>
-                    <?php while ( have_rows( 'images' ) ) : the_row(); ?>
+                    <?php while ( have_rows( 'product_images' ) ) : the_row(); ?>
                         <?php $image = get_sub_field( 'image' ); ?>
                         <?php $imageURL = $image['url']; ?>
                         <?php $imageALT = $image['alt']; ?>
