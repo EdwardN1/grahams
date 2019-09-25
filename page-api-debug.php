@@ -103,6 +103,7 @@ get_header(); ?>
 										$jsonPicture = get_api_picture( $picture_id );
 										$picture     = json_decode( $jsonPicture );
 										?>
+                                        <div style="font-size: 10px;">What's in the object: <?php print_r( $picture ); ?></div>
                                         <div><?php echo $picture->WebPath ?></div>
 										<?php
 									}
