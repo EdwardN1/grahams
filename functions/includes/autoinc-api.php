@@ -525,23 +525,10 @@ function linkProductImages() {
 	if ( $loop->have_posts() ):
 		while ( $loop->have_posts() ) : $loop->the_post();
 			$res  .= 'Checking Product: '.get_the_title().'</br>';
-			if ( have_rows( 'variation_images' ) ):
-				$res  .= '<br><span style="color: green;">Found Variation Images to Check</span></br>';
-				while ( have_rows( 'variation_images' ) ): the_row();
-					$api_id       = get_sub_field( 'api_image_id' );
-					$res  .= 'Looking for Image: '.$api_id.'</br>';
-					$attachmentID = imageIDfromAPIID( $api_id );
-					$res  .= 'AttachmentID for '.$api_id.' = '.$attachmentID.'</br>';
-					if ( $attachmentID ) {
-						update_sub_field( 'image', $attachmentID );
-					} else {
-						$res  .= 'Image ID ' . $api_id . ' not found in media library</br>';
-					}
-				endwhile;
-			endif;
-			if ( have_rows( 'product_images' ) ):
+			$postID = get_the_ID();
+			if ( have_rows( 'product_images', $postID ) ):
 				$res  .= '<br><span style="color: blue;">Found Product Images to Check</span></br>';
-				while ( have_rows( 'product_images' ) ): the_row();
+				while ( have_rows( 'product_images', $postID ) ): the_row();
 					$api_id       = get_sub_field( 'api_image_id' );
 					$res  .= 'Looking for Image: '.$api_id.'</br>';
 					$attachmentID = imageIDfromAPIID( $api_id );
@@ -557,6 +544,29 @@ function linkProductImages() {
 		endwhile;
 	endif;
 	wp_reset_postdata();
+    $loop = new WP_Query( array( 'post_type' => 'grahams_product', 'posts_per_page' => - 1 ) );
+    if ( $loop->have_posts() ):
+        while ( $loop->have_posts() ) : $loop->the_post();
+            $res  .= 'Checking Product: '.get_the_title().'</br>';
+            $postID = get_the_ID();
+            if ( have_rows( 'variation_images', $postID ) ):
+                $res  .= '<br><span style="color: green;">Found Variation Images to Check</span></br>';
+                while ( have_rows( 'variation_images', $postID ) ): the_row();
+                    $api_id       = get_sub_field( 'api_image_id' );
+                    $res  .= 'Looking for Image: '.$api_id.'</br>';
+                    $attachmentID = imageIDfromAPIID( $api_id );
+                    $res  .= 'AttachmentID for '.$api_id.' = '.$attachmentID.'</br>';
+                    if ( $attachmentID ) {
+                        update_sub_field( 'image', $attachmentID );
+                    } else {
+                        $res  .= 'Image ID ' . $api_id . ' not found in media library</br>';
+                    }
+                endwhile;
+            endif;
+            $res .= '<hr>';
+        endwhile;
+    endif;
+    wp_reset_postdata();
 	return $res;
 }
 
