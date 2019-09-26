@@ -43,7 +43,7 @@ function db_import_variation_images_handler() {
 }
 
 function db_link_images_handler() {
-	linkProductImages();
+	echo linkProductImages();
 	echo 'Images Linked<br><a href="/wp-admin/">Return to dashboard</a>';
 }
 
