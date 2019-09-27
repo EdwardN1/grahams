@@ -4,13 +4,19 @@
   font-weight: $bold;
   font-size: 29px;
   padding: .5em 1em;
-
+  background-color: $green;
+  &:hover {
+    background-color: $green;
+  }
   &.green {
     background-color: $green;
   }
 
   &.lime {
     background-color: $lime;
+    &:hover {
+      background-color: $lime;
+    }
   }
 }
 
@@ -61,4 +67,8 @@
     @include xy-grid-container;
     margin-bottom: 1rem;
   }
+}
+
+.pagination .current {
+  background: $green;
 }

@@ -9,9 +9,9 @@
 			<?php foreach ( $post_objects as $post ): ?>
                 <div class="carousel-slide">
 					<?php setup_postdata( $post ); ?>
-					<?php if ( have_rows( 'images', $post->ID ) ) : ?>
+					<?php if ( have_rows( 'product_images', $post->ID ) ) : ?>
 						<?php $imageFirstURL = ''; ?>
-						<?php while ( have_rows( 'images', $post->ID ) ) : the_row(); ?>
+						<?php while ( have_rows( 'product_images', $post->ID ) ) : the_row(); ?>
 							<?php $image = get_sub_field( 'image' ); ?>
 							<?php $imageURL = $image['url']; ?>
 							<?php $imageALT = $image['alt']; ?>

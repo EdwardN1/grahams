@@ -27,11 +27,11 @@
 	<?php else: ?>
 	
 		<header class="article-header">
-			<h1><?php _e( 'Oops, Post Not Found!', 'jointswp' ); ?></h1>
+			<h1><?php _e( 'No products found', 'jointswp' ); ?></h1>
 		</header>
 		
 		<section class="entry-content">
-			<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'jointswp' ); ?></p>
+			<p><?php _e( 'Try searching:', 'jointswp' ); ?></p>
 		</section>
 		
 		<section class="search">

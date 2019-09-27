@@ -1,0 +1,14 @@
+.archive {
+  border-top: 3px solid $light-gray;
+  padding-top: 1rem;
+  h1 {
+    color: $dark-gray;
+    font-family: $archivonarrow;
+    font-weight: $bold;
+    font-size: 24px;
+    text-align: center;
+  }
+  .page-navigation {
+    @include xy-grid-container();
+  }
+}

@@ -7,7 +7,7 @@
 
 get_header(); ?>
 			
-	<div class="grid-container">
+	<div class="grid-container archive">
 	
 
 			    

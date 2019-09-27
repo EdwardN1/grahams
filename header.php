@@ -59,7 +59,7 @@
                                     <span style="padding-left: 1rem;">All prices Ex VAT</span>
                                 </div>
                                 <div class="cell shrink grey-background white">
-                                    <a href="/find-branch/">
+                                    <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank">
                                         <img src="<?php echo get_icon( 'target' ); ?>">
                                         <span>Find Branch</span>
                                     </a>

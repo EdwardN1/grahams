@@ -61,30 +61,30 @@ get_header(); ?>
                     <span class="only">Only</span>
 					£<?php echo $price; ?>
                 </div>
-                <div class="buttons"><a href="#" class="button lime">Enquire Now</a> <a href="#" class="button green">Nearest
+                <div class="buttons"><!--<a href="#" class="button lime">Enquire Now</a>--> <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="button green">Nearest
                         Stockist</a></div>
                 <ul class="accordion" data-accordion>
 
-                    <li class="accordion-item" data-accordion-item>
+                    <!--<li class="accordion-item" data-accordion-item>
                         <a href="#" class="accordion-title">Summary</a>
                         <div class="accordion-content" data-tab-content>
-		                    <?php echo $summary; ?>
+		                    <?php /*echo $summary; */?>
                         </div>
-                    </li>
+                    </li>-->
 
-                    <li class="accordion-item" data-accordion-item>
+                    <li class="accordion-item is-active" data-accordion-item>
                         <a href="#" class="accordion-title">Specifications</a>
                         <div class="accordion-content" data-tab-content>
 			                <?php echo $specifications; ?>
                         </div>
                     </li>
 
-                    <li class="accordion-item" data-accordion-item>
+                    <!--<li class="accordion-item" data-accordion-item>
                         <a href="#" class="accordion-title">Availability</a>
                         <div class="accordion-content" data-tab-content>
-			                <?php echo $availability; ?>
+			                <?php /*echo $availability; */?>
                         </div>
-                    </li>
+                    </li>-->
 
                 </ul>
             </div>
