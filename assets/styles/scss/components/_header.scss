@@ -1,21 +1,40 @@
+$top-mobile-height: 34px;
+$top-desktop-height: 42px;
 header {
 
   .top-row {
     background-color: $light-gray;
-    max-height: 42px;
+    max-height: $top-mobile-height;
     font-family: $archivonarrow;
-    font-size: 14px;
+    font-size: 12px;
     color: $dark-gray;
     font-weight: bold;
     text-align: left;
+    @include breakpoint(360) {
+      font-size: 14px;
+      max-height: $top-desktop-height;
+    }
+    .full-height-text {
+      line-height: 38px;
+      padding-left: 2rem;
+      @include breakpoint(360) {
+        line-height: $top-desktop-height;
+      }
+    }
     img {
-      height: 42px;
+      height: $top-mobile-height;
       width: auto;
+      @include breakpoint(360) {
+        height: $top-desktop-height;
+      }
     }
     span {
       padding-left: 1rem;
       padding-right: 1rem;
-      line-height: 42px;
+      line-height: $top-mobile-height;
+      @include breakpoint(360) {
+        line-height: $top-desktop-height;
+      }
     }
 
     .grey-background {
@@ -35,16 +54,58 @@ header {
         color: $white;
       }
     }
+    .white-background {
+      background-color: $white;
+    }
+    .button-link {
+      display: inline-block;
+      height: $top-mobile-height;
+      font-size: 12px;
+      @include breakpoint(360) {
+        height: $top-desktop-height;
+        font-size: 14px;
+      }
+    }
+    .telephone-number {
+      color: $green;
+      font-family: $archivonarrow;
+      font-size: 18px;
+      font-weight: bold;
+      line-height: $top-mobile-height;
+      a, a:hover, a:focus, a:active {
+        color: $green;
+        font-family: $archivonarrow;
+        font-size: 18px;
+        font-weight: bold;
+        line-height: $top-mobile-height;
+        @include breakpoint(360) {
+          line-height: $top-desktop-height;
+        }
+      }
+      @include breakpoint(360) {
+        line-height: $top-desktop-height;
+      }
+    }
   }
 
   .second-row {
-    max-height: 116px;
-    line-height: 116px;
+    max-height: 40px;
+    line-height: 40px;
+    @include breakpoint(large) {
+      max-height: 116px;
+      line-height: 116px;
+    }
     .secondary-logo {
-      height: 116px;
+      height: 40px;
+      @include breakpoint(large) {
+        height: 116px;
+      }
       img {
-        max-height: 116px;
+        max-height: 40px;
         width: auto;
+        @include breakpoint(large) {
+          max-height: 116px;
+        }
       }
     }
     .telephone-number {
@@ -63,6 +124,12 @@ header {
           display: inline-block;
           margin-top: -8px;
         }
+      }
+    }
+    .menu-icon.dark {
+      &:after {
+        background: $lime;
+        box-shadow: 0 7px $lime, 0 14px 0 $lime;
       }
     }
   }

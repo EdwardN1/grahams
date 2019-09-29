@@ -49,41 +49,59 @@
             <div class="top-row">
                 <div class="grid-container">
                     <div class="grid-x">
-                        <div class="cell auto"><a href="/"><img
-                                        src="<?php echo get_field( 'logo', 'option' )['url']; ?>"></a> <span>Your
-                            Local Plumbing and Heating Specialist</span>
-                        </div>
-                        <div class="cell shrink">
-                            <div class="grid-x top-icons">
-                                <div class="cell shrink grey-background white">
-                                    <span style="padding-left: 1rem;">All prices Ex VAT</span>
+                        <div class="cell auto">
+                            <div class="grid-x">
+                                <div class="cell shrink">
+                                    <a href="/"><img src="<?php echo get_field( 'logo', 'option' )['url']; ?>"></a>
                                 </div>
-                                <div class="cell shrink grey-background white">
-                                    <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank">
+                                <div class="cell shrink show-for-large full-height-text">
+                                    Your Local Plumbing and Heating Specialist
+                                </div>
+                                <div class="cell shrink hide-for-large">
+                                    <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="grey-background white button-link" style="margin-left: 2px;">
                                         <img src="<?php echo get_icon( 'target' ); ?>">
                                         <span>Find Branch</span>
                                     </a>
                                 </div>
-                                <div class="cell shrink grey-background white">
-                                    <a href="/contact-us/">
+                                <div class="cell auto hide-for-large"></div>
+                                <div class="cell shrink hide-for-large telephone-number">
+                                    <a href="<?php echo get_field( 'telephone_link', 'option' ); ?>">
+		                                <?php echo get_field( 'telephone_number', 'option' ); ?>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cell shrink">
+                            <div class="grid-x top-icons">
+                                <div class="cell shrink show-for-large">
+                                    <span class="grey-background white button-link">All prices Ex VAT</span>
+                                </div>
+                                <div class="cell shrink show-for-large">
+                                    <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="grey-background white button-link">
+                                        <img src="<?php echo get_icon( 'target' ); ?>">
+                                        <span>Find Branch</span>
+                                    </a>
+                                </div>
+                                <div class="cell shrink show-for-large">
+                                    <a href="/contact-us/" class="grey-background white button-link">
                                         <img src="<?php echo get_icon( 'email' ); ?>">
                                         <span>Contact Us</span>
                                     </a>
                                 </div>
-                                <div class="cell shrink grey-background white">
-                                    <a href="https://www.getplumbedin.co.uk/" target="_blank">
+                                <div class="cell shrink show-for-large">
+                                    <a href="https://www.getplumbedin.co.uk/" target="_blank" class="grey-background white button-link">
                                         <img src="<?php echo get_icon( 'plumbed in' ); ?>">
                                     </a>
                                 </div>
-                                <div class="cell shrink white">
+                                <div class="cell shrink white show-for-large">
 									<?php $facebook = get_social_media( 'Facebook' ); ?>
-                                    <a href="<?php echo $facebook['link']; ?>>" target="_blank">
+                                    <a href="<?php echo $facebook['link']; ?>>" target="_blank" class="white-background">
                                         <img src="<?php echo $facebook['icon']; ?>">
                                     </a>
                                 </div>
-                                <div class="cell shrink white no-right-margin">
+                                <div class="cell shrink white no-right-margin show-for-large">
 									<?php $twitter = get_social_media( 'Twitter' ); ?>
-                                    <a href="<?php echo $twitter['link']; ?>>" target="_blank">
+                                    <a href="<?php echo $twitter['link']; ?>>" target="_blank" class="white-background">
                                         <img src="<?php echo $twitter['icon']; ?>">
                                     </a>
                                 </div>
@@ -99,17 +117,21 @@
                         <div class="cell auto secondary-logo">
                             <img src="<?php echo get_secondary_logo( 'Always Available' ); ?>">
                         </div>
-                        <div class="cell shrink telephone-number">
+                        <div class="cell shrink telephone-number show-for-large">
                             <a href="<?php echo get_field( 'telephone_link', 'option' ); ?>">
                                 <img src="<?php echo get_icon( 'Call Now' ); ?>">
 								<?php echo get_field( 'telephone_number', 'option' ); ?>
                             </a>
                         </div>
+                        <div class="cell auto hide-for-large"></div>
+                        <div class="cell shrink hide-for-large">
+                            <a data-toggle="off-canvas"><span class="menu-icon dark"></span> </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="nav-row">
+            <div class="nav-row show-for-large">
                 <!-- This navs will be applied to the topbar, above all content
 					 To see additional nav styles, visit the /parts directory -->
 				<?php get_template_part( 'parts/nav', 'offcanvas-topbar' ); ?>
