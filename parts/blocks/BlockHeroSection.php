@@ -1,5 +1,11 @@
 <?php $id = get_field( 'id' ); ?>
-<div id="<?php echo $id; ?>" class="hero-section">
+<?php
+$responsive_options = get_field( 'responsive_options' );
+$responsice_class = '';
+if($responsive_options=='Desktop Only') {$responsice_class=' show-for-large';}
+if($responsive_options=='Mobile Only') {$responsice_class=' hide-for-large';}
+?>
+<div id="<?php echo $id; ?>" class="hero-section<?php echo $responsice_class;?>">
 	<?php $section_type = get_field( 'section_type' ); ?>
 	<?php if ( $section_type == 'Image' ): ?>
 		<?php $image = get_field( 'image' ); ?>

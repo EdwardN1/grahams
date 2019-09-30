@@ -1,8 +1,10 @@
 footer {
   .explore-row {
     background-color: $green;
+
     .title-container {
       border-bottom: 1px solid $white;
+
       .title {
         font-family: $archivonarrow;
         font-size: 22px;
@@ -11,33 +13,63 @@ footer {
         font-weight: bold;
       }
     }
+
     .logo-phone-contact {
       padding-top: 1rem;
       padding-right: 2rem;
+
+      img {
+        max-width: 110px;
+        @include breakpoint(large) {
+          max-width: 100%;
+        }
+      }
+
       .telephone-number {
         a {
           color: $white;
           line-height: 2;
-          font-size: 31px;
+          font-size: 20px;
           font-family: $archivonarrow;
           font-weight: bold;
+          @include breakpoint(large) {
+            font-size: 31px;
+          }
         }
       }
     }
+
+    .prices {
+      color: $white;
+      line-height: 2;
+      font-size: 12px;
+      font-family: $archivonarrow;
+      font-weight: bold;
+    }
+
     .menus {
       padding-top: 1rem;
       padding-bottom: 1rem;
+
       h3 {
         color: $white;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
         font-family: $archivonarrow;
+        margin-bottom: 0;
+        line-height: 1.8;
+        @include breakpoint(large) {
+          font-size: 16px;
+        }
       }
+
       ul {
         display: block;
+
         li {
           display: block;
           float: none;
+
           a {
             padding: 0;
             color: $white;
@@ -49,18 +81,55 @@ footer {
           }
         }
       }
+
+      &.menu-accordion {
+        padding-right: 2rem;
+
+        .accordion {
+          background: transparent;
+
+          .accordion-item {
+            margin-bottom: 0;
+            .accordion-title {
+              background-color: transparent;
+              color: $white;
+              border: none;
+              text-decoration: none;
+              border-bottom: 1px solid $lime;
+              &:before {
+                font-size: 1em;
+                top: 0;
+                right: -0.5em;
+              }
+            }
+
+            .accordion-content {
+              background-color: transparent;
+              color: $white;
+              border: none;
+              padding: 0.4rem;
+            }
+          }
+        }
+      }
     }
+
     .social-contact {
       color: $white;
       font-size: 12px;
       line-height: 18px;
       font-family: $archivonarrow;
-      padding-top: 6rem;
+      padding-top: 4.8rem;
+      @include breakpoint(large) {
+        padding-top: 6rem;
+      }
+
       a {
         display: inline-block;
         min-height: 26px;
         min-width: 26px;
       }
+
       img {
         max-width: 26px;
         max-height: 26px;
@@ -76,16 +145,37 @@ footer {
     font-family: $archivonarrow;
     font-size: 11px;
     line-height: 1.2;
+
     .notice {
       padding-top: 1em;
     }
+
     .footer-menu {
       text-align: right;
+
       a {
         padding: 0;
         color: $dark-gray;
         padding-top: 2em;
         padding-left: 2em;
+      }
+    }
+
+    &.mobile {
+      .footer-menu {
+        text-align: center;
+      }
+
+      .menu {
+        justify-content: center;
+        align-items: center;
+        a {
+          padding-top: 0.2em;
+          padding-bottom: 1.2em;
+        }
+      }
+      .notice {
+        padding-top: 0;
       }
     }
   }

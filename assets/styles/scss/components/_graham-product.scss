@@ -1,52 +1,116 @@
 .graham-product {
+  font-size: 14px;
+  @include breakpoint(large) {
+    font-size: 16px;
+  }
+  p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    @include breakpoint(large) {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+  }
   > .grid-x {
     padding-top: 2rem;
     border-top: 1px solid $lime;
   }
-  h1 {
-    color: $green;
-    font-family: $archivonarrow;
-    font-size: 40px;
-    font-weight: bold;
-    line-height: 1.1;
-    margin: 0;
-    border-bottom: 1px solid $light-gray;
-    padding-right: 6em;
-  }
-  .code {
-    font-family: $archivonarrow;
-    font-weight: $semi-bold;
-    font-size: 22px;
-    color: $dark-gray;
-    padding-bottom: 1rem;
-    padding-top: 0.5rem;
-  }
-  .description, .accordion {
-    font-family: $archivonarrow;
-    font-weight: $regular;
-    font-size: 16px;
-    color: $black;
-    max-width: 700px;
-  }
-  .price {
-    font-family: $roboto;
-    font-weight: $black-bold;
-    font-size: 78px;
-    color: $green;
-    .only {
+  .content {
+    @include breakpoint(large) {
+      padding-left: 2rem;
+    }
+    h1 {
+      color: $green;
+      font-family: $archivonarrow;
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 1.4;
+      margin: 0;
+      border-bottom: 1px solid $light-gray;
+      padding-right: 0;
+      @include breakpoint(large) {
+        font-size: 40px;
+        padding-right: 6em;
+        line-height: 1.1;
+      }
+    }
+
+    .code {
+      font-family: $archivonarrow;
+      font-weight: $semi-bold;
+      font-size: 16px;
+      color: $dark-gray;
+      padding-bottom: 0.5rem;
+      padding-top: 0.5rem;
+      @include breakpoint(large) {
+        font-size: 22px;
+        padding-bottom: 1rem;
+      }
+    }
+
+    .description, .accordion {
+      font-family: $archivonarrow;
+      font-weight: $regular;
+      font-size: 16px;
+      color: $black;
+      max-width: 700px;
+    }
+
+    .price {
       font-family: $roboto;
       font-weight: $black-bold;
       font-size: 32px;
-      color: $lime;
+      color: $green;
+
+      .only {
+        font-family: $roboto;
+        font-weight: $black-bold;
+        font-size: 20px;
+        color: $lime;
+      }
+      @include breakpoint(large) {
+        font-size: 78px;
+        .only {
+          font-size: 32px;
+        }
+      }
+    }
+
+    .button {
+      font-size: 18px;
+      @include breakpoint(large) {
+        font-size: 29px;
+      }
+    }
+
+    .button.lime {
+      padding-left: 4rem;
+      padding-right: 4rem;
+      margin-right: 4rem;
+    }
+
+    .button.green {
+      padding-left: 5.1rem;
+      padding-right: 5.3rem;
+    }
+    .accordion .accordion-item .accordion-title {
+      font-size: 16px;
+      @include breakpoint(large) {
+        font-size: 20px;
+      }
     }
   }
-  .button.lime {
-    padding-left: 4rem;
-    padding-right: 4rem;
-    margin-right: 4rem;
-  }
-  .button.green {
-    padding-left: 5.1rem;
-    padding-right: 5.3rem;
+  #product-small {
+    @include breakpoint(large) {
+      max-width: 609px;
+      width: 42.278vw;
+      .slide-image {
+        img {
+          width:8.542vw;
+          max-width: 123px;
+          height: auto;
+        }
+      }
+    }
   }
 }

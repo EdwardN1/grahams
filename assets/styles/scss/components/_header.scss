@@ -108,6 +108,18 @@ header {
         }
       }
     }
+    > .grid-container {
+      > .grid-x {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid $green;
+        @include breakpoint(large) {
+          border: none;
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
     .telephone-number {
       color: $green;
       font-family: $archivonarrow;
@@ -135,17 +147,34 @@ header {
   }
 
   .bottom-row {
-    img {
-      height: 60px;
-      width: auto;
-      margin-right: 0.5rem;
-    }
     color: $green;
     font-family: $archivonarrow;
-    font-size: 18px;
     font-weight: bold;
-    height: 90px;
-    line-height: 90px;
+    font-size: 12px;
+    height: 40px;
+    line-height: 1.2;
+    margin-top: 30px;
+    margin-bottom: 12px;
+    @include breakpoint(356) {
+      margin-bottom: 0;
+    }
+    @include breakpoint(530) {
+      margin-top: 40px;
+    }
+    @include  breakpoint(large) {
+      font-size: 18px;
+      height: 90px;
+      line-height: 90px;
+      margin-top: 0;
+    }
+    img {
+      height: 26px;
+      width: auto;
+      margin-right: 0.5rem;
+      @include breakpoint(large) {
+        height: 60px;
+      }
+    }
   }
 
   .nav-row {

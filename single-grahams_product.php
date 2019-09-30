@@ -19,7 +19,7 @@ get_header(); ?>
 </div>
     <div class="grid-container graham-product">
         <div class="grid-x">
-            <div class="cell large-5 images">
+            <div class="cell small-12 large-5 images">
 				<?php if ( have_rows( 'product_images' ) ) : ?>
                     <div id="product-large">
 						<?php while ( have_rows( 'product_images' ) ) : the_row(); ?>
@@ -33,14 +33,14 @@ get_header(); ?>
 							<?php } ?>
 						<?php endwhile; ?>
                     </div>
-                    <div id="product-small" style="max-width: 609px; width:42.278vw;">
+                    <div id="product-small">
 	                    <?php while ( have_rows( 'product_images' ) ) : the_row(); ?>
 		                    <?php $image = get_sub_field( 'image' ); ?>
 		                    <?php $imageURL = $image['url']; ?>
 		                    <?php $imageALT = $image['alt']; ?>
 		                    <?php if ( $image ) { ?>
                                 <div class="slide-image" style="max-width: 123px;width:8.542vw;">
-                                    <img src="<?php echo $imageURL; ?>" alt="<?php echo $imageALT; ?>" style="width:8.542vw;max-width: 123px; height: auto;"/>
+                                    <img src="<?php echo $imageURL; ?>" alt="<?php echo $imageALT; ?>"/>
                                 </div>
 		                    <?php } ?>
 	                    <?php endwhile; ?>
@@ -49,7 +49,7 @@ get_header(); ?>
 					<?php // no rows found ?>
 				<?php endif; ?>
             </div>
-            <div class="cell auto content" style="padding-left: 2rem;">
+            <div class="cell large-auto small-12 content">
                 <h1><?php the_title(); ?></h1>
                 <div class="code">
 					<?php echo $code; ?>

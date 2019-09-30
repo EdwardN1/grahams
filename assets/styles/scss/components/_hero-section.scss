@@ -39,15 +39,57 @@
   }
 }
 
+#home-section-1-mobile {
+  @include xy-grid-container();
+  margin-bottom: 1rem;
+  .hero-image-section {
+    height: 18.125vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+    .button {
+      height: 18.125vw;
+      width: 100%;
+      color: transparent;
+      background-color: transparent;
+      &:hover {
+        color: transparent;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
 #home-section-2 {
   @include xy-grid-container();
   margin-bottom: 2rem;
   .hero-image-section {
-    max-height: 477px;
-    height: 33.125vw;
+    max-height: 476px;
+    height: 32.381vw;
+    background-size: cover;
+    background-repeat: no-repeat;
     .button {
-      max-height: 477px;
-      height: 33.125vw;
+      max-height: 476px;
+      height: 32.381vw;
+      width: 100%;
+      color: transparent;
+      background-color: transparent;
+      &:hover {
+        color: transparent;
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+#home-section-2-mobile {
+  @include xy-grid-container();
+  margin-bottom: 1rem;
+  .hero-image-section {
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 50.625vw;
+    .button {
+      height: 50.25vw;
       width: 100%;
       color: transparent;
       background-color: transparent;

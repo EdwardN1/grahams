@@ -12,7 +12,7 @@
 
     <div class="explore-row">
 
-        <div class="title-container">
+        <div class="title-container show-for-large">
             <div class="grid-container title">
                 Explore Our Site
             </div>
@@ -26,8 +26,11 @@
                     <div class="telephone-number">
                         <a href="<?php echo get_field('telephone_link', 'option'); ?>"><?php echo get_field('telephone_number', 'option') ?></a>
                     </div>
+                    <div class="prices hide-for-large">
+                        All Prices Ex Vat
+                    </div>
                 </div>
-                <div class="menus cell auto">
+                <div class="menus cell auto show-for-large">
                     <div class="grid-x">
                         <div class="cell auto">
                             <h3>Product Categories</h3>
@@ -47,6 +50,34 @@
                         </div>
                     </div>
                 </div>
+                <div class="menus cell auto hide-for-large menu-accordion">
+                    <ul class="accordion" data-accordion>
+                        <li class="accordion-item" data-accordion-item>
+                            <a href="#" class="accordion-title"><h3>Product Categories</h3></a>
+                            <div class="accordion-content" data-tab-content>
+                                <?php wp_nav_menu(array('theme_location' => "footer-product-categories",)); ?>
+                            </div>
+                        </li>
+                        <li class="accordion-item" data-accordion-item>
+                            <a href="#" class="accordion-title"><h3>Website</h3></a>
+                            <div class="accordion-content" data-tab-content>
+                                <?php wp_nav_menu(array('theme_location' => "footer-website",)); ?>
+                            </div>
+                        </li>
+                        <li class="accordion-item" data-accordion-item>
+                            <a href="#" class="accordion-title"><h3>Our Services</h3></a>
+                            <div class="accordion-content" data-tab-content>
+                                <?php wp_nav_menu(array('theme_location' => "footer-other-sites",)); ?>
+                            </div>
+                        </li>
+                        <li class="accordion-item" data-accordion-item>
+                            <a href="#" class="accordion-title"><h3>Other Graham Sites</h3></a>
+                            <div class="accordion-content" data-tab-content>
+                                <?php wp_nav_menu(array('theme_location' => "footer-other-sites",)); ?>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
                 <div class="social-contact cell shrink">
                     <div class="follow-us">
                         Follow Us
@@ -65,7 +96,7 @@
         </div>
     </div>
 
-   <div class="copyright">
+   <div class="copyright show-for-large">
        <div class="grid-container">
            <div class="grid-x">
                <div class="footer-logo cell shrink">
@@ -80,6 +111,23 @@
            </div>
        </div>
    </div>
+
+    <div class="copyright mobile hide-for-large">
+        <div class="grid-container">
+            <div class="footer-menu">
+                <?php wp_nav_menu(array('theme_location' => "footer",)); ?>
+            </div>
+            <div class="grid-x">
+                <div class="footer-logo cell shrink">
+                    <a href="/" style="padding-right: 1.5rem;"><img src="<?php echo get_field('logo','option')['url'];?>" style="width: 100px; height: auto;"></a>
+                </div>
+                <div class="notice cell auto">
+                    <?php echo get_field('copyright_notice',option);?>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 </footer> <!-- end .footer -->
 

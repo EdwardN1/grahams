@@ -1,0 +1,8 @@
+#off-canvas {
+  a {
+    color: $green;
+    &:after {
+      border-color: $green transparent transparent;;
+    }
+  }
+}
