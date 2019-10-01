@@ -103,7 +103,7 @@
                    <a href="/" style="padding-right: 1.5rem;"><img src="<?php echo get_field('logo','option')['url'];?>" style="width: 100px; height: auto;"></a>
                </div>
                <div class="notice cell auto">
-                   <?php echo get_field('copyright_notice',option);?>
+                   <?php echo get_field('copyright_notice','option');?>
                </div>
                <div class="cell shrink footer-menu">
 	               <?php wp_nav_menu(array('theme_location' => "footer",)); ?>
@@ -122,7 +122,7 @@
                     <a href="/" style="padding-right: 1.5rem;"><img src="<?php echo get_field('logo','option')['url'];?>" style="width: 100px; height: auto;"></a>
                 </div>
                 <div class="notice cell auto">
-                    <?php echo get_field('copyright_notice',option);?>
+                    <?php echo get_field('copyright_notice','option');?>
                 </div>
 
             </div>
