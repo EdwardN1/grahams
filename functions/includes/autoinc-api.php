@@ -238,7 +238,7 @@ function create_products() {
 							update_field( 'description', $product->BulletText, $newPost );
 							update_field( 'code', $variation->SKU, $newPost );
 							update_field( 'product_group', $product->Name, $newPost );
-							update_field( 'price', $variation->Price, $newPost );
+							update_field( 'price', $variation->Qty_Price_1, $newPost );
 							foreach ( $product->PictureIds as $pictureId ) {
 								$jsonPicture = get_api_picture( $pictureId );
 								$picture     = json_decode( $jsonPicture );
@@ -323,7 +323,7 @@ function create_products() {
 							update_field( 'description', $product->BulletText, $newPost );
 							update_field( 'code', $variation->SKU, $newPost );
 							update_field( 'product_group', $product->Name, $newPost );
-							update_field( 'price', $variation->Price, $newPost );
+							update_field( 'price', $variation->Qty_Price_1, $newPost );
 							foreach ( $product->PictureIds as $pictureId ) {
 								$jsonPicture = get_api_picture( $pictureId );
 								$picture     = json_decode( $jsonPicture );

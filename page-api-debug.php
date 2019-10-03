@@ -116,6 +116,7 @@ get_header(); ?>
 										$jsonVariation = get_api_variation( $variation_id );
 										$variation     = json_decode( $jsonVariation );
 										?>
+                                        <div style="font-size: 10px;">What's in the object: <?php print_r( $variation ); ?></div>
                                         <div>
                                             "Id": <?php echo $variation->Id; ?><br>
                                             "ProductId": <?php echo $variation->ProductId; ?><br>
@@ -123,6 +124,9 @@ get_header(); ?>
                                             "Part_Code": <?php echo $variation->Part_Code; ?><br>
                                             "SKU": <?php echo $variation->SKU; ?><br>
                                             "Price": <?php echo $variation->Price; ?><br>
+                                            "Qty_Price_1": <?php echo $variation->Qty_Price_1; ?><br>
+                                            "Qty_Price_2": <?php echo $variation->Qty_Price_2; ?><br>
+                                            "Qty_Price_3": <?php echo $variation->Qty_Price_3; ?><br>
 											<?php
 											foreach ( $variation->PictureIds as $picture_id ) {
 												$jsonPicture = get_api_picture( $picture_id );
