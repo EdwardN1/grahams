@@ -36,7 +36,7 @@
                             Only
                         </div>
                         <div class="slide-price">
-							£<?php the_field( 'price', $post->ID ); ?>
+							£<?php the_field( 'price', $post->ID ); ?> <span class="only">Ex Vat</span>
                         </div>
                     </a>
                 </div>

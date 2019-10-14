@@ -54,6 +54,16 @@ header {
         color: $white;
       }
     }
+    .grey {
+      color: $dark-gray;
+      margin-right: 2px;
+      &.no-right-margin {
+        margin-right: 0;
+      }
+      a, a:hover, a:focus, a:active {
+        color: $dark-gray;
+      }
+    }
     .white-background {
       background-color: $white;
     }

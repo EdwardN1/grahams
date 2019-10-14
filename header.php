@@ -58,7 +58,7 @@
                                     Your Local Plumbing and Heating Specialist
                                 </div>
                                 <div class="cell shrink hide-for-large">
-                                    <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="grey-background white button-link" style="margin-left: 2px;">
+                                    <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="grey button-link" style="margin-left: 2px;">
                                         <img src="<?php echo get_icon('target'); ?>">
                                         <span>Find Branch</span>
                                     </a>
@@ -74,22 +74,22 @@
                         <div class="cell shrink">
                             <div class="grid-x top-icons">
                                 <div class="cell shrink show-for-large">
-                                    <span class="grey-background white button-link">All prices Ex VAT</span>
+                                    <span class="button-link">All prices Ex VAT</span>
                                 </div>
                                 <div class="cell shrink show-for-large">
-                                    <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="grey-background white button-link">
+                                    <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="grey button-link">
                                         <img src="<?php echo get_icon('target'); ?>">
                                         <span>Find Branch</span>
                                     </a>
                                 </div>
                                 <div class="cell shrink show-for-large">
-                                    <a href="/contact-us/" class="grey-background white button-link">
+                                    <a href="/contact-us/" class="grey button-link">
                                         <img src="<?php echo get_icon('email'); ?>">
                                         <span>Contact Us</span>
                                     </a>
                                 </div>
                                 <div class="cell shrink show-for-large">
-                                    <a href="https://www.getplumbedin.co.uk/" target="_blank" class="grey-background white button-link">
+                                    <a href="https://www.getplumbedin.co.uk/" target="_blank" class="grey button-link">
                                         <img src="<?php echo get_icon('plumbed in'); ?>">
                                     </a>
                                 </div>
@@ -115,7 +115,7 @@
                 <div class="grid-container">
                     <div class="grid-x">
                         <div class="cell auto secondary-logo">
-                            <img src="<?php echo get_secondary_logo('Always Available'); ?>">
+                            <a href="/"><img src="<?php echo get_secondary_logo('Always Available'); ?>"></a>
                         </div>
                         <div class="cell shrink telephone-number show-for-large">
                             <a href="<?php echo get_field('telephone_link', 'option'); ?>">
@@ -140,30 +140,36 @@
             <div class="bottom-row">
                 <div class="grid-container">
                     <div class="grid-x">
-                        <div class="cell auto">
+                        <div class="cell auto"></div>
+                        <div class="cell shrink">
                             <div class="grid-x">
-                                <div class="cell shrink"><img src="<?php echo get_icon('checklist'); ?>"></div>
-                                <div class="cell auto">Get the products you're after</div>
+                                <div class="cell shrink" style="padding-right: 1em;">
+                                    <div class="grid-x">
+                                        <div class="cell shrink"><img src="<?php echo get_icon('checklist'); ?>"></div>
+                                        <div class="cell auto">Get the products you're after</div>
+                                    </div>
+                                </div>
+                                <div class="cell shrink" style="padding-right: 1em;">
+                                    <div class="grid-x">
+                                        <div class="cell shrink"><img src="<?php echo get_icon('stopwatch'); ?>"></div>
+                                        <div class="cell auto">Get sorted fast</div>
+                                    </div>
+                                </div>
+                                <div class="cell shrink" style="padding-right: 1em;">
+                                    <div class="grid-x">
+                                        <div class="cell shrink"><img src="<?php echo get_icon('gearhead'); ?>"></div>
+                                        <div class="cell auto">Talk to people in the know</div>
+                                    </div>
+                                </div>
+                                <div class="cell shrink show-for-large">
+                                    <div class="grid-x">
+                                        <div class="cell shrink"><img src="<?php echo get_icon('pound'); ?>" style="height: auto; width: auto;"></div>
+                                        <div class="cell auto">Great Value for service</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="cell auto">
-                            <div class="grid-x">
-                                <div class="cell shrink"><img src="<?php echo get_icon('stopwatch'); ?>"></div>
-                                <div class="cell auto">Get sorted fast</div>
-                            </div>
-                        </div>
-                        <div class="cell auto">
-                            <div class="grid-x">
-                                <div class="cell shrink"><img src="<?php echo get_icon('gearhead'); ?>"></div>
-                                <div class="cell auto">Talk to people in the know</div>
-                            </div>
-                        </div>
-                        <div class="cell auto show-for-large">
-                            <div class="grid-x">
-                                <div class="cell shrink"><img src="<?php echo get_icon('pound'); ?>" style="height: auto; width: auto;"></div>
-                                <div class="cell auto">Great Value for service</div>
-                            </div>
-                        </div>
+                        <div class="cell auto"></div>
                     </div>
                 </div>
             </div>

@@ -14,7 +14,9 @@ function custom_dashboard_help() {
 	echo '<form action="'.admin_url('admin-post.php').'" method="post"> <input type="hidden" name="action" value="create_products"><input type="submit" value="Create and Update Products"></form>';
     echo '<form action="'.admin_url('admin-post.php').'" method="post"> <input type="hidden" name="action" value="import_product_images"><input type="submit" value="Import Product Images"></form>';
     echo '<form action="'.admin_url('admin-post.php').'" method="post"> <input type="hidden" name="action" value="import_variation_images"><input type="submit" value="Import Variation Images"></form>';
+    echo '<form action="'.admin_url('admin-post.php').'" method="post"> <input type="hidden" name="action" value="import_category_images"><input type="submit" value="Import Category Images"></form>';
 	echo '<form action="'.admin_url('admin-post.php').'" method="post"> <input type="hidden" name="action" value="link_images"><input type="submit" value="Link Images to Products"></form>';
+    echo '<form action="'.admin_url('admin-post.php').'" method="post"> <input type="hidden" name="action" value="link_category_images"><input type="submit" value="Link Images to Categories"></form>';
 }
 
 function db_create_categories_handler() {
@@ -42,9 +44,19 @@ function db_import_variation_images_handler() {
     echo 'Variation Images Created/Updated <br><a href="/wp-admin/">Return to dashboard</a>';
 }
 
+function db_import_category_images_handler() {
+    echo importCategoryImages();
+    echo 'Category Images Created/Updated <br><a href="/wp-admin/">Return to dashboard</a>';
+}
+
 function db_link_images_handler() {
 	echo linkProductImages();
 	echo 'Images Linked<br><a href="/wp-admin/">Return to dashboard</a>';
+}
+
+function db_link_category_images_handler() {
+    echo linkCategoryImages();
+    echo 'Images Linked<br><a href="/wp-admin/">Return to dashboard</a>';
 }
 
 add_action( 'admin_post_create_categories', 'db_create_categories_handler' );
@@ -52,4 +64,6 @@ add_action( 'admin_post_sort_categories', 'db_sort_categories_handler' );
 add_action( 'admin_post_create_products', 'db_create_products_handler' );
 add_action( 'admin_post_import_product_images', 'db_import_product_images_handler' );
 add_action( 'admin_post_import_variation_images', 'db_import_variation_images_handler' );
+add_action( 'admin_post_import_category_images', 'db_import_category_images_handler' );
 add_action( 'admin_post_link_images', 'db_link_images_handler' );
+add_action( 'admin_post_link_category_images', 'db_link_category_images_handler' );
