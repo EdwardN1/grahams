@@ -6,7 +6,7 @@
 get_header(); ?>
 
 
-<?php $price = get_field( 'price' ); ?>
+<?php $price = number_format(get_field( 'price' ),2); ?>
 <?php $description = get_field( 'description' ); ?>
 <?php $code = get_field( 'code' ); ?>
 <?php $summary = get_field( 'summary' ); ?>
@@ -14,8 +14,33 @@ get_header(); ?>
 <?php $availability = get_field( 'availability' ); ?>
 
 <div class="grid-container">
-    <?php if ( function_exists('yoast_breadcrumb') )
-    {yoast_breadcrumb('<p id="breadcrumbs">','</p>');} ?>
+    <?php /*if ( function_exists('yoast_breadcrumb') )
+    {yoast_breadcrumb('<p id="breadcrumbs">','</p>');} */?>
+    <?php
+        //$thisTerm = get_term_by('slug', get_query_var('term'), get_query_var('taxonomy'));
+    $theTerms = get_the_terms(get_the_ID(),'grahamscat');
+    $thisTerm = $theTerms[0];
+
+        if ($thisTerm->taxonomy == 'grahamscat') {
+            ?>
+            <div class="grid-container text-center breadcrumbs">
+                <?php
+                $divider = '';
+                if ($thisTerm->parent > 0) {
+                    $parentTerm = get_term_by("id", $thisTerm->parent, "grahamscat");
+                    echo '<a href="/product-category/' . $parentTerm->slug . '" class="green">' . '«  Back to  ' . $parentTerm->name . '</a>';
+                    $divider = ' | ';
+                }
+                foreach (get_terms('grahamscat', array('hide_empty' => false, 'parent' => $thisTerm->parent)) as $child_term) {
+                    echo $divider . '<a href="/product-category/' . $child_term->slug . '" class="green">' . $child_term->name . '</a>';
+                    $divider = ' | ';
+                }
+
+                ?>
+            </div>
+            <?php
+        }
+        ?>
 </div>
     <div class="grid-container graham-product">
         <div class="grid-x">
@@ -24,7 +49,8 @@ get_header(); ?>
                     <div id="product-large">
 						<?php while ( have_rows( 'product_images' ) ) : the_row(); ?>
 							<?php $image = get_sub_field( 'image' ); ?>
-							<?php $imageURL = $image['url']; ?>
+                            <?php $imageURL = $image['url']; ?>
+							<?php //$imageURL = $image['sizes']['medium']; ?>
 							<?php $imageALT = $image['alt']; ?>
 							<?php if ( $image ) { ?>
                                 <div class="slide-image" style="max-width: 580px; width:42.278vw;">
@@ -63,7 +89,7 @@ get_header(); ?>
                 </div>
                 <div class="buttons"><!--<a href="#" class="button lime">Enquire Now</a>--> <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="button green">Nearest
                         Stockist</a></div>
-                <ul class="accordion" data-accordion>
+                <ul class="accordion" data-accordion data-allow-all-closed="true">
 
                     <!--<li class="accordion-item" data-accordion-item>
                         <a href="#" class="accordion-title">Summary</a>
@@ -72,7 +98,7 @@ get_header(); ?>
                         </div>
                     </li>-->
 
-                    <li class="accordion-item is-active" data-accordion-item>
+                    <li class="accordion-item" data-accordion-item>
                         <a href="#" class="accordion-title">Specifications</a>
                         <div class="accordion-content" data-tab-content>
 			                <?php echo $specifications; ?>

@@ -17,15 +17,6 @@ get_header(); ?>
 
         <?php
         $thisTerm = get_term_by('slug', get_query_var('term'), get_query_var('taxonomy'));
-        /*echo 'term_id: '.$term->term_id.'<br>';
-        echo 'name: '.$term->name.'<br>';
-        echo 'slug: '.$term->slug.'<br>';
-        echo 'term_group: '.$term->term_group.'<br>';
-        echo 'term_taxonomy_id: '.$term->term_taxonomy_id.'<br>';
-        echo 'taxonomy: '.$term->taxonomy.'<br>';
-        echo 'description: '.$term->description.'<br>';
-        echo 'parent: '.$term->parent.'<br>';
-        echo 'count: '.$term->count.'<br>';*/
 
         if ($thisTerm->taxonomy == 'grahamscat') {
             ?>

@@ -59,8 +59,10 @@
                         Only
                     </div>
                     <div class="slide-price">
-                        £<?php the_field( 'price' ); ?> <span class="only">Ex Vat</span>
+                        <?php $price=number_format(get_field('price'),2);?>
+                        £<?php echo $price; ?>
                     </div>
+                    <div class="only">Ex Vat</div>
                 </a>
 								    							
 			</article> <!-- end article -->

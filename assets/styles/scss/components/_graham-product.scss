@@ -92,11 +92,29 @@
     .button.green {
       padding-left: 5.1rem;
       padding-right: 5.3rem;
+      color: white;
     }
     .accordion .accordion-item .accordion-title {
       font-size: 16px;
       @include breakpoint(large) {
         font-size: 20px;
+      }
+    }
+  }
+  #product-large {
+    .slide-image {
+     /* max-height: 600px;
+      img {
+        max-height: 600px;
+        width: auto;
+      }*/
+      img {
+        max-height: 500px;
+        width: auto !important;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 500px;
       }
     }
   }

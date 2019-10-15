@@ -30,16 +30,16 @@
 			<h1><?php _e( 'No products found', 'jointswp' ); ?></h1>
 		</header>
 		
-		<section class="entry-content">
-			<p><?php _e( 'Try searching:', 'jointswp' ); ?></p>
+		<!--<section class="entry-content">
+			<p><?php /*_e( 'Try searching:', 'jointswp' ); */?></p>
 		</section>
 		
 		<section class="search">
-		    <p><?php get_search_form(); ?></p>
-		</section> <!-- end search section -->
+		    <p><?php /*get_search_form(); */?></p>
+		</section> -->
 		
 		<footer class="article-footer">
-		  <p><?php _e( 'This is the error message in the parts/content-missing.php template.', 'jointswp' ); ?></p>
+		  <p><?php /*_e( 'This is the error message in the parts/content-missing.php template.', 'jointswp' ); */?></p>
 		</footer>
 			
 	<?php endif; ?>
