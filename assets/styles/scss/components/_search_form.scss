@@ -1,0 +1,34 @@
+.search-form {
+
+  padding-top: 45px;
+
+
+}
+
+.search-box {
+  position: relative;
+  input[type=search] {
+    max-width: 400px;
+    border-radius: 15px;
+    border-color: $green;
+    margin: 0;
+  }
+
+  input[type=submit] {
+    display: block;
+    background: none;
+    border: none;
+    background-image: url("../images/Search Icon.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 23px;
+    height: 23px;
+    position: absolute;
+    z-index: 1;
+    top: 8px;
+    left: 360px;
+    cursor: pointer;
+  }
+
+
+}

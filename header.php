@@ -123,6 +123,9 @@
                                 <?php echo get_field('telephone_number', 'option'); ?>
                             </a>
                         </div>
+                        <div class="cell auto search-form show-for-large">
+                            <?php get_search_form(); ?>
+                        </div>
                         <div class="cell auto hide-for-large"></div>
                         <div class="cell shrink hide-for-large">
                             <a data-toggle="off-canvas"><span class="menu-icon dark"></span> </a>
