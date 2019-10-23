@@ -31,17 +31,17 @@ if($responsive_options=='Mobile Only') {$responsice_class=' hide-for-large';}
 				<?php $image_link_type = get_field( 'image_link_type' ); ?>
 
 				<?php if ( $image_link_type == 'External URL' ): ?>
-					<?php $image_external_url = get_sub_field( 'image_external_url' ); ?>
+					<?php $image_external_url = get_field( 'image_external_url' ); ?>
                     <a href="<?php echo $image_external_url; ?>"
                        target="_blank" class="button"><?php echo $image_link_title; ?></a>
 				<?php endif; ?>
 				<?php if ( $image_link_type == 'Text' ): ?>
-					<?php $image_text_link = get_sub_field( 'image_text_link' ); ?>
+					<?php $image_text_link = get_field( 'image_text_link' ); ?>
                     <a href="<?php echo $image_text_link; ?>"
                        class="button"><?php echo $image_link_title; ?></a>
 				<?php endif; ?>
 				<?php if ( $image_link_type == 'Internal Page' ): ?>
-					<?php $image_internal_page = get_sub_field( 'image_internal_page' ); ?>
+					<?php $image_internal_page = get_field( 'image_internal_page' ); ?>
                     <a href="<?php echo $image_internal_page; ?>"
                        class="button"><?php echo $image_link_title; ?></a>
 				<?php endif; ?>

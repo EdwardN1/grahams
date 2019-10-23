@@ -14,3 +14,11 @@ function site_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'site_scripts', 999);
+
+add_action('admin_enqueue_scripts', 'admin_enqueue');
+function admin_enqueue($hook) {
+    if ('toplevel_page_epim-admin-page' !== $hook) {
+        return;
+    }
+    wp_enqueue_script('my_custom_script', get_template_directory_uri() . '/assets/scripts/admin.js');
+}
