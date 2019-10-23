@@ -2,14 +2,35 @@ jQuery(document).ready(function ($) {
 
     var queue = new Array();
 
+    var requests = new Array();
+
     var index = 0;
 
     function _o(text) {
-        $('#ePimResult').append(text);
+        $('#ePimResult').prepend(text+'<br>');
     }
 
+    function _or(text) {
+        $('#ePimResult').prepend(text);
+    }
+
+    function resetQueue() {
+        if(!finished) {
+            _o('<strong>Aborting unfinished requests in queue!!!</strong>');
+        }
+        var numRequests = requests.length;
+        for (var i = 0; i < numRequests; i++) {
+            requests[i].abort();
+        }
+        requests = [];
+        queue = [];
+        $('#ePimResult').empty();
+    }
+
+    var finished = false;
+
     var execute_queue = function (index) {
-        $.ajax({
+        var request = $.ajax({
             data: queue[index],
             type: "POST",
             url: ajaxurl,
@@ -18,32 +39,43 @@ jQuery(document).ready(function ($) {
 
                 // check if it exists
                 if (queue[index] != undefined) {
-                    _o('Request Completed: ' + this.data + '<br>');
+                    _o('Request Completed: ' + this.data);
                     execute_queue(index);
+                } else {
+                    finished = true;
+                    _o('<strong>Queue Processed</strong>');
                 }
             }
 
-        }); // end of $.ajax( {...
 
+        }); // end of $.ajax( {...
+         requests.push(request);
     }; // end of execute_queue() {...
 
 
     $('#CreateCategories').click(function () {
-        $.ajax({
+        resetQueue();
+        thisRequest = $.ajax({
             type: "POST",
             url: ajaxurl,
             data: {action: 'get_all_categories'}
         }).done(function (data) {
             categories = $.parseJSON(data);
-            var t1 = performance.now();
-            var p = (t1 - t0) / 1000;
-            _o('<p>Data received (request took ' + p.toFixed(2) + ' seconds):</p>');
-            _o('<pre>' + data + '</pre>');
-            _o('<strong>Processing ePim Data...</strong><br>');
-            setTimeout(100, function () {
-                checkCategories(categories);
-            });
+            _or('<p>Data received:</p>');
+            _or('<pre>' + data + '</pre>');
+            _o('<strong>Processing ePim Data...</strong>');
+            $(categories).each(function (index, record) {
+                _or('<p>Checking Category ' + record.Id + ' (' + record.Name + ')</p>');
+                _o('ParentId = ' + record.ParentId );
+                var pictures = record.PictureIds;
+                _o('Adding Pictures to the queue');
+                $(pictures).each(function (index, picture) {
+                    queue.push({action: 'get_picture', ID: picture});
+                });
 
+            });
+            _o('Processing Queue');
+            execute_queue(index);
         });
         requests.push(thisRequest);
     });

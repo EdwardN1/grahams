@@ -1,6 +1,11 @@
 <?php
 
 
+/**
+ * ========================== Actions ==============================
+ */
+
+
 add_action('wp_ajax_get_all_categories', 'ajax_get_api_all_categories');
 add_action('wp_ajax_get_all_attributes', 'ajax_get_api_all_attributes');
 add_action('wp_ajax_get_all_products', 'ajax_get_api_all_products');
@@ -8,6 +13,7 @@ add_action('wp_ajax_get_product', 'ajax_get_api_product');
 add_action('wp_ajax_get_category', 'ajax_get_api_category');
 add_action('wp_ajax_get_picture', 'ajax_get_api_picture');
 add_action('wp_ajax_get_variation', 'ajax_get_api_variation');
+add_action('wp_ajax_create_category', 'ajax_create_category');
 
 
 function ajax_get_api_all_categories() {
@@ -82,4 +88,15 @@ function ajax_get_api_variation() {
         echo 'error no ID supplied';
     }
     exit;
+}
+
+function ajax_create_category() {
+	$response = 'Nothing Happened!!';
+	if(!empty($_POST['ID'])) {
+		if(!empty($_POST['name'])) {
+			$response = create_category($_POST['ID'],$_POST['name'],$_POST['ParentID'],$_POST['WebPath'],$_POST['picture_ids']);
+		}
+	}
+	echo $response;
+	exit;
 }
