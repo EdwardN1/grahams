@@ -39,7 +39,8 @@ jQuery(document).ready(function ($) {
 
                 // check if it exists
                 if (queue[index] != undefined) {
-                    _o('Request Completed: ' + this.data);
+                    _o('Request Completed: ' + this.data + ' Response: ' + data);
+                    if
                     execute_queue(index);
                 } else {
                     finished = true;
@@ -65,13 +66,14 @@ jQuery(document).ready(function ($) {
             _or('<pre>' + data + '</pre>');
             _o('<strong>Processing ePim Data...</strong>');
             $(categories).each(function (index, record) {
-                _or('<p>Checking Category ' + record.Id + ' (' + record.Name + ')</p>');
-                _o('ParentId = ' + record.ParentId );
-                var pictures = record.PictureIds;
+                /*_or('<p>Checking Category ' + record.Id + ' (' + record.Name + ')</p>');
+                _o('ParentId = ' + record.ParentId );*/
+                queue.push({action: 'create_category', ID: record.Id, name: record.Name, ParentID: record.ParentID, picture_ids: record.PictureIds});
+                /*var pictures = record.PictureIds;
                 _o('Adding Pictures to the queue');
                 $(pictures).each(function (index, picture) {
                     queue.push({action: 'get_picture', ID: picture});
-                });
+                });*/
 
             });
             _o('Processing Queue');

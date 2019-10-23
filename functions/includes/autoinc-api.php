@@ -135,6 +135,18 @@ function create_category( $id, $name, $ParentID, $picture_webpath, $picture_ids 
 	return $response;
 }
 
+function get_category_pictures( $id ) {
+	$http_response_header = '';
+	$terms = get_terms( [
+		'taxonomy'   => 'grahamscat',
+		'hide_empty' => false,
+	] );
+	$term  = getTermFromID( $id, $terms );
+	if($term) {
+		$response = get_field('api_picture_ids',$term);
+	}
+}
+
 function create_categories() {
 	$jsonCategories = get_api_all_categories();
 	$api_categories = json_decode( $jsonCategories );
