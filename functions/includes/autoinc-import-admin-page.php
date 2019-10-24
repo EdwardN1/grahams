@@ -9,29 +9,9 @@ function epim_admin_menu()
 function epim_admin_page()
 {
     ?>
-    <script>
-        jQuery(document).ready(function ($) {
-            $('#CreateCategories').click(function () {
-                $('#ePimResult').empty();
-                $('#ePimResult').append('<strong>Starting Category Update...</strong><br>');
 
-
-            });
-        });
-    </script>
     <div class="wrap">
         <h2>ePim Management</h2>
-       <!-- --><?php
-/*        echo '<p>The button below will import and over write your product data from ePim:</p>';
-        echo '<p><form action="' . admin_url('admin-post.php') . '" method="post"> <input type="hidden" name="action" value="create_categories"><input type="submit" value="Create and Update Product Categories"></form></p>';
-        echo '<p><form action="' . admin_url('admin-post.php') . '" method="post"> <input type="hidden" name="action" value="sort_categories"><input type="submit" value="Sort Product Categories"></form></p>';
-        echo '<p><form action="' . admin_url('admin-post.php') . '" method="post"> <input type="hidden" name="action" value="create_products"><input type="submit" value="Create and Update Products"></form></p>';
-        echo '<p><form action="' . admin_url('admin-post.php') . '" method="post"> <input type="hidden" name="action" value="import_product_images"><input type="submit" value="Import Product Images"></form></p>';
-        echo '<p><form action="' . admin_url('admin-post.php') . '" method="post"> <input type="hidden" name="action" value="import_variation_images"><input type="submit" value="Import Variation Images"></form></p>';
-        echo '<p><form action="' . admin_url('admin-post.php') . '" method="post"> <input type="hidden" name="action" value="import_category_images"><input type="submit" value="Import Category Images"></form></p>';
-        echo '<p><form action="' . admin_url('admin-post.php') . '" method="post"> <input type="hidden" name="action" value="link_images"><input type="submit" value="Link Images to Products"></form></p>';
-        echo '<p><form action="' . admin_url('admin-post.php') . '" method="post"> <input type="hidden" name="action" value="link_category_images"><input type="submit" value="Link Images to Categories"></form></p>';
-        */?>
         <p>
             <button id="CreateCategories" class="button">Create and Update all (Ajax)</button>
         </p>

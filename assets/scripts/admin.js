@@ -1,5 +1,8 @@
 jQuery(document).ready(function ($) {
 
+    var debug = true;
+    var cMax = 1;
+
     var queue = new Array();
 
     var requests = new Array();
@@ -7,15 +10,28 @@ jQuery(document).ready(function ($) {
     var index = 0;
 
     function _o(text) {
-        $('#ePimResult').prepend(text+'<br>');
+        $('#ePimResult').prepend(text + '<br>');
     }
 
     function _or(text) {
         $('#ePimResult').prepend(text);
     }
 
+    function QueryStringToJSON(qs) {
+        var pairs = qs.slice(1).split('&');
+
+        var result = {};
+        pairs.forEach(function (pair) {
+            pair = pair.split('=');
+            result[pair[0]] = decodeURIComponent(pair[1] || '');
+        });
+
+        return JSON.parse(JSON.stringify(result));
+    }
+
+
     function resetQueue() {
-        if(!finished) {
+        if (!finished) {
             _o('<strong>Aborting unfinished requests in queue!!!</strong>');
         }
         var numRequests = requests.length;
@@ -24,10 +40,31 @@ jQuery(document).ready(function ($) {
         }
         requests = [];
         queue = [];
+        index = 0;
         $('#ePimResult').empty();
     }
 
     var finished = false;
+    var CatagoriesFinished = false;
+    var ProductsFinished = false;
+
+    function showObject(obj) {
+        var result = "";
+        for (var p in obj) {
+            if( obj.hasOwnProperty(p) ) {
+                result += p + " , " + obj[p] + "\n";
+            }
+        }
+        return result;
+    }
+
+    function showObjectjQuery(obj) {
+        var result = "";
+        $.each(obj, function(k, v) {
+            result += k + " , " + v + "\n";
+        });
+        return result;
+    }
 
     var execute_queue = function (index) {
         var request = $.ajax({
@@ -35,22 +72,84 @@ jQuery(document).ready(function ($) {
             type: "POST",
             url: ajaxurl,
             success: function (data) {
-                index++;    // going to next queue entry
+                var r = this.data;
+                var ro = QueryStringToJSON('?' + r);
+                _o('Request Completed: ' + r + ' Response: ' + data);
+                var action = ro.action;
+                var id = ro.ID;
+                if (action == 'create_category') {
+                    queue.push({action: 'get_category_images', ID: id});
+                }
+                if (action == 'get_category_images') {
+                    if ($.trim(data)) {
+                        pictures = $.parseJSON(data);
+                        $(pictures).each(function (index, picture) {
+                            queue.push({action: 'get_picture_web_link', ID: picture});
+                        })
+                    }
+                }
+                if (action == 'get_picture_web_link') {
+                    if ($.trim(data)) {
+                        pictures = $.parseJSON(data);
+                        $(pictures).each(function (index, picture) {
+                            queue.push({action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
+                        })
 
+                    }
+                }
+                if(action=='get_all_products') {
+                    if ($.trim(data)) {
+                        var products = $.parseJSON(data);
+                        var c = 0;
+                        $(products).each(function (index,product) {
+                            _o('Name = ' +product.Name + ' | VariationIds = ' + product.VariationIds + ' | PictureIds = ' + product.PictureIds + ' | CategoryIds = ' + product.CategoryIds);
+                            /*var v = product.VariationIds;
+                            var vs = v.split(',');*/
+                            $(product.VariationIds).each(function (index,variationID) {
+                                queue.push({action:'create_product',productID:product.Id,variationID:variationID,bulletText:product.BulletText,productName:product.Name,categoryIDs:product.CategoryIds,pictureIDs:product.PictureIds});
+                            });
+                            if(debug) {
+                                c++;
+                                if (c >= cMax) {
+                                    return false;
+                                }
+                            }
+                        });
+                    }
+                }
+                index++;    // going to next queue entry
                 // check if it exists
                 if (queue[index] != undefined) {
-                    _o('Request Completed: ' + this.data + ' Response: ' + data);
-                    if
                     execute_queue(index);
                 } else {
-                    finished = true;
-                    _o('<strong>Queue Processed</strong>');
+                    if (!CatagoriesFinished) {
+                        CatagoriesFinished = true;
+                        queue = [];
+                        requests = [];
+                        index = 0;
+                        queue.push({action: 'sort_categories'});
+                        queue.push({action: 'cat_image_link'});
+                        execute_queue(index);
+                    } else {
+                        if(!ProductsFinished) {
+                            ProductsFinished = true;
+                            queue = [];
+                            requests = [];
+                            index = 0;
+                            queue.push({action: 'get_all_products'});
+                            _o('<strong>Fetching all products from ePim - please be patient...</strong>')
+                            execute_queue(index);
+                        } else {
+                            finished = true;
+                            _o('<strong>Queue Processed - Create and Update Finished OK :)</strong>');
+                        }
+                    }
                 }
             }
 
 
         }); // end of $.ajax( {...
-         requests.push(request);
+        requests.push(request);
     }; // end of execute_queue() {...
 
 
@@ -65,21 +164,26 @@ jQuery(document).ready(function ($) {
             _or('<p>Data received:</p>');
             _or('<pre>' + data + '</pre>');
             _o('<strong>Processing ePim Data...</strong>');
+            var c = 0;
             $(categories).each(function (index, record) {
-                /*_or('<p>Checking Category ' + record.Id + ' (' + record.Name + ')</p>');
-                _o('ParentId = ' + record.ParentId );*/
-                queue.push({action: 'create_category', ID: record.Id, name: record.Name, ParentID: record.ParentID, picture_ids: record.PictureIds});
-                /*var pictures = record.PictureIds;
-                _o('Adding Pictures to the queue');
-                $(pictures).each(function (index, picture) {
-                    queue.push({action: 'get_picture', ID: picture});
-                });*/
-
+                queue.push({action: 'create_category', ID: record.Id, name: record.Name, ParentID: record.ParentId, picture_ids: record.PictureIds});
+                if(debug) {
+                    c++;
+                    if (c >= cMax) {
+                        return false;
+                    }
+                }
             });
-            _o('Processing Queue');
+            /*_o('Processing Queue');*/
             execute_queue(index);
         });
         requests.push(thisRequest);
+
+        /*queue.push({action:'sort_categories'});
+        queue.push({action:'cat_image_link'});
+        queue.push({action:'cat_image_link'});
+        execute_queue(index);*/
+
     });
 
     //execute_queue(index); // go!
