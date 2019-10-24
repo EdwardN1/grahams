@@ -733,6 +733,7 @@ function imageIDfromAPIID($id)
     return $res;
 }
 
+
 function importProductImages()
 {
     $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
@@ -914,6 +915,25 @@ function getCategoryImages($id) {
     }
     return json_encode($res);
 }
+
+function getProductImages() {
+	$res = array();
+	$loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
+	while ($loop->have_posts()) : $loop->the_post();
+		if (have_rows('product_images')):
+			while (have_rows('product_images')): the_row();
+				$api_link = get_sub_field('api_link');
+				$api_image_id = get_sub_field('api_image_id');
+				if (!imageImported($api_image_id)) {
+					$res[] = $api_image_id;
+				}
+			endwhile;
+		endif;
+	endwhile;
+	wp_reset_postdata();
+	return json_encode($res);
+}
+
 
 function linkCategoryImages() {
     $terms = get_terms(array(
