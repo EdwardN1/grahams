@@ -940,8 +940,7 @@ function getProductImages() {
 		endif;
 	endwhile;
 	wp_reset_postdata();
-	error_log(str_replace('"','',json_encode(array_unique($res,SORT_NUMERIC))));
-	return (str_replace('"','',json_encode(array_unique($res,SORT_NUMERIC))));
+	return json_encode(array_unique($res,SORT_NUMERIC));
 }
 
 

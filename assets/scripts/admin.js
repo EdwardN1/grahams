@@ -120,7 +120,7 @@ jQuery(document).ready(function ($) {
                 }
                 if(action=='get_product_images') {
                     if ($.trim(data)) {
-                        var productsImageIDs = $.parseJSON(data);
+                        var productsImageIDs = $.parseJSON(data[0]);
                         var c = 0;
                         $(productsImageIDs).each(function (index, id) {
                             _o(id);
