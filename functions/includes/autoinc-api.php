@@ -929,9 +929,19 @@ function getProductImages() {
 				}
 			endwhile;
 		endif;
+		if (have_rows('variation_images')):
+			while (have_rows('product_images')): the_row();
+				$api_link = get_sub_field('api_link');
+				$api_image_id = get_sub_field('api_image_id');
+				if (!imageImported($api_image_id)) {
+					$res[] = $api_image_id;
+				}
+			endwhile;
+		endif;
 	endwhile;
 	wp_reset_postdata();
-	return json_encode($res);
+	error_log(str_replace('"','',json_encode(array_unique($res,SORT_NUMERIC))));
+	return (str_replace('"','',json_encode(array_unique($res,SORT_NUMERIC))));
 }
 
 

@@ -47,6 +47,7 @@ jQuery(document).ready(function ($) {
     var finished = false;
     var CatagoriesFinished = false;
     var ProductsFinished = false;
+    var ProductImagesImportedLinked = false;
 
     function showObject(obj) {
         var result = "";
@@ -117,6 +118,15 @@ jQuery(document).ready(function ($) {
                         });
                     }
                 }
+                if(action=='get_product_images') {
+                    if ($.trim(data)) {
+                        var productsImageIDs = $.parseJSON(data);
+                        var c = 0;
+                        $(productsImageIDs).each(function (index, id) {
+                            _o(id);
+                        });
+                    }
+                }
                 index++;    // going to next queue entry
                 // check if it exists
                 if (queue[index] != undefined) {
@@ -140,8 +150,19 @@ jQuery(document).ready(function ($) {
                             _o('<strong>Fetching all products from ePim - please be patient...</strong>')
                             execute_queue(index);
                         } else {
-                            finished = true;
-                            _o('<strong>Queue Processed - Create and Update Finished OK :)</strong>');
+                            if(!ProductImagesImportedLinked) {
+                                ProductImagesImportedLinked = true;
+                                queue = [];
+                                requests = [];
+                                index = 0;
+                                queue.push({action: 'get_product_images'});
+                                _o('<strong>Importing Product Images...</strong>')
+                                execute_queue(index);
+                            } else {
+                                finished = true;
+                                _o('<strong>Queue Processed - Create and Update Finished OK :)</strong>');
+                            }
+
                         }
                     }
                 }
