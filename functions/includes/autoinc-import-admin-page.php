@@ -13,8 +13,19 @@ function epim_admin_page()
     <div class="wrap">
         <h2>ePim Management</h2>
         <p>
-            <button id="CreateCategories" class="button">Create and Update all (Ajax)</button>
+            <strong>Update by product code(SKU):</strong>
         </p>
+        <p>
+            <input type="text" id="pCode"><br>
+        </p>
+        <p>
+            <button id="UpdateCode" class="button">Update</button>
+        </p>
+        <hr>
+        <p>
+            or <button id="CreateCategories" class="button">Create and Update all (Ajax)</button> (This will take a long time)
+        </p>
+        <hr>
         <div id="ePimResult"></div>
     </div>
     <?php

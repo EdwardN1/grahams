@@ -6,20 +6,20 @@
 get_header(); ?>
 
 
-<?php $price = number_format(get_field( 'price' ),2); ?>
-<?php $description = get_field( 'description' ); ?>
-<?php $code = get_field( 'code' ); ?>
-<?php $summary = get_field( 'summary' ); ?>
-<?php $specifications = get_field( 'specifications' ); ?>
-<?php $availability = get_field( 'availability' ); ?>
+<?php $price = number_format(get_field('price'), 2); ?>
+<?php $description = get_field('description'); ?>
+<?php $code = get_field('code'); ?>
+<?php $summary = get_field('summary'); ?>
+<?php $specifications = get_field('specifications'); ?>
+<?php $availability = get_field('availability'); ?>
 
-<div class="grid-container">
-    <?php /*if ( function_exists('yoast_breadcrumb') )
-    {yoast_breadcrumb('<p id="breadcrumbs">','</p>');} */?>
-    <?php
+    <div class="grid-container">
+        <?php /*if ( function_exists('yoast_breadcrumb') )
+    {yoast_breadcrumb('<p id="breadcrumbs">','</p>');} */ ?>
+        <?php
         //$thisTerm = get_term_by('slug', get_query_var('term'), get_query_var('taxonomy'));
-    $theTerms = get_the_terms(get_the_ID(),'grahamscat');
-    $thisTerm = $theTerms[0];
+        $theTerms = get_the_terms(get_the_ID(), 'grahamscat');
+        $thisTerm = $theTerms[0];
 
         if ($thisTerm->taxonomy == 'grahamscat') {
             ?>
@@ -41,80 +41,98 @@ get_header(); ?>
             <?php
         }
         ?>
-</div>
-    <div class="grid-container graham-product">
-        <div class="grid-x">
-            <div class="cell small-12 large-5 images">
-				<?php if ( have_rows( 'variation_images' ) ) : ?>
-                    <div id="product-large">
-						<?php while ( have_rows( 'variation_images' ) ) : the_row(); ?>
-							<?php $image = get_sub_field( 'image' ); ?>
-                            <?php $imageURL = $image['url']; ?>
-							<?php //$imageURL = $image['sizes']['medium']; ?>
-							<?php $imageALT = $image['alt']; ?>
-							<?php if ( $image ) { ?>
-                                <div class="slide-image" style="max-width: 580px; width:42.278vw;">
-                                    <img src="<?php echo $imageURL; ?>" alt="<?php echo $imageALT; ?>" style="width: 100%;" />
-                                </div>
-							<?php } ?>
-						<?php endwhile; ?>
-                    </div>
-                    <div id="product-small">
-	                    <?php while ( have_rows( 'variation_images' ) ) : the_row(); ?>
-		                    <?php $image = get_sub_field( 'image' ); ?>
-		                    <?php $imageURL = $image['url']; ?>
-		                    <?php $imageALT = $image['alt']; ?>
-		                    <?php if ( $image ) { ?>
-                                <div class="slide-image" style="max-width: 123px;width:8.542vw;">
-                                    <img src="<?php echo $imageURL; ?>" alt="<?php echo $imageALT; ?>"/>
-                                </div>
-		                    <?php } ?>
-	                    <?php endwhile; ?>
-                    </div>
-				<?php else : ?>
-					<?php // no rows found ?>
-				<?php endif; ?>
+    </div>
+<div class="grid-container graham-product">
+    <div class="grid-x">
+        <div class="cell small-12 large-5 images">
+            <?php if (have_rows('variation_images')) : ?>
+                <div id="product-large">
+                    <?php while (have_rows('variation_images')) : the_row(); ?>
+                        <?php $image = get_sub_field('image'); ?>
+                        <?php $imageURL = $image['url']; ?>
+                        <?php //$imageURL = $image['sizes']['medium']; ?>
+                        <?php $imageALT = $image['alt']; ?>
+                        <?php if ($image) { ?>
+                            <div class="slide-image" style="max-width: 580px; width:42.278vw;">
+                                <img src="<?php echo $imageURL; ?>" alt="<?php echo $imageALT; ?>" style="width: 100%;"/>
+                            </div>
+                        <?php } ?>
+                    <?php endwhile; ?>
+                </div>
+                <div id="product-small">
+                    <?php while (have_rows('variation_images')) : the_row(); ?>
+                        <?php $image = get_sub_field('image'); ?>
+                        <?php $imageURL = $image['url']; ?>
+                        <?php $imageALT = $image['alt']; ?>
+                        <?php if ($image) { ?>
+                            <div class="slide-image" style="max-width: 123px;width:8.542vw;">
+                                <img src="<?php echo $imageURL; ?>" alt="<?php echo $imageALT; ?>"/>
+                            </div>
+                        <?php } ?>
+                    <?php endwhile; ?>
+                </div>
+            <?php else : ?>
+                <?php // no rows found ?>
+            <?php endif; ?>
+        </div>
+        <div class="cell large-auto small-12 content">
+            <h1><?php the_title(); ?></h1>
+            <div class="code">
+                <?php echo $code; ?>
             </div>
-            <div class="cell large-auto small-12 content">
-                <h1><?php the_title(); ?></h1>
-                <div class="code">
-					<?php echo $code; ?>
-                </div>
-                <div class="description">
-					<?php echo $description; ?>
-                </div>
-                <div class="price">
-                    <span class="only">Only</span>
-					£<?php echo $price; ?><span class="only"> Ex Vat</span>
-                </div>
-                <div class="buttons"><!--<a href="#" class="button lime">Enquire Now</a>--> <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="button green">Nearest
-                        Stockist</a></div>
-                <ul class="accordion" data-accordion data-allow-all-closed="true">
+            <div class="description">
+                <?php echo $description; ?>
+            </div>
+            <div class="price">
+                <span class="only">Only</span>
+                £<?php echo $price; ?><span class="only"> Ex Vat</span>
+            </div>
+            <div class="buttons"><!--<a href="#" class="button lime">Enquire Now</a>--> <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="button green">Nearest
+                    Stockist</a></div>
+            <ul class="accordion" data-accordion data-allow-all-closed="true">
 
-                    <!--<li class="accordion-item" data-accordion-item>
+                <!--<li class="accordion-item" data-accordion-item>
                         <a href="#" class="accordion-title">Summary</a>
                         <div class="accordion-content" data-tab-content>
-		                    <?php /*echo $summary; */?>
+		                    <?php /*echo $summary; */ ?>
                         </div>
                     </li>-->
 
-                    <li class="accordion-item" data-accordion-item>
-                        <a href="#" class="accordion-title">Specifications</a>
-                        <div class="accordion-content" data-tab-content>
-			                <?php echo $specifications; ?>
-                        </div>
-                    </li>
+                <li class="accordion-item" data-accordion-item>
+                    <a href="#" class="accordion-title">Specifications</a>
+                    <div class="accordion-content" data-tab-content>
+                        <?php echo $specifications; ?>
+                    </div>
+                </li>
 
-                    <!--<li class="accordion-item" data-accordion-item>
+                <?php if ( have_rows('downloads') ) : ?>
+                <li class="accordion-item" data-accordion-item>
+                    <a href="#" class="accordion-title">Downloads</a>
+                    <div class="accordion-content" data-tab-content>
+                        <?php while (have_rows('downloads')) : the_row(); ?>
+                            <?php $description = get_sub_field('description'); ?>
+
+                            <?php $download = get_sub_field('download'); ?>
+                            <?php if ($download) { ?>
+                                <a href="<?php echo $download['url']; ?>" target="_blank"><?php echo $description; ?></a><br>
+                            <?php } ?>
+                        <?php endwhile; ?>
+                    </div>
+                </li>
+                <?php endif; ?>
+
+
+
+                <!--<li class="accordion-item" data-accordion-item>
                         <a href="#" class="accordion-title">Availability</a>
                         <div class="accordion-content" data-tab-content>
-			                <?php /*echo $availability; */?>
+			                <?php /*echo $availability; */ ?>
                         </div>
                     </li>-->
 
-                </ul>
-            </div>
+            </ul>
         </div>
     </div>
+</div>
 
 <?php get_footer(); ?>

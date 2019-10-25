@@ -19,8 +19,44 @@ add_action( 'wp_ajax_get_picture_web_link', 'ajax_get_picture_web_link' );
 add_action( 'wp_ajax_import_picture', 'ajax_import_picture' );
 add_action( 'wp_ajax_sort_categories', 'ajax_sort_categories' );
 add_action( 'wp_ajax_cat_image_link', 'ajax_cat_image_link' );
+add_action( 'wp_ajax_product_image_link', 'ajax_product_image_link' );
 add_action( 'wp_ajax_create_product', 'ajax_create_product' );
 add_action( 'wp_ajax_get_product_images', 'ajax_get_product_images' );
+add_action( 'wp_ajax_product_ID_code', 'ajax_product_ID_from_code' );
+add_action( 'wp_ajax_get_single_product_images', 'ajax_get_single_product_images' );
+
+function ajax_get_single_product_images() {
+    if ( ! empty( $_POST['ID'] ) ) {
+        $response = getSingleProductImages($_POST['ID']);
+        header( "Content-Type: application/json charset=utf-8" );
+        echo json_encode($response);
+    } else {
+        echo 'error no ID supplied';
+    }
+    exit;
+}
+
+function ajax_product_ID_from_code() {
+    $response = 'Not Found';
+    if ( ! empty( $_POST['CODE'] ) ) {
+        $response = getAPIIDFromCode($_POST['CODE']);
+        //error_log('Code = '.$_POST['CODE'].' | API = '.$response);
+    }
+    echo $response;
+    exit;
+}
+
+function ajax_get_api_product() {
+    if ( ! empty( $_POST['ID'] ) ) {
+        $jsonResponse = get_api_product( $_POST['ID'] );
+        $response     = $jsonResponse;
+        header( "Content-Type: application/json" );
+        echo json_encode( $response );
+    } else {
+        echo 'error no ID supplied';
+    }
+    exit;
+}
 
 function ajax_get_category_images() {
 	if ( ! empty( $_POST['ID'] ) ) {
@@ -31,8 +67,10 @@ function ajax_get_category_images() {
 }
 
 function ajax_get_product_images() {
-	header( "Content-Type: application/json" );
-	echo getProductImages();
+	$response = getProductImages();
+	//error_log(json_encode($response));
+    header( "Content-Type: application/json charset=utf-8" );
+	echo json_encode($response);
 	exit;
 }
 
@@ -61,6 +99,13 @@ function ajax_cat_image_link() {
 	linkCategoryImages();
 	echo 'Category Images Linked';
 	exit;
+}
+
+function ajax_product_image_link() {
+    linkProductImages();
+    linkVariationImages();
+    echo 'Product Images Linked';
+    exit;
 }
 
 function ajax_sort_categories() {
@@ -112,17 +157,7 @@ function ajax_get_api_all_products() {
 	exit;
 }
 
-function ajax_get_api_product() {
-	if ( ! empty( $_POST['ID'] ) ) {
-		$jsonResponse = get_api_product( $_POST['ID'] );
-		$response     = $jsonResponse;
-		header( "Content-Type: application/json" );
-		echo json_encode( $response );
-	} else {
-		echo 'error no ID supplied';
-	}
-	exit;
-}
+
 
 function ajax_get_api_category() {
 	if ( ! empty( $_POST['ID'] ) ) {

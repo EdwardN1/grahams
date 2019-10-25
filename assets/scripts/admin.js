@@ -1,13 +1,15 @@
 jQuery(document).ready(function ($) {
 
-    var debug = true;
+    var debug = false;
     var cMax = 1;
 
     var queue = new Array();
+    var single_queue = new Array();
 
     var requests = new Array();
 
     var index = 0;
+    var single_index = 0;
 
     function _o(text) {
         $('#ePimResult').prepend(text + '<br>');
@@ -47,12 +49,13 @@ jQuery(document).ready(function ($) {
     var finished = false;
     var CatagoriesFinished = false;
     var ProductsFinished = false;
-    var ProductImagesImportedLinked = false;
+    var ProductImagesImported = false;
+    var ProductImagesLinked = false;
 
     function showObject(obj) {
         var result = "";
         for (var p in obj) {
-            if( obj.hasOwnProperty(p) ) {
+            if (obj.hasOwnProperty(p)) {
                 result += p + " , " + obj[p] + "\n";
             }
         }
@@ -61,11 +64,114 @@ jQuery(document).ready(function ($) {
 
     function showObjectjQuery(obj) {
         var result = "";
-        $.each(obj, function(k, v) {
+        $.each(obj, function (k, v) {
             result += k + " , " + v + "\n";
         });
         return result;
     }
+
+    var single_pictures_imported = false;
+
+    var single_execute_queue = function (single_index) {
+        var request = $.ajax({
+            data: single_queue[single_index],
+            type: "POST",
+            url: ajaxurl,
+            success: function (data) {
+                try {
+                    var r = decodeURIComponent(this.data);
+                    var ro = QueryStringToJSON('?' + r);
+                } catch (e) {
+                    _o('<span style="color: orange;">' + e.message + ' data: ' + this.data + '</span>');
+                    _o('<span style="color: orange;">data: ' + this.data + '</span>');
+                    var r = this.data;
+                    var ro = QueryStringToJSON('?' + r);
+                }
+                /*========================*/
+                try {
+                    _o('Request Completed: ' + r + ' Response: ' + data);
+                    var action = ro.action;
+                    var id = ro.ID;
+                    if (action == 'product_ID_code') {
+                        var apiID = data;
+                        _o('API Code = ' + apiID);
+                        if (apiID) {
+                            single_queue.push({action: 'get_product', ID: apiID});
+                        }
+                    }
+                    if (action == 'get_product') {
+                        _o('Product Data for: ' + apiID + ': ' + data);
+                        var product = $.parseJSON(data);
+                        _o('Name = ' + product.Name + ' | VariationIds = ' + product.VariationIds + ' | PictureIds = ' + product.PictureIds + ' | CategoryIds = ' + product.CategoryIds);
+                        $(product.VariationIds).each(function (index, variationID) {
+                           single_queue.push({
+                               action: 'create_product',
+                               productID: product.Id,
+                               variationID: variationID,
+                               bulletText: product.BulletText,
+                               productName: product.Name,
+                               categoryIDs: product.CategoryIds,
+                               pictureIDs: product.PictureIds
+                           });
+                        });
+                    }
+                    if(action=='create_product') {
+                        single_queue.push({action: 'get_single_product_images',ID: ro.productID});
+                        _o('<strong>Importing Product Images...</strong>')
+                    }
+                    if(action=='get_single_product_images') {
+                        if ($.trim(data)) {
+                            $imageIDs = '';
+                            $(data).each(function (index, productsImageID) {
+                                single_queue.push({action: 'get_picture_web_link', ID: productsImageID.id});
+                                $imageIDs += productsImageID.id + ', ';
+                            });
+                            _o($imageIDs)
+                        }
+                    }
+                    if(action=='get_picture_web_link') {
+                        if ($.trim(data)) {
+                            pictures = $.parseJSON(data);
+                            $(pictures).each(function (index, picture) {
+                                single_queue.push({action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
+                            })
+                        }
+                    }
+                } catch (e) {
+                    _o('<span style="color: red;">' + e.message + ' data: ' + this.data + '</span>');
+                    _o('<span style="color: red;">data: ' + this.data + '</span>');
+                }
+                /*=====================*/
+                single_index++;    // going to next queue entry
+                // check if it exists
+                if (single_queue[single_index] != undefined) {
+                    single_execute_queue(single_index);
+                } else {
+                    if(!single_pictures_imported) {
+                        single_pictures_imported = true;
+                        single_queue = [];
+                        single_index = 0;
+                        single_queue.push({action: 'product_image_link'});
+                        _o('<strong>Linking Product Images...</strong>');
+                        single_execute_queue(index);
+                    } else {
+                        _o('<strong>Product Updated</strong>');
+                    }
+
+
+                }
+            }
+        });
+    };
+
+    $('#UpdateCode').click(function () {
+        single_index = 0;
+        single_queue = [];
+        single_pictures_imported = false;
+        single_queue.push({action: 'product_ID_code', CODE: $('#pCode').val()});
+        single_execute_queue(single_index);
+    });
+
 
     var execute_queue = function (index) {
         var request = $.ajax({
@@ -73,59 +179,80 @@ jQuery(document).ready(function ($) {
             type: "POST",
             url: ajaxurl,
             success: function (data) {
-                var r = this.data;
-                var ro = QueryStringToJSON('?' + r);
-                _o('Request Completed: ' + r + ' Response: ' + data);
-                var action = ro.action;
-                var id = ro.ID;
-                if (action == 'create_category') {
-                    queue.push({action: 'get_category_images', ID: id});
-                }
-                if (action == 'get_category_images') {
-                    if ($.trim(data)) {
-                        pictures = $.parseJSON(data);
-                        $(pictures).each(function (index, picture) {
-                            queue.push({action: 'get_picture_web_link', ID: picture});
-                        })
-                    }
-                }
-                if (action == 'get_picture_web_link') {
-                    if ($.trim(data)) {
-                        pictures = $.parseJSON(data);
-                        $(pictures).each(function (index, picture) {
-                            queue.push({action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
-                        })
 
-                    }
+                try {
+                    var r = decodeURIComponent(this.data);
+                    var ro = QueryStringToJSON('?' + r);
+                } catch (e) {
+                    _o('<span style="color: orange;">' + e.message + ' data: ' + this.data + '</span>');
+                    _o('<span style="color: orange;">data: ' + this.data + '</span>');
+                    var r = this.data;
+                    var ro = QueryStringToJSON('?' + r);
                 }
-                if(action=='get_all_products') {
-                    if ($.trim(data)) {
-                        var products = $.parseJSON(data);
-                        var c = 0;
-                        $(products).each(function (index,product) {
-                            _o('Name = ' +product.Name + ' | VariationIds = ' + product.VariationIds + ' | PictureIds = ' + product.PictureIds + ' | CategoryIds = ' + product.CategoryIds);
-                            /*var v = product.VariationIds;
-                            var vs = v.split(',');*/
-                            $(product.VariationIds).each(function (index,variationID) {
-                                queue.push({action:'create_product',productID:product.Id,variationID:variationID,bulletText:product.BulletText,productName:product.Name,categoryIDs:product.CategoryIds,pictureIDs:product.PictureIds});
-                            });
-                            if(debug) {
-                                c++;
-                                if (c >= cMax) {
-                                    return false;
+
+                try {
+                    _o('Request Completed: ' + r + ' Response: ' + data);
+                    var action = ro.action;
+                    var id = ro.ID;
+                    if (action == 'create_category') {
+                        queue.push({action: 'get_category_images', ID: id});
+                    }
+                    if (action == 'get_category_images') {
+                        if ($.trim(data)) {
+                            pictures = $.parseJSON(data);
+                            $(pictures).each(function (index, picture) {
+                                queue.push({action: 'get_picture_web_link', ID: picture});
+                            })
+                        }
+                    }
+                    if (action == 'get_picture_web_link') {
+                        if ($.trim(data)) {
+                            pictures = $.parseJSON(data);
+                            $(pictures).each(function (index, picture) {
+                                queue.push({action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
+                            })
+
+                        }
+                    }
+                    if (action == 'get_all_products') {
+                        if ($.trim(data)) {
+                            var products = $.parseJSON(data);
+                            var c = 0;
+                            $(products).each(function (index, product) {
+                                _o('Name = ' + product.Name + ' | VariationIds = ' + product.VariationIds + ' | PictureIds = ' + product.PictureIds + ' | CategoryIds = ' + product.CategoryIds);
+                                /*var v = product.VariationIds;
+                                var vs = v.split(',');*/
+                                $(product.VariationIds).each(function (index, variationID) {
+                                    queue.push({
+                                        action: 'create_product',
+                                        productID: product.Id,
+                                        variationID: variationID,
+                                        bulletText: product.BulletText,
+                                        productName: product.Name,
+                                        categoryIDs: product.CategoryIds,
+                                        pictureIDs: product.PictureIds
+                                    });
+                                });
+                                if (debug) {
+                                    c++;
+                                    if (c >= cMax) {
+                                        return false;
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
-                }
-                if(action=='get_product_images') {
-                    if ($.trim(data)) {
-                        var productsImageIDs = $.parseJSON(data[0]);
-                        var c = 0;
-                        $(data).each(function (index, id) {
-                            _o(id);
-                        });
+                    if (action == 'get_product_images') {
+                        if ($.trim(data)) {
+
+                            $(data).each(function (index, productsImageID) {
+                                queue.push({action: 'get_picture_web_link', ID: productsImageID.id});
+                            });
+                        }
                     }
+                } catch (e) {
+                    _o('<span style="color: red;">' + e.message + ' data: ' + this.data + '</span>');
+                    _o('<span style="color: red;">data: ' + this.data + '</span>');
                 }
                 index++;    // going to next queue entry
                 // check if it exists
@@ -141,7 +268,7 @@ jQuery(document).ready(function ($) {
                         queue.push({action: 'cat_image_link'});
                         execute_queue(index);
                     } else {
-                        if(!ProductsFinished) {
+                        if (!ProductsFinished) {
                             ProductsFinished = true;
                             queue = [];
                             requests = [];
@@ -150,8 +277,8 @@ jQuery(document).ready(function ($) {
                             _o('<strong>Fetching all products from ePim - please be patient...</strong>')
                             execute_queue(index);
                         } else {
-                            if(!ProductImagesImportedLinked) {
-                                ProductImagesImportedLinked = true;
+                            if (!ProductImagesImported) {
+                                ProductImagesImported = true;
                                 queue = [];
                                 requests = [];
                                 index = 0;
@@ -159,13 +286,25 @@ jQuery(document).ready(function ($) {
                                 _o('<strong>Importing Product Images...</strong>')
                                 execute_queue(index);
                             } else {
-                                finished = true;
-                                _o('<strong>Queue Processed - Create and Update Finished OK :)</strong>');
+                                if (!ProductImagesLinked) {
+                                    ProductImagesLinked = true;
+                                    queue = [];
+                                    requests = [];
+                                    index = 0;
+                                    queue.push({action: 'product_image_link'});
+                                    _o('<strong>Linking Product Images...</strong>');
+                                    execute_queue(index);
+                                } else {
+                                    finished = true;
+                                    _o('<strong>Queue Processed - Create and Update Finished OK :)</strong>');
+                                }
                             }
 
                         }
                     }
                 }
+
+
             }
 
 
@@ -188,98 +327,22 @@ jQuery(document).ready(function ($) {
             var c = 0;
             $(categories).each(function (index, record) {
                 queue.push({action: 'create_category', ID: record.Id, name: record.Name, ParentID: record.ParentId, picture_ids: record.PictureIds});
-                if(debug) {
+                if (debug) {
                     c++;
                     if (c >= cMax) {
                         return false;
                     }
                 }
             });
-            /*_o('Processing Queue');*/
+
             execute_queue(index);
         });
         requests.push(thisRequest);
 
-        /*queue.push({action:'sort_categories'});
-        queue.push({action:'cat_image_link'});
-        queue.push({action:'cat_image_link'});
-        execute_queue(index);*/
 
     });
 
-    //execute_queue(index); // go!
 
-    /* var categoryPictures = new Array();
-     var requests = new Array();
-
-     function resetRequests() {
-         $('#ePimResult').empty();
-         categoryPictures = [];
-         var numRequests = requests.length;
-         for (var i = 0; i < numRequests; i++) {
-             requests[i].abort();
-         }
-     }
-
-     function _o(text) {
-         $('#ePimResult').append(text);
-     }
-
-     function getPicture(picture) {
-         _o('Getting Picture ' + picture + '<br>');
-
-         t0 = performance.now();
-         var theRequest = $.ajax({
-             type: "POST",
-             url: ajaxurl,
-             data: {action: 'get_picture', ID: picture}
-         }).done(function (data) {
-             //var parsedData = $.parseJSON(data);
-             t1 = performance.now();
-             var p = (t1 - t0) / 1000;
-
-             _o('<p>====================== Picture Data Received (request took ' + p.toFixed(2) + ' seconds) ====================</p>');
-             _o('<pre>' + data + '</pre>');
-         });
-         requests.push(theRequest);
-     }
-
-     function checkCategories(categories) {
-         $(categories).each(function (index, record) {
-             _o('<p>Checking Category ' + record.Id + ' (' + record.Name + ')</p>');
-             _o('ParentId = ' + record.ParentId + '<br>');
-             var pictures = record.PictureIds;
-             $(pictures).each(function (index, picture) {
-                 setTimeout(100, function () {
-                     getPicture(picture);
-                 })
-             });
-         });
-     }
-
-     $('#CreateCategories').click(function () {
-         resetRequests();
-         _o('<strong>Requesting Category Update from ePim...</strong><br>');
-         var categories;
-         var t0 = performance.now();
-         var thisRequest = $.ajax({
-             type: "POST",
-             url: ajaxurl,
-             data: {action: 'get_all_categories'}
-         }).done(function (data) {
-             categories = $.parseJSON(data);
-             var t1 = performance.now();
-             var p = (t1 - t0) / 1000;
-             _o('<p>Data received (request took ' + p.toFixed(2) + ' seconds):</p>');
-             _o('<pre>' + data + '</pre>');
-             _o('<strong>Processing ePim Data...</strong><br>');
-             setTimeout(100, function () {
-                 checkCategories(categories);
-             });
-
-         });
-         requests.push(thisRequest);
-     });*/
 
 })
 ;
