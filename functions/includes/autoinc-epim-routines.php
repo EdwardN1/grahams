@@ -20,10 +20,39 @@ add_action( 'wp_ajax_import_picture', 'ajax_import_picture' );
 add_action( 'wp_ajax_sort_categories', 'ajax_sort_categories' );
 add_action( 'wp_ajax_cat_image_link', 'ajax_cat_image_link' );
 add_action( 'wp_ajax_product_image_link', 'ajax_product_image_link' );
+add_action( 'wp_ajax_product_group_image_link', 'ajax_product_group_image_link' );
 add_action( 'wp_ajax_create_product', 'ajax_create_product' );
 add_action( 'wp_ajax_get_product_images', 'ajax_get_product_images' );
 add_action( 'wp_ajax_product_ID_code', 'ajax_product_ID_from_code' );
 add_action( 'wp_ajax_get_single_product_images', 'ajax_get_single_product_images' );
+add_action( 'wp_ajax_import_single_product_images', 'ajax_import_single_product_images' );
+add_action( 'wp_ajax_image_imported', 'ajax_image_imported' );
+
+function ajax_image_imported() {
+    if ( ! empty( $_POST['ID'] ) ) {
+        if(imageImported($_POST['ID'])) {
+            echo 'Image Imported';
+        } else {
+            echo 'Image not Imported';
+        }
+    }
+    exit;
+}
+
+function ajax_import_single_product_images() {
+    if ( ! empty( $_POST['productID'] ) ) {
+        if ( ! empty( $_POST['variationID'] ) ) {
+            $response = importSingleProductImages($_POST['productID'], $_POST['variationID']);
+            echo $response;
+        } else {
+            echo 'error no variationID supplied';
+        }
+    } else {
+        echo 'error no productID supplied';
+    }
+    exit;
+}
+
 
 function ajax_get_single_product_images() {
     if ( ! empty( $_POST['ID'] ) ) {
@@ -102,9 +131,17 @@ function ajax_cat_image_link() {
 }
 
 function ajax_product_image_link() {
-    linkProductImages();
-    linkVariationImages();
-    echo 'Product Images Linked';
+    echo linkProductImages();
+    //linkVariationImages();
+    //echo 'Product Images Linked';
+    exit;
+}
+
+function ajax_product_group_image_link() {
+    if ( ! empty( $_POST['productID'] ) ) {
+        echo linkProductGroupImages($_POST['productID']);
+    }
+
     exit;
 }
 

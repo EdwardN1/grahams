@@ -1,7 +1,7 @@
 function QueryStringToJSON(qs) {
-    var pairs = qs.slice(1).split('&');
+    let pairs = qs.slice(1).split('&');
 
-    var result = {};
+    let result = {};
     pairs.forEach(function (pair) {
         pair = pair.split('=');
         result[pair[0]] = decodeURIComponent(pair[1] || '');
@@ -26,6 +26,12 @@ class ts_execute_queue {
         //_queue.
     }
 
+    reset() {
+        this._queue = [];
+        this._index = 0;
+        this._finished = false;
+    }
+
     get finished() {
         return this._finished;
     }
@@ -46,11 +52,12 @@ class ts_execute_queue {
                     var r = this.data;
                     var ro = QueryStringToJSON('?' + r);
                 }
-                var action = ro.action;
+                let action = ro.action;
                 obj._processEvent(action,r,data);
                 obj._index++;
                 if(obj._queue[obj._index] !== undefined) {
                     obj.process();
+                    //window.console.log('Processing');
                 } else {
                     obj._finished = true;
                     obj._queue = [];

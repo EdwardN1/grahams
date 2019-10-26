@@ -338,6 +338,7 @@ function create_product($productID, $variationID, $productBulletText, $productNa
                 update_field('code', $variation->SKU, $newPost);
                 update_field('product_group', $productName, $newPost);
                 update_field('price', $variation->Qty_Price_1, $newPost);
+                update_field('summary', $variation->Table_Heading, $newPost);
                 if ($pictureEx) {
                     foreach ($pictureEx as $pictureId) {
                         $jsonPicture = get_api_picture($pictureId);
@@ -426,6 +427,7 @@ function create_product($productID, $variationID, $productBulletText, $productNa
                 update_field('code', $variation->SKU, $newPost);
                 update_field('product_group', $productName, $newPost);
                 update_field('price', $variation->Qty_Price_1, $newPost);
+                update_field('summary', $variation->Table_Heading, $newPost);
                 if ($pictureEx) {
                     foreach ($pictureEx as $pictureId) {
                         $jsonPicture = get_api_picture($pictureId);
@@ -543,6 +545,7 @@ function create_products()
                             update_field('code', $variation->SKU, $newPost);
                             update_field('product_group', $product->Name, $newPost);
                             update_field('price', $variation->Qty_Price_1, $newPost);
+                            update_field('summary', $variation->Table_Heading, $newPost);
                             foreach ($product->PictureIds as $pictureId) {
                                 $jsonPicture = get_api_picture($pictureId);
                                 $picture = json_decode($jsonPicture);
@@ -628,6 +631,7 @@ function create_products()
                             update_field('code', $variation->SKU, $newPost);
                             update_field('product_group', $product->Name, $newPost);
                             update_field('price', $variation->Qty_Price_1, $newPost);
+                            update_field('summary', $variation->Table_Heading, $newPost);
                             foreach ($product->PictureIds as $pictureId) {
                                 $jsonPicture = get_api_picture($pictureId);
                                 $picture = json_decode($jsonPicture);
@@ -751,6 +755,85 @@ function imageIDfromAPIID($id)
     return $res;
 }
 
+function importSingleProductImages($productID, $variationID) {
+    $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
+    $res = 'Product Not Found';
+    while ($loop->have_posts()) : $loop->the_post();
+        $api_id = get_field( 'api_id' );
+        $variation_id = get_field( 'variation_id' );
+        if(($productID==$api_id)&&($variationID == $variation_id)) {
+            $res = 'No Images Found For Product';
+            if (have_rows('product_images')):
+                while (have_rows('product_images')): the_row();
+                    $api_link = get_sub_field('api_link');
+                    $api_image_id = get_sub_field('api_image_id');
+                    if (!imageImported($api_image_id)) {
+                        $uploaddir = wp_upload_dir();
+                        $filename = $api_image_id . '-' . uniqid() . '.jpg';
+                        $uploadfile = $uploaddir['path'] . '/' . $filename;
+                        $contents = file_get_contents($api_link);
+                        if ($contents) {
+                            $savefile = fopen($uploadfile, 'w');
+                            fwrite($savefile, $contents);
+                            fclose($savefile);
+                            $wp_filetype = wp_check_filetype(basename($filename), null);
+                            $attachment = array(
+                                'post_mime_type' => $wp_filetype['type'],
+                                'post_title' => $filename,
+                                'post_content' => '',
+                                'post_status' => 'inherit'
+                            );
+                            $attach_id = wp_insert_attachment($attachment, $uploadfile);
+                            $imagenew = get_post($attach_id);
+                            $fullsizepath = get_attached_file($imagenew->ID);
+                            $attach_data = wp_generate_attachment_metadata($attach_id, $fullsizepath);
+                            wp_update_attachment_metadata($attach_id, $attach_data);
+                            update_field('api_id', $api_image_id, $attach_id);
+                        }
+                        $res = 'Product Images Imported';
+                    } else {
+                        $res = 'Product Images Already Imported';
+                    }
+                endwhile;
+            endif;
+            if (have_rows('variation_images')):
+                while (have_rows('variation_images')): the_row();
+                    $api_link = get_sub_field('api_link');
+                    $api_image_id = get_sub_field('api_image_id');
+                    if (!imageImported($api_image_id)) {
+                        $uploaddir = wp_upload_dir();
+                        $filename = $api_image_id . '-' . uniqid() . '.jpg';
+                        $uploadfile = $uploaddir['path'] . '/' . $filename;
+                        $contents = file_get_contents($api_link);
+                        if ($contents) {
+                            $savefile = fopen($uploadfile, 'w');
+                            fwrite($savefile, $contents);
+                            fclose($savefile);
+                            $wp_filetype = wp_check_filetype(basename($filename), null);
+                            $attachment = array(
+                                'post_mime_type' => $wp_filetype['type'],
+                                'post_title' => $filename,
+                                'post_content' => '',
+                                'post_status' => 'inherit'
+                            );
+                            $attach_id = wp_insert_attachment($attachment, $uploadfile);
+                            $imagenew = get_post($attach_id);
+                            $fullsizepath = get_attached_file($imagenew->ID);
+                            $attach_data = wp_generate_attachment_metadata($attach_id, $fullsizepath);
+                            wp_update_attachment_metadata($attach_id, $attach_data);
+                            update_field('api_id', $api_image_id, $attach_id);
+                        }
+                        $res = 'Product Images Imported';
+                    } else {
+                        $res = 'Product Images Already Imported';
+                    }
+                endwhile;
+            endif;
+        }
+    endwhile;
+    wp_reset_postdata();
+    return $res;
+}
 
 function importProductImages()
 {
@@ -1028,6 +1111,52 @@ function linkCategoryImages()
     }
 }
 
+function linkProductGroupImages($id) {
+    $res = '';
+    $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
+    if ($loop->have_posts()):
+        while ($loop->have_posts()) : $loop->the_post();
+            $api_id = get_field( 'api_id' );
+            if($api_id==$id) {
+                $res .= 'Checking Product: ' . get_the_title() . '</br>';
+                $postID = get_the_ID();
+                if (have_rows('variation_images', $postID)):
+                    $res .= '<br><span style="color: green;">Found Variation Images to Check</span></br>';
+                    while (have_rows('variation_images', $postID)): the_row();
+                        $api_id = get_sub_field('api_image_id');
+                        $res .= 'Looking for Image: ' . $api_id . '</br>';
+                        $attachmentID = imageIDfromAPIID($api_id);
+                        $res .= 'AttachmentID for ' . $api_id . ' = ' . $attachmentID . '</br>';
+                        if ($attachmentID) {
+                            update_sub_field('image', $attachmentID);
+                        } else {
+                            $res .= 'Image ID ' . $api_id . ' not found in media library</br>';
+                        }
+                    endwhile;
+                endif;
+                if (have_rows('product_images', $postID)):
+                    $res .= '<br><span style="color: green;">Found Variation Images to Check</span></br>';
+                    while (have_rows('product_images', $postID)): the_row();
+                        $api_id = get_sub_field('api_image_id');
+                        $res .= 'Looking for Image: ' . $api_id . '</br>';
+                        $attachmentID = imageIDfromAPIID($api_id);
+                        $res .= 'AttachmentID for ' . $api_id . ' = ' . $attachmentID . '</br>';
+                        if ($attachmentID) {
+                            update_sub_field('image', $attachmentID);
+                        } else {
+                            $res .= 'Image ID ' . $api_id . ' not found in media library</br>';
+                        }
+                    endwhile;
+                endif;
+                $res .= '<hr>';
+            }
+        endwhile;
+    endif;
+    wp_reset_postdata();
+
+    return $res;
+}
+
 function linkProductImages()
 {
     $res = '';
@@ -1039,6 +1168,20 @@ function linkProductImages()
             if (have_rows('variation_images', $postID)):
                 $res .= '<br><span style="color: green;">Found Variation Images to Check</span></br>';
                 while (have_rows('variation_images', $postID)): the_row();
+                    $api_id = get_sub_field('api_image_id');
+                    $res .= 'Looking for Image: ' . $api_id . '</br>';
+                    $attachmentID = imageIDfromAPIID($api_id);
+                    $res .= 'AttachmentID for ' . $api_id . ' = ' . $attachmentID . '</br>';
+                    if ($attachmentID) {
+                        update_sub_field('image', $attachmentID);
+                    } else {
+                        $res .= 'Image ID ' . $api_id . ' not found in media library</br>';
+                    }
+                endwhile;
+            endif;
+            if (have_rows('product_images', $postID)):
+                $res .= '<br><span style="color: green;">Found Variation Images to Check</span></br>';
+                while (have_rows('product_images', $postID)): the_row();
                     $api_id = get_sub_field('api_image_id');
                     $res .= 'Looking for Image: ' . $api_id . '</br>';
                     $attachmentID = imageIDfromAPIID($api_id);
