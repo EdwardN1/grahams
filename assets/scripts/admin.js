@@ -117,11 +117,12 @@ jQuery(document).ready(function ($) {
                     }
                     if(action=='create_product') {
                         single_queue.push({action: 'get_single_product_images',ID: ro.productID});
-                        _o('<strong>Importing Product Images...</strong>')
+                        //_o('<strong>Importing Product Images...</strong>')
                     }
                     if(action=='get_single_product_images') {
                         if ($.trim(data)) {
                             $imageIDs = '';
+                            _o('<strong>Importing Product Images...</strong>')
                             $(data).each(function (index, productsImageID) {
                                 single_queue.push({action: 'get_picture_web_link', ID: productsImageID.id});
                                 $imageIDs += productsImageID.id + ', ';
@@ -153,7 +154,7 @@ jQuery(document).ready(function ($) {
                         single_index = 0;
                         single_queue.push({action: 'product_image_link'});
                         _o('<strong>Linking Product Images...</strong>');
-                        single_execute_queue(index);
+                        single_execute_queue(single_index);
                     } else {
                         _o('<strong>Product Updated</strong>');
                     }
@@ -283,7 +284,7 @@ jQuery(document).ready(function ($) {
                                 requests = [];
                                 index = 0;
                                 queue.push({action: 'get_product_images'});
-                                _o('<strong>Importing Product Images...</strong>')
+                                //_o('<strong>Importing Product Images...</strong>')
                                 execute_queue(index);
                             } else {
                                 if (!ProductImagesLinked) {
@@ -342,7 +343,9 @@ jQuery(document).ready(function ($) {
 
     });
 
-
+    $('.custom_date').datepicker({
+        dateFormat : 'yy-mm-dd'
+    });
 
 })
 ;
