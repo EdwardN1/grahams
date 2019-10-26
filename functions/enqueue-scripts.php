@@ -24,5 +24,5 @@ function admin_enqueue($hook) {
 	wp_register_style('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
 	wp_enqueue_style('jquery-ui');
 	wp_enqueue_script('process_queue_script', get_template_directory_uri() . '/assets/scripts/processQueue.js');
-    wp_enqueue_script('my_custom_script', get_template_directory_uri() . '/assets/scripts/admin.js');
+    wp_enqueue_script('my_custom_script', get_template_directory_uri() . '/assets/scripts/admin.js','process_queue_script');
 }

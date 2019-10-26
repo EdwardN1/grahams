@@ -19,7 +19,7 @@ jQuery(document).ready(function ($) {
         $('#ePimResult').prepend(text);
     }
 
-    function QueryStringToJSON(qs) {
+    /*function QueryStringToJSON(qs) {
         var pairs = qs.slice(1).split('&');
 
         var result = {};
@@ -29,7 +29,7 @@ jQuery(document).ready(function ($) {
         });
 
         return JSON.parse(JSON.stringify(result));
-    }
+    }*/
 
 
     function resetQueue() {
@@ -71,6 +71,25 @@ jQuery(document).ready(function ($) {
     }
 
     var single_pictures_imported = false;
+
+    var oneProductQueue = new ts_execute_queue('#ePimResult',function () {
+
+    },function (action,request,data) {
+        _o('Action = ' + action);
+        _o('Request = ' + request);
+        _o('Data = ' + data);
+    });
+
+    $('#UpdateCode').click(function () {
+        /*single_index = 0;
+        single_queue = [];
+        single_pictures_imported = false;
+        single_queue.push({action: 'product_ID_code', CODE: $('#pCode').val()});
+        single_execute_queue(single_index);*/
+        oneProductQueue.queue(ajaxurl,{action: 'product_ID_code', CODE: $('#pCode').val()});
+        oneProductQueue.process();
+    });
+
 
     var single_execute_queue = function (single_index) {
         var request = $.ajax({
@@ -165,13 +184,6 @@ jQuery(document).ready(function ($) {
         });
     };
 
-    $('#UpdateCode').click(function () {
-        single_index = 0;
-        single_queue = [];
-        single_pictures_imported = false;
-        single_queue.push({action: 'product_ID_code', CODE: $('#pCode').val()});
-        single_execute_queue(single_index);
-    });
 
 
     var execute_queue = function (index) {
