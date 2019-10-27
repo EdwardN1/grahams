@@ -21,16 +21,55 @@ function displayJSON($apiCall)
 
 function make_api_call($url)
 {
-    $opts = array(
-        'http' => array(
-            'method' => "GET",
-            'header' => "Ocp-Apim-Subscription-Key: e57667e8bffa4384a6ce53f80521677a"
-        )
-    );
-    $context = stream_context_create($opts);
-    $apiCall = file_get_contents($url, false, $context);
+    $method = get_field('api_retrieval','options');
+	if($method=='cUrl') {
+		$ch = curl_init();
 
-    return $apiCall;
+		curl_setopt($ch, CURLOPT_URL,$url);
+
+		/*$proxy = 'https://proxy.sgti.lbn.fr:4480';
+		curl_setopt($ch, CURLOPT_PROXY, $proxy);*/
+
+		$headers = array();
+		$headers[] = "Ocp-Apim-Subscription-Key: e57667e8bffa4384a6ce53f80521677a";
+
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		$apiCall = curl_exec ($ch);
+
+		curl_close ($ch);
+
+		return $apiCall;
+	} else {
+		$opts = array(
+			'http' => array(
+				'method' => "GET",
+				'header' => "Ocp-Apim-Subscription-Key: e57667e8bffa4384a6ce53f80521677a"
+			)
+		);
+		$context = stream_context_create($opts);
+		$apiCall = file_get_contents($url, false, $context);
+
+		return $apiCall;
+	}
+
+}
+
+function get_image_file($url) {
+	$method = get_field('api_retrieval','options');
+	if($method=='cUrl') {
+		$ch = curl_init ($url);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_BINARYTRANSFER,true);
+		$apiCall=curl_exec($ch);
+		curl_close ($ch);
+		return $apiCall;
+	} else {
+		return file_get_contents($url);
+	}
 }
 
 function get_api_updates_since($datetime = '2002-10-02T10:00:00-00:00')
@@ -404,7 +443,9 @@ function create_product($productID, $variationID, $productBulletText, $productNa
                 $attributeText = '';
                 foreach ($variation->AttributeValues as $attribute_value) {
                     $aName = getAttributeNameFromID($attribute_value->AttributeId, $attributes);
-                    $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+                    if($aName!='0 ( )') {
+	                    $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+                    }
                 }
                 update_field('specifications', $attributeText, $newPost);
             }
@@ -493,7 +534,9 @@ function create_product($productID, $variationID, $productBulletText, $productNa
                 $attributeText = '';
                 foreach ($variation->AttributeValues as $attribute_value) {
                     $aName = getAttributeNameFromID($attribute_value->AttributeId, $attributes);
-                    $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+	                if($aName!='0 ( )') {
+		                $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+	                }
                 }
                 update_field('specifications', $attributeText, $newPost);
             }
@@ -609,7 +652,9 @@ function create_products()
                             $attributeText = '';
                             foreach ($variation->AttributeValues as $attribute_value) {
                                 $aName = getAttributeNameFromID($attribute_value->AttributeId, $attributes);
-                                $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+	                            if($aName!='0 ( )') {
+		                            $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+	                            }
                             }
                             update_field('specifications', $attributeText, $newPost);
                         }
@@ -695,7 +740,9 @@ function create_products()
                             $attributeText = '';
                             foreach ($variation->AttributeValues as $attribute_value) {
                                 $aName = getAttributeNameFromID($attribute_value->AttributeId, $attributes);
-                                $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+	                            if($aName!='0 ( )') {
+		                            $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+	                            }
                             }
                             update_field('specifications', $attributeText, $newPost);
                         }
@@ -771,7 +818,7 @@ function importSingleProductImages($productID, $variationID) {
                         $uploaddir = wp_upload_dir();
                         $filename = $api_image_id . '-' . uniqid() . '.jpg';
                         $uploadfile = $uploaddir['path'] . '/' . $filename;
-                        $contents = file_get_contents($api_link);
+                        $contents = get_image_file($api_link);
                         if ($contents) {
                             $savefile = fopen($uploadfile, 'w');
                             fwrite($savefile, $contents);
@@ -804,7 +851,7 @@ function importSingleProductImages($productID, $variationID) {
                         $uploaddir = wp_upload_dir();
                         $filename = $api_image_id . '-' . uniqid() . '.jpg';
                         $uploadfile = $uploaddir['path'] . '/' . $filename;
-                        $contents = file_get_contents($api_link);
+                        $contents = get_image_file($api_link);
                         if ($contents) {
                             $savefile = fopen($uploadfile, 'w');
                             fwrite($savefile, $contents);
@@ -847,7 +894,7 @@ function importProductImages()
                     $uploaddir = wp_upload_dir();
                     $filename = $api_image_id . '-' . uniqid() . '.jpg';
                     $uploadfile = $uploaddir['path'] . '/' . $filename;
-                    $contents = file_get_contents($api_link);
+                    $contents = get_image_file($api_link);
                     if ($contents) {
                         $savefile = fopen($uploadfile, 'w');
                         fwrite($savefile, $contents);
@@ -885,7 +932,7 @@ function importVariationImages()
                     $uploaddir = wp_upload_dir();
                     $filename = $api_image_id . '-' . uniqid() . '.jpg';
                     $uploadfile = $uploaddir['path'] . '/' . $filename;
-                    $contents = file_get_contents($api_link);
+                    $contents = get_image_file($api_link);
                     if ($contents) {
                         $savefile = fopen($uploadfile, 'w');
                         fwrite($savefile, $contents);
@@ -927,7 +974,7 @@ function importCategoryImages()
                 $uploaddir = wp_upload_dir();
                 $filename = $api_image_id . '-' . uniqid() . '.jpg';
                 $uploadfile = $uploaddir['path'] . '/' . $filename;
-                $contents = file_get_contents($api_link);
+                $contents = get_image_file($api_link);
                 if ($contents) {
                     $savefile = fopen($uploadfile, 'w');
                     fwrite($savefile, $contents);
@@ -968,7 +1015,7 @@ function importPicture($id, $webpath)
         $uploaddir = wp_upload_dir();
         $filename = $id . '-' . uniqid() . '.jpg';
         $uploadfile = $uploaddir['path'] . '/' . $filename;
-        $contents = file_get_contents($webpath);
+        $contents = get_image_file($webpath);
         if ($contents) {
             $savefile = fopen($uploadfile, 'w');
             fwrite($savefile, $contents);
