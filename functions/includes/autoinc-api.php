@@ -72,7 +72,7 @@ function get_image_file($url) {
 	}
 }
 
-function get_api_updates_since($datetime = '2002-10-02T10:00:00-00:00')
+function get_api_all_changed_products_since($datetime = '2002-10-02T10:00:00-00:00')
 {
     return make_api_call('https://epim.azure-api.net/Grahams/api/ProductsUpdatedSince?ChangedSinceUTC=' . $datetime);
 }

@@ -9,6 +9,7 @@
 add_action( 'wp_ajax_get_all_categories', 'ajax_get_api_all_categories' );
 add_action( 'wp_ajax_get_all_attributes', 'ajax_get_api_all_attributes' );
 add_action( 'wp_ajax_get_all_products', 'ajax_get_api_all_products' );
+add_action( 'wp_ajax_get_all_changed_products_since', 'ajax_get_api_all_changed_products_since' );
 add_action( 'wp_ajax_get_product', 'ajax_get_api_product' );
 add_action( 'wp_ajax_get_category', 'ajax_get_api_category' );
 add_action( 'wp_ajax_get_picture', 'ajax_get_api_picture' );
@@ -192,6 +193,16 @@ function ajax_get_api_all_products() {
 	//header( "Content-Type: application/json" );
 	echo json_encode( $response->Results );
 	exit;
+}
+
+function ajax_get_api_all_changed_products_since() {
+    if ( ! empty( $_POST['timeCode'] ) ) {
+        $jsonResponse = get_api_all_changed_products_since($_POST['timeCode'] );
+        $response = json_decode($jsonResponse);
+        //header( "Content-Type: application/json" );
+        echo json_encode($response->Results);
+    }
+    exit;
 }
 
 

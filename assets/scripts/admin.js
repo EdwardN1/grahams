@@ -11,6 +11,30 @@ jQuery(document).ready(function ($) {
         $('#ePimResult').prepend(text);
     }
 
+    function localAsUtc(date) {
+        if (isNotValidDate(date)) {
+            return null;
+        }
+
+        return new Date(Date.UTC(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds(),
+            date.getMilliseconds()
+        ));
+    }
+
+    function isValidDate (date) {
+        return !isNotValidDate(date);
+    }
+
+    function isNotValidDate(date) {
+        return date == null || isNaN(date.getTime());
+    }
+
     /*var requestQueue = new ts_execute_queue('#ePimResult', function () {
         _o(Finished);
     }, function (action, request, data) {
@@ -199,10 +223,22 @@ jQuery(document).ready(function ($) {
         }
     });
 
+
+
     $('#CreateCategories').click(function () {
         updateAllQueue.reset();
         updateAllQueue.queue(ajaxurl,{action: 'get_all_categories'})
         updateAllQueue.process();
+    });
+
+    $('#UpdateSince').click(function () {
+        updateProductsSinceQueue.reset();
+        var dpDate = $('.custom_date').datepicker('getDate');
+        var dateUtc = localAsUtc(dpDate);
+        var iso = dateUtc.toISOString(); // returns "2016-12-06T00:00:00.000Z"
+        alert(iso);
+        //updateProductsSinceQueue.queue(ajaxurl,{action: 'get_all_categories'})
+        //updateProductsSinceQueue.process();
     });
 
     $('#CreateCategoriesx').click(function () {

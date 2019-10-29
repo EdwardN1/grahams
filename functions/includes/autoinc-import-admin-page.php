@@ -12,7 +12,7 @@ function epim_admin_page()
 
     <div class="wrap">
         <h2>ePim Management</h2>
-        <p>
+        <!--<p>
             <strong>Make Ajax Request</strong>
         </p>
         <p>
@@ -20,7 +20,7 @@ function epim_admin_page()
         </p>
         <p>
             <button id="btnReqest" class="button">Request</button>
-        </p>
+        </p>-->
         <p>
             <strong>Update by product code(SKU):</strong>
         </p>
