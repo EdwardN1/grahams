@@ -35,20 +35,6 @@ jQuery(document).ready(function ($) {
         return date == null || isNaN(date.getTime());
     }
 
-    /*var requestQueue = new ts_execute_queue('#ePimResult', function () {
-        _o(Finished);
-    }, function (action, request, data) {
-        _o('Action Comleted = ' + action);
-        _o('Request = ' + request);
-        _o('<br>Data = ' + data);
-    });*/
-
-    /*$('#btnReqest').click(function () {
-        requestQueue.reset()
-        requestQueue.queue(ajaxurl,{action: 'image_imported', ID: 50983});
-        requestQueue.process();
-    });*/
-
     var oneProductQueue = new ts_execute_queue('#ePimResult', function () {
 
         var oneProductLinkImages = new ts_execute_queue('#ePimResult',function() {
@@ -98,82 +84,85 @@ jQuery(document).ready(function ($) {
         oneProductQueue.process();
     });
 
+    var linkProductImages = new ts_execute_queue('#ePimResult', function () {
+        _o('<strong>All Finished</strong>');
+    },function (action,request,data ) {
+        _o('Action Completed: ' + action);
+        _o('Request: ' + request);
+        _o('<br>Data: ' + data);
+    });
+
+    var processProductImages = new ts_execute_queue('#ePimResult', function(){
+        _o('Checking and linking product image data - this may take a while.....')
+        linkProductImages.reset()
+        linkProductImages.queue(ajaxurl,{action: 'product_image_link'});
+        linkProductImages.process();
+    }, function (action, request, data) {
+        _o('Action Completed: ' + action);
+        _o('Request: ' + request);
+        _o('<br>Data: ' + data);
+        if(action=='get_product_images') {
+            if ($.trim(data)) {
+                $(data).each(function (index, productsImageID) {
+                    processProductImages.queue(ajaxurl,{action: 'get_picture_web_link', ID: productsImageID.id});
+                });
+            }
+        }
+        if (action == 'get_picture_web_link') {
+            if ($.trim(data)) {
+                pictures = $.parseJSON(data);
+                obj = this;
+                $(pictures).each(function (index, picture) {
+                    obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
+                })
+            }
+        }
+    });
+
+    var updateAllProducts = new ts_execute_queue('#ePimResult', function () {
+        processProductImages.reset();
+        processProductImages.queue(ajaxurl,{action: 'get_product_images'});
+        processProductImages.process();
+    }, function (action, request, data) {
+        _o('Action Completed: ' + action);
+        _o('Request: ' + request);
+        _o('<br>Data: ' + data);
+        if(action=='sort_categories') {
+            updateAllProducts.queue(ajaxurl,{action: 'cat_image_link'});
+        }
+        if(action=='cat_image_link') {
+            updateAllProducts.queue(ajaxurl,{action: 'get_all_products'});
+        }
+        if(action=='get_all_products') {
+            if ($.trim(data)) {
+                var products = $.parseJSON(data);
+                var c = 0;
+                $(products).each(function (index, product) {
+                    $(product.VariationIds).each(function (index, variationID) {
+                        updateAllProducts.queue(ajaxurl,{
+                            action: 'create_product',
+                            productID: product.Id,
+                            variationID: variationID,
+                            bulletText: product.BulletText,
+                            productName: product.Name,
+                            categoryIDs: product.CategoryIds,
+                            pictureIDs: product.PictureIds
+                        });
+                    });
+                    if (debug) {
+                        c++;
+                        if (c >= cMax) {
+                            return false;
+                        }
+                    }
+                });
+            }
+            //updateAllProducts.queue(ajaxurl,{action: 'get_all_products'});
+        }
+    });
+
     var updateAllQueue = new ts_execute_queue('#ePimResult', function () {
         _o('Category Data Imported');
-        var updateAllProducts = new ts_execute_queue('#ePimResult', function () {
-            var processProductImages = new ts_execute_queue('#ePimResult', function(){
-                var linkProductImages = new ts_execute_queue('#ePimResult', function () {
-                    _o('<strong>All Finished</strong>');
-                },function (action,request,data ) {
-                    _o('Action Completed: ' + action);
-                    _o('Request: ' + request);
-                    _o('<br>Data: ' + data);
-                });
-                _o('Checking and linking product image data - this may take a while.....')
-                linkProductImages.reset()
-                linkProductImages.queue(ajaxurl,{action: 'product_image_link'});
-                linkProductImages.process();
-            }, function (action, request, data) {
-                _o('Action Completed: ' + action);
-                _o('Request: ' + request);
-                _o('<br>Data: ' + data);
-                if(action=='get_product_images') {
-                    if ($.trim(data)) {
-                        $(data).each(function (index, productsImageID) {
-                            processProductImages.queue(ajaxurl,{action: 'get_picture_web_link', ID: productsImageID.id});
-                        });
-                    }
-                }
-                if (action == 'get_picture_web_link') {
-                    if ($.trim(data)) {
-                        pictures = $.parseJSON(data);
-                        obj = this;
-                        $(pictures).each(function (index, picture) {
-                            obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
-                        })
-                    }
-                }
-            });
-            processProductImages.reset();
-            processProductImages.queue(ajaxurl,{action: 'get_product_images'});
-            processProductImages.process();
-        }, function (action, request, data) {
-            _o('Action Completed: ' + action);
-            _o('Request: ' + request);
-            _o('<br>Data: ' + data);
-            if(action=='sort_categories') {
-                updateAllProducts.queue(ajaxurl,{action: 'cat_image_link'});
-            }
-            if(action=='cat_image_link') {
-                updateAllProducts.queue(ajaxurl,{action: 'get_all_products'});
-            }
-            if(action=='get_all_products') {
-                if ($.trim(data)) {
-                    var products = $.parseJSON(data);
-                    var c = 0;
-                    $(products).each(function (index, product) {
-                        $(product.VariationIds).each(function (index, variationID) {
-                            updateAllProducts.queue(ajaxurl,{
-                                action: 'create_product',
-                                productID: product.Id,
-                                variationID: variationID,
-                                bulletText: product.BulletText,
-                                productName: product.Name,
-                                categoryIDs: product.CategoryIds,
-                                pictureIDs: product.PictureIds
-                            });
-                        });
-                        if (debug) {
-                            c++;
-                            if (c >= cMax) {
-                                return false;
-                            }
-                        }
-                    });
-                }
-                //updateAllProducts.queue(ajaxurl,{action: 'get_all_products'});
-            }
-        });
         updateAllProducts.reset();
         updateAllProducts.queue(ajaxurl,{action: 'sort_categories'});
         updateAllProducts.process();
@@ -241,7 +230,7 @@ jQuery(document).ready(function ($) {
         //updateProductsSinceQueue.process();
     });
 
-    $('#CreateCategoriesx').click(function () {
+   /* $('#CreateCategoriesx').click(function () {
         resetQueue();
         thisRequest = $.ajax({
             type: "POST",
@@ -268,7 +257,7 @@ jQuery(document).ready(function ($) {
         requests.push(thisRequest);
 
 
-    });
+    });*/
 
     $('.custom_date').datepicker({
         dateFormat: 'yy-mm-dd'
