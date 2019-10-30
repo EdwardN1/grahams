@@ -54,8 +54,8 @@
                                 <div class="cell shrink">
                                     <a href="/"><img src="<?php echo get_field('logo', 'option')['url']; ?>"></a>
                                 </div>
-                                <div class="cell shrink show-for-large full-height-text">
-                                    Your Local Plumbing and Heating Specialist
+                                <div class="cell shrink show-for-large full-height-text green">
+                                    YOUR LOCAL SPECIALIST
                                 </div>
                                 <div class="cell shrink hide-for-large">
                                     <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="grey button-link" style="margin-left: 2px;">
