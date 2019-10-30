@@ -26,6 +26,8 @@ header {
       width: auto;
       @include breakpoint(360) {
         height: $top-desktop-height;
+        width: 102.59px;
+
       }
     }
     span {
