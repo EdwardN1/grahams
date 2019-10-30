@@ -5,6 +5,8 @@
  * This is the template that displays all of the <head> section
  *
  */
+
+global $ie11;
 ?>
 
 <!doctype html>
@@ -143,6 +145,9 @@
             <div class="bottom-row">
                 <div class="grid-container">
                     <div class="grid-x">
+                        <?php if($ie11):?>
+
+                        <?php else:?>
                         <div class="cell auto"></div>
                         <div class="cell shrink">
                             <div class="grid-x">
@@ -172,6 +177,7 @@
                                 </div>
                             </div>
                         </div>
+                        <?php endif;?>
                         <div class="cell auto"></div>
                     </div>
                 </div>
