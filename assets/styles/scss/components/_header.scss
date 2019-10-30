@@ -22,11 +22,11 @@ header {
       }
     }
     img {
-      height: $top-mobile-height;
+      //height: $top-mobile-height;
       width: auto;
       @include breakpoint(360) {
-        height: $top-desktop-height;
-        width: 102.59px;
+        //height: $top-desktop-height;
+        /*width: 102.59px;*/
 
       }
     }
@@ -221,4 +221,35 @@ header {
     }
   }
 
+}
+
+.ie11 {
+  header {
+    .bottom-row {
+      overflow: hidden;;
+      .logo-bar {
+        max-width: 940px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        .bar {
+          display: block;
+          float: left;
+          .icon, .description {
+            display: inline-block;
+          }
+          .icon {
+            max-width: 50px;
+            img {
+              max-height: 48px;
+              width: auto;
+            }
+          }
+          .description {
+            padding-right: 1em;
+          }
+        }
+      }
+    }
+  }
 }

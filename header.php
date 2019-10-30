@@ -7,6 +7,9 @@
  */
 
 global $ie11;
+$bodyClass = '';
+if ($ie11)
+    $bodyClass = 'ie11';
 ?>
 
 <!doctype html>
@@ -37,7 +40,7 @@ global $ie11;
 
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class($bodyClass); ?>>
 
 <div class="off-canvas-wrapper">
 
@@ -54,7 +57,11 @@ global $ie11;
                         <div class="cell auto">
                             <div class="grid-x">
                                 <div class="cell shrink">
+                                    <?php if($ie11):?>
+                                        <a href="/"><img src="<?php echo get_template_directory_uri().'/assets/images/Graham-Logo.png' ?>"></a>
+                                    <?php else:?>
                                     <a href="/"><img src="<?php echo get_field('logo', 'option')['url']; ?>"></a>
+                                    <?php endif;?>
                                 </div>
                                 <div class="cell shrink show-for-large full-height-text green">
                                     YOUR LOCAL SPECIALIST
@@ -144,42 +151,62 @@ global $ie11;
 
             <div class="bottom-row">
                 <div class="grid-container">
-                    <div class="grid-x">
-                        <?php if($ie11):?>
 
-                        <?php else:?>
-                        <div class="cell auto"></div>
-                        <div class="cell shrink">
-                            <div class="grid-x">
-                                <div class="cell shrink" style="padding-right: 1em;">
-                                    <div class="grid-x">
-                                        <div class="cell shrink"><img src="<?php echo get_icon('checklist'); ?>"></div>
-                                        <div class="cell auto">Get the products you're after</div>
+                    <?php if ($ie11): ?>
+                        <div class="logo-bar">
+                            <div class="bar">
+                                <div class="icon"><img src="<?php echo get_icon('checklist'); ?>"></div>
+                                <div class="description">Get the products you're after</div>
+                            </div>
+                            <div class="bar">
+                                <div class="icon"><img src="<?php echo get_icon('stopwatch'); ?>"></div>
+                                <div class="description">Get sorted fast</div>
+                            </div>
+                            <div class="bar">
+                                <div class="icon"><img src="<?php echo get_icon('gearhead'); ?>"></div>
+                                <div class="description">Talk to people in the know</div>
+                            </div>
+                            <div class="bar show-for-large">
+                                <div class="icon"><img src="<?php echo get_icon('pound'); ?>"></div>
+                                <div class="description">Great Value for service</div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    <?php else: ?>
+                        <div class="grid-x">
+                            <div class="cell auto"></div>
+                            <div class="cell shrink">
+                                <div class="grid-x">
+                                    <div class="cell shrink" style="padding-right: 1em;">
+                                        <div class="grid-x">
+                                            <div class="cell shrink"><img src="<?php echo get_icon('checklist'); ?>"></div>
+                                            <div class="cell auto">Get the products you're after</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="cell shrink" style="padding-right: 1em;">
-                                    <div class="grid-x">
-                                        <div class="cell shrink"><img src="<?php echo get_icon('stopwatch'); ?>"></div>
-                                        <div class="cell auto">Get sorted fast</div>
+                                    <div class="cell shrink" style="padding-right: 1em;">
+                                        <div class="grid-x">
+                                            <div class="cell shrink"><img src="<?php echo get_icon('stopwatch'); ?>"></div>
+                                            <div class="cell auto">Get sorted fast</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="cell shrink" style="padding-right: 1em;">
-                                    <div class="grid-x">
-                                        <div class="cell shrink"><img src="<?php echo get_icon('gearhead'); ?>"></div>
-                                        <div class="cell auto">Talk to people in the know</div>
+                                    <div class="cell shrink" style="padding-right: 1em;">
+                                        <div class="grid-x">
+                                            <div class="cell shrink"><img src="<?php echo get_icon('gearhead'); ?>"></div>
+                                            <div class="cell auto">Talk to people in the know</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="cell shrink show-for-large">
-                                    <div class="grid-x">
-                                        <div class="cell shrink"><img src="<?php echo get_icon('pound'); ?>" style="height: auto; width: auto;"></div>
-                                        <div class="cell auto">Great Value for service</div>
+                                    <div class="cell shrink show-for-large">
+                                        <div class="grid-x">
+                                            <div class="cell shrink"><img src="<?php echo get_icon('pound'); ?>" style="height: auto; width: auto;"></div>
+                                            <div class="cell auto">Great Value for service</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="cell auto"></div>
                         </div>
-                        <?php endif;?>
-                        <div class="cell auto"></div>
-                    </div>
+                    <?php endif; ?>
+
                 </div>
             </div>
 
