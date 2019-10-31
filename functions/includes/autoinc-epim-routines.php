@@ -66,6 +66,7 @@ function ajax_import_single_product_images() {
 
 
 function ajax_get_single_product_images() {
+	checkSecure();
     if ( ! empty( $_POST['ID'] ) ) {
         $response = getSingleProductImages($_POST['ID']);
         header( "Content-Type: application/json charset=utf-8" );
@@ -88,7 +89,8 @@ function ajax_product_ID_from_code() {
 }
 
 function ajax_get_api_product() {
-    if ( ! empty( $_POST['ID'] ) ) {
+	checkSecure();
+	if ( ! empty( $_POST['ID'] ) ) {
         $jsonResponse = get_api_product( $_POST['ID'] );
         $response     = $jsonResponse;
         header( "Content-Type: application/json" );
@@ -100,6 +102,7 @@ function ajax_get_api_product() {
 }
 
 function ajax_get_category_images() {
+	checkSecure();
 	if ( ! empty( $_POST['ID'] ) ) {
 		header( "Content-Type: application/json" );
 		echo getCategoryImages( $_POST['ID'] );
@@ -108,6 +111,7 @@ function ajax_get_category_images() {
 }
 
 function ajax_get_product_images() {
+	checkSecure();
 	$response = getProductImages();
 	//error_log(json_encode($response));
     header( "Content-Type: application/json charset=utf-8" );
@@ -116,6 +120,7 @@ function ajax_get_product_images() {
 }
 
 function ajax_create_product() {
+	checkSecure();
 	if ( ! empty( $_POST['productID'] ) ) {
 		if ( ! empty( $_POST['variationID'] ) ) {
 			if ( ! empty( $_POST['productName'] ) ) {
@@ -137,12 +142,14 @@ function ajax_create_product() {
 }
 
 function ajax_cat_image_link() {
+	checkSecure();
 	linkCategoryImages();
 	echo 'Category Images Linked';
 	exit;
 }
 
 function ajax_product_image_link() {
+	checkSecure();
     echo linkProductImages();
     //linkVariationImages();
     //echo 'Product Images Linked';
@@ -150,6 +157,7 @@ function ajax_product_image_link() {
 }
 
 function ajax_product_group_image_link() {
+	checkSecure();
     if ( ! empty( $_POST['productID'] ) ) {
         echo linkProductGroupImages($_POST['productID']);
     }
@@ -158,12 +166,14 @@ function ajax_product_group_image_link() {
 }
 
 function ajax_sort_categories() {
+	checkSecure();
 	sort_categories();
 	echo 'Categories Sorted';
 	exit;
 }
 
 function ajax_import_picture() {
+	checkSecure();
 	if ( ! empty( $_POST['ID'] ) ) {
 		if ( ! empty( $_POST['weblink'] ) ) {
 			echo importPicture( $_POST['ID'], $_POST['weblink'] );
@@ -173,6 +183,7 @@ function ajax_import_picture() {
 }
 
 function ajax_get_picture_web_link() {
+	checkSecure();
 	$response = '';
 	if ( ! empty( $_POST['ID'] ) ) {
 		$response = get_api_picture( $_POST['ID'] );
@@ -183,6 +194,7 @@ function ajax_get_picture_web_link() {
 }
 
 function ajax_get_api_all_categories() {
+	checkSecure();
 	$jsonResponse = get_api_all_categories();
 	$response     = $jsonResponse;
 	header( "Content-Type: application/json" );
@@ -191,6 +203,7 @@ function ajax_get_api_all_categories() {
 }
 
 function ajax_get_api_all_attributes() {
+	checkSecure();
 	$jsonResponse = get_api_all_attributes();
 	$response     = $jsonResponse;
 	header( "Content-Type: application/json" );
@@ -199,6 +212,7 @@ function ajax_get_api_all_attributes() {
 }
 
 function ajax_get_api_all_products() {
+	checkSecure();
 	$jsonResponse = get_api_all_products();
 	$response     = json_decode( $jsonResponse );
 	//header( "Content-Type: application/json" );
@@ -207,6 +221,7 @@ function ajax_get_api_all_products() {
 }
 
 function ajax_get_api_all_changed_products_since() {
+	checkSecure();
     if ( ! empty( $_POST['timeCode'] ) ) {
         $jsonResponse = get_api_all_changed_products_since($_POST['timeCode'] );
         $response = json_decode($jsonResponse);
@@ -219,6 +234,7 @@ function ajax_get_api_all_changed_products_since() {
 
 
 function ajax_get_api_category() {
+	checkSecure();
 	if ( ! empty( $_POST['ID'] ) ) {
 
 		$jsonResponse = get_api_category( $_POST['ID'] );
@@ -232,6 +248,7 @@ function ajax_get_api_category() {
 }
 
 function ajax_get_api_picture() {
+	checkSecure();
 	if ( ! empty( $_POST['ID'] ) ) {
 		//error_log('Getting Picture: '.$_POST['ID']);
 		$jsonResponse = get_api_picture( $_POST['ID'] );
@@ -245,6 +262,7 @@ function ajax_get_api_picture() {
 }
 
 function ajax_get_api_variation() {
+	checkSecure();
 	if ( ! empty( $_POST['ID'] ) ) {
 		$jsonResponse = get_api_variation( $_POST['ID'] );
 		$response     = $jsonResponse;
@@ -257,6 +275,7 @@ function ajax_get_api_variation() {
 }
 
 function ajax_create_category() {
+	checkSecure();
 	$response = 'Nothing Happened!!';
 	if ( ! empty( $_POST['ID'] ) ) {
 		if ( ! empty( $_POST['name'] ) ) {
