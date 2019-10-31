@@ -1,49 +1,56 @@
-jQuery(document).ready(function ($) {
+function localAsUtc(date) {
+    if (isNotValidDate(date)) {
+        return null;
+    }
 
-    var debug = false;
-    var cMax = 3;
+    return new Date(Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds()
+    ));
+}
+
+/*function isValidDate (date) {
+    return !isNotValidDate(date);
+}*/
+
+function isNotValidDate(date) {
+    return date == null || isNaN(date.getTime());
+}
+
+adminJQ = jQuery.noConflict();
+/*
+adminJQ(function ($) {
+
+});*/
+
+//jQuery(document).ready(function ($) {
+adminJQ(function ($) {
+
+    let debug = false;
+    let cMax = 3;
 
     function _o(text) {
         $('#ePimResult').prepend(text + '<br>');
     }
 
-    function _or(text) {
+    /*function _or(text) {
         $('#ePimResult').prepend(text);
-    }
+    }*/
 
-    function localAsUtc(date) {
-        if (isNotValidDate(date)) {
-            return null;
-        }
+    let oneProductQueue = new ts_execute_queue('#ePimResult', function () {
 
-        return new Date(Date.UTC(
-            date.getFullYear(),
-            date.getMonth(),
-            date.getDate(),
-            date.getHours(),
-            date.getMinutes(),
-            date.getSeconds(),
-            date.getMilliseconds()
-        ));
-    }
-
-    function isValidDate (date) {
-        return !isNotValidDate(date);
-    }
-
-    function isNotValidDate(date) {
-        return date == null || isNaN(date.getTime());
-    }
-
-    var oneProductQueue = new ts_execute_queue('#ePimResult', function () {
-
-        var oneProductLinkImages = new ts_execute_queue('#ePimResult',function() {
+        let oneProductLinkImages = new ts_execute_queue('#ePimResult',function() {
             _o('Finished');
         },function (action, request, data) {
             _o('Action Completed: ' + action);
             _o('Request: ' + request);
             _o('<br>Data: ' + data);
-            if(action=='product_ID_code') {
+            if(action==='product_ID_code') {
                 this.queue(ajaxurl,{action: 'product_group_image_link',productID:data});
             }
         });
@@ -53,12 +60,12 @@ jQuery(document).ready(function ($) {
         _o('Action Completed: ' + action);
         _o('Request: ' + request);
         _o('<br>Data: ' + data);
-        if (action == 'product_ID_code') {
+        if (action === 'product_ID_code') {
             this.queue(ajaxurl, {action: 'get_product', ID: data});
         }
-        if (action == 'get_product') {
-            var product = $.parseJSON(data);
-            obj = this;
+        if (action === 'get_product') {
+            let product = $.parseJSON(data);
+            let obj = this;
             $(product.VariationIds).each(function (index, variationID) {
                 obj.queue(ajaxurl, {
                     action: 'create_product',
@@ -71,9 +78,9 @@ jQuery(document).ready(function ($) {
                 });
             });
         }
-        if (action == 'create_product') {
-            var r = decodeURIComponent(request);
-            var ro = QueryStringToJSON('?' + r);
+        if (action === 'create_product') {
+            let r = decodeURIComponent(request);
+            let ro = QueryStringToJSON('?' + r);
             this.queue(ajaxurl,{action: 'import_single_product_images', productID: ro.productID, variationID: ro.variationID});
         }
     });
@@ -84,7 +91,7 @@ jQuery(document).ready(function ($) {
         oneProductQueue.process();
     });
 
-    var linkProductImages = new ts_execute_queue('#ePimResult', function () {
+    let linkProductImages = new ts_execute_queue('#ePimResult', function () {
         _o('<strong>All Finished</strong>');
     },function (action,request,data ) {
         _o('Action Completed: ' + action);
@@ -92,23 +99,23 @@ jQuery(document).ready(function ($) {
         _o('<br>Data: ' + data);
     });
 
-    var processProductImages = new ts_execute_queue('#ePimResult', function(){
-        _o('Checking and linking product image data - this may take a while.....')
-        linkProductImages.reset()
+    let processProductImages = new ts_execute_queue('#ePimResult', function(){
+        _o('Checking and linking product image data - this may take a while.....');
+        linkProductImages.reset();
         linkProductImages.queue(ajaxurl,{action: 'product_image_link'});
         linkProductImages.process();
     }, function (action, request, data) {
         _o('Action Completed: ' + action);
         _o('Request: ' + request);
         _o('<br>Data: ' + data);
-        if(action=='get_product_images') {
+        if(action==='get_product_images') {
             if ($.trim(data)) {
                 $(data).each(function (index, productsImageID) {
                     processProductImages.queue(ajaxurl,{action: 'get_picture_web_link', ID: productsImageID.id});
                 });
             }
         }
-        if (action == 'get_picture_web_link') {
+        if (action === 'get_picture_web_link') {
             if ($.trim(data)) {
                 pictures = $.parseJSON(data);
                 obj = this;
@@ -119,7 +126,7 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    var updateAllProducts = new ts_execute_queue('#ePimResult', function () {
+    let updateAllProducts = new ts_execute_queue('#ePimResult', function () {
         processProductImages.reset();
         processProductImages.queue(ajaxurl,{action: 'get_product_images'});
         processProductImages.process();
@@ -127,16 +134,16 @@ jQuery(document).ready(function ($) {
         _o('Action Completed: ' + action);
         _o('Request: ' + request);
         _o('<br>Data: ' + data);
-        if(action=='sort_categories') {
+        if(action==='sort_categories') {
             updateAllProducts.queue(ajaxurl,{action: 'cat_image_link'});
         }
-        if(action=='cat_image_link') {
+        if(action==='cat_image_link') {
             updateAllProducts.queue(ajaxurl,{action: 'get_all_products'});
         }
-        if(action=='get_all_products') {
+        if(action==='get_all_products') {
             if ($.trim(data)) {
-                var products = $.parseJSON(data);
-                var c = 0;
+                let products = $.parseJSON(data);
+                let c = 0;
                 $(products).each(function (index, product) {
                     $(product.VariationIds).each(function (index, variationID) {
                         updateAllProducts.queue(ajaxurl,{
@@ -161,7 +168,7 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    var updateAllQueue = new ts_execute_queue('#ePimResult', function () {
+    let updateAllQueue = new ts_execute_queue('#ePimResult', function () {
         _o('Category Data Imported');
         updateAllProducts.reset();
         updateAllProducts.queue(ajaxurl,{action: 'sort_categories'});
@@ -170,10 +177,10 @@ jQuery(document).ready(function ($) {
         _o('Action Completed: ' + action);
         _o('Request: ' + request);
         _o('<br>Data: ' + data);
-        if(action=='get_all_categories') {
+        if(action==='get_all_categories') {
             categories = $.parseJSON(data);
-            var obj = this;
-            var c = 0;
+            let obj = this;
+            let c = 0;
             $(categories).each(function (index, record) {
                 obj.queue(ajaxurl,{action: 'create_category', ID: record.Id, name: record.Name, ParentID: record.ParentId, picture_ids: record.PictureIds});
                 if(debug) {
@@ -185,13 +192,13 @@ jQuery(document).ready(function ($) {
             });
         }
 
-        if (action == 'create_category') {
+        if (action === 'create_category') {
             let r = decodeURIComponent(request);
             let ro = QueryStringToJSON('?' + r);
             let id = ro.ID;
             this.queue(ajaxurl,{action: 'get_category_images', ID: id});
         }
-        if (action == 'get_category_images') {
+        if (action === 'get_category_images') {
             if ($.trim(data)) {
                 pictures = $.parseJSON(data);
                 obj = this;
@@ -200,7 +207,7 @@ jQuery(document).ready(function ($) {
                 })
             }
         }
-        if (action == 'get_picture_web_link') {
+        if (action === 'get_picture_web_link') {
             if ($.trim(data)) {
                 pictures = $.parseJSON(data);
                 obj = this;
@@ -212,52 +219,22 @@ jQuery(document).ready(function ($) {
         }
     });
 
-
-
     $('#CreateCategories').click(function () {
         updateAllQueue.reset();
-        updateAllQueue.queue(ajaxurl,{action: 'get_all_categories'})
+        updateAllQueue.queue(ajaxurl,{action: 'get_all_categories'});
         updateAllQueue.process();
     });
 
     $('#UpdateSince').click(function () {
-        updateProductsSinceQueue.reset();
-        var dpDate = $('.custom_date').datepicker('getDate');
-        var dateUtc = localAsUtc(dpDate);
-        var iso = dateUtc.toISOString(); // returns "2016-12-06T00:00:00.000Z"
+        //updateProductsSinceQueue.reset();
+        let dpDate = $('.custom_date').datepicker('getDate');
+        let dateUtc = localAsUtc(dpDate);
+        let iso = dateUtc.toISOString(); // returns "2016-12-06T00:00:00.000Z"
         alert(iso);
         //updateProductsSinceQueue.queue(ajaxurl,{action: 'get_all_categories'})
         //updateProductsSinceQueue.process();
     });
 
-   /* $('#CreateCategoriesx').click(function () {
-        resetQueue();
-        thisRequest = $.ajax({
-            type: "POST",
-            url: ajaxurl,
-            data: {action: 'get_all_categories'}
-        }).done(function (data) {
-            categories = $.parseJSON(data);
-            _or('<p>Data received:</p>');
-            _or('<pre>' + data + '</pre>');
-            _o('<strong>Processing ePim Data...</strong>');
-            var c = 0;
-            $(categories).each(function (index, record) {
-                queue.push({action: 'create_category', ID: record.Id, name: record.Name, ParentID: record.ParentId, picture_ids: record.PictureIds});
-                if (debug) {
-                    c++;
-                    if (c >= cMax) {
-                        return false;
-                    }
-                }
-            });
-
-            execute_queue(index);
-        });
-        requests.push(thisRequest);
-
-
-    });*/
 
     $('.custom_date').datepicker({
         dateFormat: 'yy-mm-dd'

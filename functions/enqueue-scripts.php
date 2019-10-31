@@ -24,5 +24,18 @@ function admin_enqueue($hook) {
 	wp_register_style('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
 	wp_enqueue_style('jquery-ui');
 	wp_enqueue_script('process_queue_script', get_template_directory_uri() . '/assets/scripts/processQueue.js');
-    wp_enqueue_script('my_custom_script', get_template_directory_uri() . '/assets/scripts/admin.js','process_queue_script');
+    wp_enqueue_script('epim_admin_scripts', get_template_directory_uri() . '/assets/scripts/admin.js','process_queue_script');
+	/*$params = array(
+		'ajaxurl' => admin_url('admin-ajax.php', $protocol),
+		'ajax_nonce' => wp_create_nonce('epim-graham'),
+	);
+	wp_localize_script( 'my_blog_script', 'ajax_object', $params );*/
+	wp_localize_script(
+		'process_queue_script',
+		'epim_ajax_object',
+		[
+			'ajax_url'  => admin_url( 'admin-ajax.php' ),
+			'security'  => wp_create_nonce( 'epim-security-nonce' ),
+		]
+	);
 }

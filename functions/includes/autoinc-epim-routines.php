@@ -1,5 +1,12 @@
 <?php
 
+function checkSecure() {
+	if ( ! check_ajax_referer( 'epim-security-nonce', 'security' ) ) {
+		wp_send_json_error( 'Invalid security token sent.' );
+		wp_die();
+	}
+}
+
 
 /**
  * ========================== Actions ==============================
@@ -29,7 +36,9 @@ add_action( 'wp_ajax_get_single_product_images', 'ajax_get_single_product_images
 add_action( 'wp_ajax_import_single_product_images', 'ajax_import_single_product_images' );
 add_action( 'wp_ajax_image_imported', 'ajax_image_imported' );
 
+
 function ajax_image_imported() {
+	checkSecure();
     if ( ! empty( $_POST['ID'] ) ) {
         if(imageImported($_POST['ID'])) {
             echo 'Image Imported';
@@ -41,6 +50,7 @@ function ajax_image_imported() {
 }
 
 function ajax_import_single_product_images() {
+	checkSecure();
     if ( ! empty( $_POST['productID'] ) ) {
         if ( ! empty( $_POST['variationID'] ) ) {
             $response = importSingleProductImages($_POST['productID'], $_POST['variationID']);
@@ -67,6 +77,7 @@ function ajax_get_single_product_images() {
 }
 
 function ajax_product_ID_from_code() {
+	checkSecure();
     $response = 'Not Found';
     if ( ! empty( $_POST['CODE'] ) ) {
         $response = getAPIIDFromCode($_POST['CODE']);

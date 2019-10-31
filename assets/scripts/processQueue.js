@@ -21,7 +21,7 @@ class ts_execute_queue {
     }
 
     queue(url, data) {
-        let q_item = {url: url, data: data};
+        let q_item = {url: epim_ajax_object.ajax_url, data: data};
         this._queue.push(q_item);
         //_queue.
     }
@@ -38,19 +38,22 @@ class ts_execute_queue {
 
     process() {
         let q_item = this._queue[this._index];
+        q_item.data['security'] = epim_ajax_object.security;
         let obj = this;
         jQuery.ajax({
             data: q_item.data,
             type: "POST",
             url: q_item.url,
             success: function (data) {
+                let r;
+                let ro;
                 try {
-                    var r = decodeURIComponent(this.data);
-                    var ro = QueryStringToJSON('?' + r);
+                    r = decodeURIComponent(this.data);
+                    ro = QueryStringToJSON('?' + r);
                 } catch (e) {
                     obj.output('<span style="color: orange;">' + e.message + ' data: ' + this.data + '</span>');
-                    var r = this.data;
-                    var ro = QueryStringToJSON('?' + r);
+                    r = this.data;
+                    ro = QueryStringToJSON('?' + r);
                 }
                 let action = ro.action;
                 obj._processEvent(action,r,data);
