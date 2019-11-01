@@ -31,13 +31,13 @@ function epim_admin_page()
             <button id="UpdateCode" class="button">Update</button>
         </p>
         <hr>
-        <p>
+        <!--<p>
             or <strong>Update by product changed since:</strong>
         </p>
         <p><input type="text" class="custom_date" name="start_date" id="#start_date" value=""/></p>
         <p>
             <button id="UpdateSince" class="button">Update</button>
-        </p>
+        </p>-->
         <hr>
         <p>
             or <button id="CreateCategories" class="button">Create and Update all (Ajax)</button> (This will take a long time)
