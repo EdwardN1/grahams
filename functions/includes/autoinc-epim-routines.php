@@ -228,7 +228,7 @@ function ajax_get_api_all_changed_products_since() {
         $jsonResponse = get_api_all_changed_products_since($_POST['timeCode'] );
         $response = json_decode($jsonResponse);
         //header( "Content-Type: application/json" );
-        echo json_encode($response->Results);
+        echo json_encode($response);
     }
     exit;
 }

@@ -18,6 +18,7 @@ class ts_execute_queue {
         this._finished = false;
         this._finishedEvent = finishedEvent;
         this._processEvent = processEvent;
+        this.processFinished = true;
     }
 
     queue(url, data) {
@@ -35,6 +36,7 @@ class ts_execute_queue {
     get finished() {
         return this._finished;
     }
+
 
     process() {
         let q_item = this._queue[this._index];

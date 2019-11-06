@@ -24,7 +24,7 @@ adminJQ = jQuery.noConflict();
 adminJQ(function ($) {
 
     let debug = false;
-    let cMax = 3;
+    let cMax = 1;
 
     function _o(text) {
         $('#ePimResult').prepend(text + '<br>');
@@ -151,6 +151,115 @@ adminJQ(function ($) {
         }
     });
 
+    let updateSinceProducts = new ts_execute_queue('#ePimResult', function () {
+        if(updateSinceProducts.processFinished) {
+            processProductImages.reset();
+            processProductImages.queue(ajaxurl, {action: 'get_product_images'});
+            processProductImages.process();
+        } else {
+            _o('All Finished');
+        }
+    }, function (action, request, data) {
+        _o('Action Completed: ' + action);
+        _o('Request: ' + request);
+        _o('<br>Data: ' + data);
+        if(action==='sort_categories') {
+            updateSinceProducts.queue(ajaxurl,{action: 'cat_image_link'});
+        }
+        if(action==='cat_image_link') {
+            let dpDate = $('.custom_date').datepicker('getDate');
+            let dateUtc = localAsUtc(dpDate);
+            let iso = dateUtc.toISOString();
+            updateSinceProducts.queue(ajaxurl,{action: 'get_all_changed_products_since', timeCode: iso});
+        }
+        if(action==='get_all_changed_products_since') {
+            if( data!='[]' ) {
+                //window.console.log(data);
+                if ($.trim(data)) {
+                    let products = JSON.parse(data);
+                    let c = 0;
+                    $(products).each(function (index, product) {
+                        $(product.VariationIds).each(function (index, variationID) {
+                            updateSinceProducts.queue(ajaxurl, {
+                                action: 'create_product',
+                                productID: product.Id,
+                                variationID: variationID,
+                                bulletText: product.BulletText,
+                                productName: product.Name,
+                                categoryIDs: product.CategoryIds,
+                                pictureIDs: product.PictureIds
+                            });
+                        });
+                        if (debug) {
+                            c++;
+                            if (c >= cMax) {
+                                return false;
+                            }
+                        }
+                    });
+                } else {
+                    _o('<strong>No Products Found to Update or Create');
+                    updateSinceProducts.processFinished = false;
+                }
+            } else {
+                _o('<strong>No Products Found to Update or Create');
+                updateSinceProducts.processFinished = false;
+            }
+            //updateAllProducts.queue(ajaxurl,{action: 'get_all_products'});
+        }
+    });
+
+    let updateSinceQueue = new ts_execute_queue('#ePimResult', function () {
+        _o('Category Data Imported');
+        updateSinceProducts.reset();
+        updateSinceProducts.queue(ajaxurl,{action: 'sort_categories'});
+        updateSinceProducts.process();
+    }, function (action, request, data) {
+        _o('Action Completed: ' + action);
+        _o('Request: ' + request);
+        _o('<br>Data: ' + data);
+        if(action==='get_all_categories') {
+            let categories = JSON.parse(data);
+            let obj = this;
+            let c = 0;
+            $(categories).each(function (index, record) {
+                obj.queue(ajaxurl,{action: 'create_category', ID: record.Id, name: record.Name, ParentID: record.ParentId, picture_ids: record.PictureIds});
+                if(debug) {
+                    c++;
+                    if (c >= cMax) {
+                        return false;
+                    }
+                }
+            });
+        }
+
+        if (action === 'create_category') {
+            let r = decodeURIComponent(request);
+            let ro = QueryStringToJSON('?' + r);
+            let id = ro.ID;
+            this.queue(ajaxurl,{action: 'get_category_images', ID: id});
+        }
+        if (action === 'get_category_images') {
+            if ($.trim(data)) {
+                let pictures = JSON.parse(data);
+                let obj = this;
+                $(pictures).each(function (index, picture) {
+                    obj.queue(ajaxurl,{action: 'get_picture_web_link', ID: picture});
+                })
+            }
+        }
+        if (action === 'get_picture_web_link') {
+            if ($.trim(data)) {
+                let pictures = JSON.parse(data);
+                let obj = this;
+                $(pictures).each(function (index, picture) {
+                    obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
+                })
+
+            }
+        }
+    });
+
     let updateAllQueue = new ts_execute_queue('#ePimResult', function () {
         _o('Category Data Imported');
         updateAllProducts.reset();
@@ -216,12 +325,15 @@ adminJQ(function ($) {
 
     $('#UpdateSince').on('click',function () {
         //updateProductsSinceQueue.reset();
-        let dpDate = $('.custom_date').datepicker('getDate');
+        /*let dpDate = $('.custom_date').datepicker('getDate');
         let dateUtc = localAsUtc(dpDate);
         let iso = dateUtc.toISOString(); // returns "2016-12-06T00:00:00.000Z"
-        alert(iso);
+        alert(iso);*/
         //updateProductsSinceQueue.queue(ajaxurl,{action: 'get_all_categories'})
         //updateProductsSinceQueue.process();
+        updateSinceQueue.reset();
+        updateSinceQueue.queue(ajaxurl,{action: 'get_all_categories'});
+        updateSinceQueue.process();
     });
 
 
