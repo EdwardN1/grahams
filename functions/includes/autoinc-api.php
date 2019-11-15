@@ -21,55 +21,56 @@ function displayJSON($apiCall)
 
 function make_api_call($url)
 {
-    $method = get_field('api_retrieval','options');
-	if($method=='cUrl') {
-		$ch = curl_init();
+    $method = get_field('api_retrieval', 'options');
+    if ($method == 'cUrl') {
+        $ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_URL, $url);
 
-		/*$proxy = 'https://proxy.sgti.lbn.fr:4480';
-		curl_setopt($ch, CURLOPT_PROXY, $proxy);*/
+        /*$proxy = 'https://proxy.sgti.lbn.fr:4480';
+        curl_setopt($ch, CURLOPT_PROXY, $proxy);*/
 
-		$headers = array();
-		$headers[] = "Ocp-Apim-Subscription-Key: e57667e8bffa4384a6ce53f80521677a";
+        $headers = array();
+        $headers[] = "Ocp-Apim-Subscription-Key: e57667e8bffa4384a6ce53f80521677a";
 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-		$apiCall = curl_exec ($ch);
+        $apiCall = curl_exec($ch);
 
-		curl_close ($ch);
+        curl_close($ch);
 
-		return $apiCall;
-	} else {
-		$opts = array(
-			'http' => array(
-				'method' => "GET",
-				'header' => "Ocp-Apim-Subscription-Key: e57667e8bffa4384a6ce53f80521677a"
-			)
-		);
-		$context = stream_context_create($opts);
-		$apiCall = file_get_contents($url, false, $context);
+        return $apiCall;
+    } else {
+        $opts = array(
+            'http' => array(
+                'method' => "GET",
+                'header' => "Ocp-Apim-Subscription-Key: e57667e8bffa4384a6ce53f80521677a"
+            )
+        );
+        $context = stream_context_create($opts);
+        $apiCall = file_get_contents($url, false, $context);
 
-		return $apiCall;
-	}
+        return $apiCall;
+    }
 
 }
 
-function get_image_file($url) {
-	$method = get_field('api_retrieval','options');
-	if($method=='cUrl') {
-		$ch = curl_init ($url);
-		curl_setopt($ch, CURLOPT_HEADER, false);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_BINARYTRANSFER,true);
-		$apiCall=curl_exec($ch);
-		curl_close ($ch);
-		return $apiCall;
-	} else {
-		return file_get_contents($url);
-	}
+function get_image_file($url)
+{
+    $method = get_field('api_retrieval', 'options');
+    if ($method == 'cUrl') {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+        $apiCall = curl_exec($ch);
+        curl_close($ch);
+        return $apiCall;
+    } else {
+        return file_get_contents($url);
+    }
 }
 
 function get_api_all_changed_products_since($datetime = '2002-10-02T10:00:00-00:00')
@@ -321,8 +322,12 @@ function getAPIIDFromCode($code)
 function getProductFromID($productID, $variationID)
 {
     $res = false;
-    $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
-    while ($loop->have_posts()) : $loop->the_post();
+    global $post;
+    $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
+
+    $loop = get_posts($args);
+
+    foreach ($loop as $post): setup_postdata($post);
         $api_id = get_field('api_id');
         if ($api_id == $productID) {
             $variation_id = get_field('variation_id');
@@ -331,7 +336,22 @@ function getProductFromID($productID, $variationID)
                 break;
             }
         }
-    endwhile;
+    endforeach;
+
+    /*$loop = new WP_Query($args);
+    if ($loop->have_posts()):
+        while ($loop->have_posts()) : $loop->the_post();
+            $api_id = get_field('api_id');
+            if ($api_id == $productID) {
+                $variation_id = get_field('variation_id');
+                if ($variation_id == $variationID) {
+                    $res = get_the_ID();
+                    break;
+                }
+            }
+        endwhile;
+    endif;*/
+
     wp_reset_postdata();
 
     return $res;
@@ -444,8 +464,8 @@ function create_product($productID, $variationID, $productBulletText, $productNa
                 $attributeText = '';
                 foreach ($variation->AttributeValues as $attribute_value) {
                     $aName = getAttributeNameFromID($attribute_value->AttributeId, $attributes);
-                    if($aName!='0 ( )') {
-	                    $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+                    if ($aName != '0 ( )') {
+                        $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
                     }
                 }
                 update_field('specifications', $attributeText, $newPost);
@@ -535,9 +555,9 @@ function create_product($productID, $variationID, $productBulletText, $productNa
                 $attributeText = '';
                 foreach ($variation->AttributeValues as $attribute_value) {
                     $aName = getAttributeNameFromID($attribute_value->AttributeId, $attributes);
-	                if($aName!='0 ( )') {
-		                $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
-	                }
+                    if ($aName != '0 ( )') {
+                        $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+                    }
                 }
                 update_field('specifications', $attributeText, $newPost);
             }
@@ -653,9 +673,9 @@ function create_products()
                             $attributeText = '';
                             foreach ($variation->AttributeValues as $attribute_value) {
                                 $aName = getAttributeNameFromID($attribute_value->AttributeId, $attributes);
-	                            if($aName!='0 ( )') {
-		                            $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
-	                            }
+                                if ($aName != '0 ( )') {
+                                    $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+                                }
                             }
                             update_field('specifications', $attributeText, $newPost);
                         }
@@ -741,9 +761,9 @@ function create_products()
                             $attributeText = '';
                             foreach ($variation->AttributeValues as $attribute_value) {
                                 $aName = getAttributeNameFromID($attribute_value->AttributeId, $attributes);
-	                            if($aName!='0 ( )') {
-		                            $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
-	                            }
+                                if ($aName != '0 ( )') {
+                                    $attributeText .= $aName . ': ' . $attribute_value->Value . '<br>';
+                                }
                             }
                             update_field('specifications', $attributeText, $newPost);
                         }
@@ -803,13 +823,14 @@ function imageIDfromAPIID($id)
     return $res;
 }
 
-function importSingleProductImages($productID, $variationID) {
+function importSingleProductImages($productID, $variationID)
+{
     $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
     $res = 'Product Not Found';
     while ($loop->have_posts()) : $loop->the_post();
-        $api_id = get_field( 'api_id' );
-        $variation_id = get_field( 'variation_id' );
-        if(($productID==$api_id)&&($variationID == $variation_id)) {
+        $api_id = get_field('api_id');
+        $variation_id = get_field('variation_id');
+        if (($productID == $api_id) && ($variationID == $variation_id)) {
             $res = 'No Images Found For Product';
             if (have_rows('product_images')):
                 while (have_rows('product_images')): the_row();
@@ -1069,13 +1090,14 @@ function getCategoryImages($id)
     return json_encode($res);
 }
 
-function getSingleProductImages($id) {
+function getSingleProductImages($id)
+{
     $res = array();
     $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
     while ($loop->have_posts()) : $loop->the_post();
-        $api_id = get_field( 'api_id' );
-        if($api_id==$id) {
-           // error_log($id.' found getting images..');
+        $api_id = get_field('api_id');
+        if ($api_id == $id) {
+            // error_log($id.' found getting images..');
             if (have_rows('product_images')):
                 while (have_rows('product_images')): the_row();
                     $api_link = get_sub_field('api_link');
@@ -1159,13 +1181,14 @@ function linkCategoryImages()
     }
 }
 
-function linkProductGroupImages($id) {
+function linkProductGroupImages($id)
+{
     $res = '';
     $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
     if ($loop->have_posts()):
         while ($loop->have_posts()) : $loop->the_post();
-            $api_id = get_field( 'api_id' );
-            if($api_id==$id) {
+            $api_id = get_field('api_id');
+            if ($api_id == $id) {
                 $res .= 'Checking Product: ' . get_the_title() . '</br>';
                 $postID = get_the_ID();
                 if (have_rows('variation_images', $postID)):
