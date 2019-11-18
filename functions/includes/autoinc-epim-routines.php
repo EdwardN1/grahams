@@ -126,7 +126,11 @@ function ajax_create_product() {
 	if ( ! empty( $_POST['productID'] ) ) {
 		if ( ! empty( $_POST['variationID'] ) ) {
 			if ( ! empty( $_POST['productName'] ) ) {
-				echo create_product( $_POST['productID'], $_POST['variationID'], $_POST['bulletText'], $_POST['productName'], $_POST['categoryIDs'], $_POST['pictureIDs'] );
+			    $pictureIDS = '';
+			    if(isset($_POST['pictureIDs'])) {
+                    $pictureIDS = $_POST['pictureIDs'];
+                }
+				echo create_product( $_POST['productID'], $_POST['variationID'], $_POST['bulletText'], $_POST['productName'], $_POST['categoryIDs'], $pictureIDS );
 				exit;
 			} else {
 				echo 'Product Creation Failed - no Product Name supplied';
