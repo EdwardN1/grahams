@@ -62,7 +62,7 @@
                         <?php $price=number_format(get_field('price'),2);?>
                         £<?php echo $price; ?>
                     </div>
-                    <div class="only">Ex Vat</div>
+                    <div class="only">Ex VAT</div>
                 </a>
 								    							
 			</article> <!-- end article -->
