@@ -132,15 +132,16 @@ if ($ie11)
                         <div class="cell auto secondary-logo">
                             <a href="/"><img src="<?php echo get_secondary_logo('Always Available'); ?>"></a>
                         </div>
+                        <div class="cell auto search-form show-for-large">
+                            <?php get_search_form(); ?>
+                        </div>
                         <div class="cell shrink telephone-number show-for-large">
                             <a href="<?php echo get_field('telephone_link', 'option'); ?>">
                                 <img src="<?php echo get_icon('Call Now'); ?>">
                                 <?php echo get_field('telephone_number', 'option'); ?>
                             </a>
                         </div>
-                        <div class="cell auto search-form show-for-large">
-                            <?php get_search_form(); ?>
-                        </div>
+
                         <div class="cell auto hide-for-large"></div>
                         <div class="cell shrink hide-for-large">
                             <a data-toggle="off-canvas"><span class="menu-icon dark"></span> </a>

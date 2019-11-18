@@ -281,7 +281,15 @@ function ajax_create_category() {
 	$response = 'Nothing Happened!!';
 	if ( ! empty( $_POST['ID'] ) ) {
 		if ( ! empty( $_POST['name'] ) ) {
-			$response = create_category( $_POST['ID'], $_POST['name'], $_POST['ParentID'], $_POST['WebPath'], $_POST['picture_ids'] );
+		    $WebPath = '';
+		    $Picture_ids = '';
+		    if(isset($_POST['WebPath'])) {
+		        $WebPath = $_POST['WebPath'];
+            }
+		    if(isset($_POST['picture_ids'])) {
+		        $Picture_ids= $_POST['picture_ids'];
+            }
+			$response = create_category( $_POST['ID'], $_POST['name'], $_POST['ParentID'], $WebPath, $Picture_ids );
 		}
 	}
 	echo $response;
