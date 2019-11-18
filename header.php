@@ -104,13 +104,19 @@ if ($ie11)
                                 </div>
                                 <div class="cell shrink white show-for-large">
                                     <?php $facebook = get_social_media('Facebook'); ?>
-                                    <a href="<?php echo $facebook['link']; ?>>" target="_blank" class="white-background">
+                                    <a href="<?php echo $facebook['link']; ?>" target="_blank" class="white-background">
                                         <img src="<?php echo $facebook['icon']; ?>">
                                     </a>
                                 </div>
                                 <div class="cell shrink white no-right-margin show-for-large">
                                     <?php $twitter = get_social_media('Twitter'); ?>
-                                    <a href="<?php echo $twitter['link']; ?>>" target="_blank" class="white-background">
+                                    <a href="<?php echo $twitter['link']; ?>" target="_blank" class="white-background">
+                                        <img src="<?php echo $twitter['icon']; ?>">
+                                    </a>
+                                </div>
+                                <div class="cell shrink white no-right-margin show-for-large" style="padding-left: 2px;">
+                                    <?php $twitter = get_social_media('LinkedIn'); ?>
+                                    <a href="<?php echo $twitter['link']; ?>" target="_blank" class="white-background">
                                         <img src="<?php echo $twitter['icon']; ?>">
                                     </a>
                                 </div>
@@ -168,7 +174,7 @@ if ($ie11)
                             </div>
                             <div class="bar show-for-large">
                                 <div class="icon"><img src="<?php echo get_icon('pound'); ?>"></div>
-                                <div class="description">Great Value for service</div>
+                                <div class="description">Great value for service</div>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -198,7 +204,7 @@ if ($ie11)
                                     <div class="cell shrink show-for-large">
                                         <div class="grid-x">
                                             <div class="cell shrink"><img src="<?php echo get_icon('pound'); ?>" style="height: auto; width: auto;"></div>
-                                            <div class="cell auto">Great Value for service</div>
+                                            <div class="cell auto">Great value for service</div>
                                         </div>
                                     </div>
                                 </div>

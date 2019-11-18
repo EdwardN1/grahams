@@ -85,7 +85,7 @@ get_header(); ?>
                 </div>
                 <div class="price">
                     <span class="only">Only</span>
-                    £<?php echo $price; ?><span class="only"> Ex Vat</span>
+                    £<?php echo $price; ?><span class="only"> Ex VAT</span>
                 </div>
                 <div class="buttons"><!--<a href="#" class="button lime">Enquire Now</a>--> <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="button green">Nearest
                         Stockist</a></div>
