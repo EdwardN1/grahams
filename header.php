@@ -104,13 +104,19 @@ if ($ie11)
                                 </div>
                                 <div class="cell shrink white show-for-large">
                                     <?php $facebook = get_social_media('Facebook'); ?>
-                                    <a href="<?php echo $facebook['link']; ?>>" target="_blank" class="white-background">
+                                    <a href="<?php echo $facebook['link']; ?>" target="_blank" class="white-background">
                                         <img src="<?php echo $facebook['icon']; ?>">
                                     </a>
                                 </div>
                                 <div class="cell shrink white no-right-margin show-for-large">
                                     <?php $twitter = get_social_media('Twitter'); ?>
-                                    <a href="<?php echo $twitter['link']; ?>>" target="_blank" class="white-background">
+                                    <a href="<?php echo $twitter['link']; ?>" target="_blank" class="white-background">
+                                        <img src="<?php echo $twitter['icon']; ?>">
+                                    </a>
+                                </div>
+                                <div class="cell shrink white no-right-margin show-for-large" style="padding-left: 2px;">
+                                    <?php $twitter = get_social_media('LinkedIn'); ?>
+                                    <a href="<?php echo $twitter['link']; ?>" target="_blank" class="white-background">
                                         <img src="<?php echo $twitter['icon']; ?>">
                                     </a>
                                 </div>
@@ -126,15 +132,16 @@ if ($ie11)
                         <div class="cell auto secondary-logo">
                             <a href="/"><img src="<?php echo get_secondary_logo('Always Available'); ?>"></a>
                         </div>
+                        <div class="cell auto search-form show-for-large">
+                            <?php get_search_form(); ?>
+                        </div>
                         <div class="cell shrink telephone-number show-for-large">
                             <a href="<?php echo get_field('telephone_link', 'option'); ?>">
                                 <img src="<?php echo get_icon('Call Now'); ?>">
                                 <?php echo get_field('telephone_number', 'option'); ?>
                             </a>
                         </div>
-                        <div class="cell auto search-form show-for-large">
-                            <?php get_search_form(); ?>
-                        </div>
+
                         <div class="cell auto hide-for-large"></div>
                         <div class="cell shrink hide-for-large">
                             <a data-toggle="off-canvas"><span class="menu-icon dark"></span> </a>
@@ -168,7 +175,7 @@ if ($ie11)
                             </div>
                             <div class="bar show-for-large">
                                 <div class="icon"><img src="<?php echo get_icon('pound'); ?>"></div>
-                                <div class="description">Great Value for service</div>
+                                <div class="description">Great value for service</div>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -198,7 +205,7 @@ if ($ie11)
                                     <div class="cell shrink show-for-large">
                                         <div class="grid-x">
                                             <div class="cell shrink"><img src="<?php echo get_icon('pound'); ?>" style="height: auto; width: auto;"></div>
-                                            <div class="cell auto">Great Value for service</div>
+                                            <div class="cell auto">Great value for service</div>
                                         </div>
                                     </div>
                                 </div>

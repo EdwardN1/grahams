@@ -9,8 +9,7 @@
 add_filter('acf/settings/show_admin', 'show_acf');
 
 function show_acf() {
-	global $current_user;
-	get_currentuserinfo();
+    $current_user = wp_get_current_user();
 	$ret = true;
 	$email = (string) $current_user->user_email;
 	if($email != 'edward@technicks.com') {

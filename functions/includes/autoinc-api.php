@@ -26,6 +26,8 @@ function make_api_call($url)
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
         /*$proxy = 'https://proxy.sgti.lbn.fr:4480';
         curl_setopt($ch, CURLOPT_PROXY, $proxy);*/
@@ -65,6 +67,8 @@ function get_image_file($url)
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $apiCall = curl_exec($ch);
         curl_close($ch);
         return $apiCall;
@@ -359,7 +363,7 @@ function getProductFromID($productID, $variationID)
 
 function create_product($productID, $variationID, $productBulletText, $productName, $categoryIds, $pictureIds)
 {
-    $res = 'An Error has occurred for this product: ' + $productName;
+    $res = 'An Error has occurred for this product: ' . $productName;
     $jsonVariation = get_api_variation($variationID);
     $variation = json_decode($jsonVariation);
     $id = getProductFromID($productID, $variation->Id);
@@ -434,32 +438,34 @@ function create_product($productID, $variationID, $productBulletText, $productNa
                 foreach ($variation->PictureIds as $picture_id) {
                     $jsonPicture = get_api_picture($picture_id);
                     $picture = json_decode($jsonPicture);
-                    if (have_rows('variation_images', $newPost)):
-                        $pictureUpdate = false;
-                        while (have_rows('variation_images', $newPost)): the_row();
-                            $api_image_id = get_sub_field('api_image_id');
-                            if ($api_image_id == $picture->Id) {
-                                $pictureUpdate = true;
-                                update_sub_field('api_link', $picture->WebPath);
-                                break;
-                            }
-                        endwhile;
-                        if (!$pictureUpdate) {
+                    if($picture) {
+                        if (have_rows('variation_images', $newPost)):
+                            $pictureUpdate = false;
+                            while (have_rows('variation_images', $newPost)): the_row();
+                                $api_image_id = get_sub_field('api_image_id');
+                                if ($api_image_id == $picture->Id) {
+                                    $pictureUpdate = true;
+                                    update_sub_field('api_link', $picture->WebPath);
+                                    break;
+                                }
+                            endwhile;
+                            if (!$pictureUpdate) {
+                                $row = array(
+                                    'api_link' => $picture->WebPath,
+                                    'api_image_id' => $picture->Id
+                                );
+
+                                add_row('variation_images', $row, $newPost);
+                            };
+                        else:
                             $row = array(
                                 'api_link' => $picture->WebPath,
                                 'api_image_id' => $picture->Id
                             );
 
                             add_row('variation_images', $row, $newPost);
-                        };
-                    else:
-                        $row = array(
-                            'api_link' => $picture->WebPath,
-                            'api_image_id' => $picture->Id
-                        );
-
-                        add_row('variation_images', $row, $newPost);
-                    endif;
+                        endif;
+                    }
                 }
                 $attributeText = '';
                 foreach ($variation->AttributeValues as $attribute_value) {

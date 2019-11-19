@@ -11,6 +11,8 @@ if (function_exists('acf_add_options_page')) {
         'redirect' => false
     ));
 
+    $current_user = wp_get_current_user();
+
     if ($current_user->user_email == 'edward@technicks.com') {
         acf_add_options_page(array(
             'page_title' => 'Master Page Settings',

@@ -126,7 +126,11 @@ function ajax_create_product() {
 	if ( ! empty( $_POST['productID'] ) ) {
 		if ( ! empty( $_POST['variationID'] ) ) {
 			if ( ! empty( $_POST['productName'] ) ) {
-				echo create_product( $_POST['productID'], $_POST['variationID'], $_POST['bulletText'], $_POST['productName'], $_POST['categoryIDs'], $_POST['pictureIDs'] );
+			    $pictureIDS = '';
+			    if(isset($_POST['pictureIDs'])) {
+                    $pictureIDS = $_POST['pictureIDs'];
+                }
+				echo create_product( $_POST['productID'], $_POST['variationID'], $_POST['bulletText'], $_POST['productName'], $_POST['categoryIDs'], $pictureIDS );
 				exit;
 			} else {
 				echo 'Product Creation Failed - no Product Name supplied';
@@ -281,7 +285,15 @@ function ajax_create_category() {
 	$response = 'Nothing Happened!!';
 	if ( ! empty( $_POST['ID'] ) ) {
 		if ( ! empty( $_POST['name'] ) ) {
-			$response = create_category( $_POST['ID'], $_POST['name'], $_POST['ParentID'], $_POST['WebPath'], $_POST['picture_ids'] );
+		    $WebPath = '';
+		    $Picture_ids = '';
+		    if(isset($_POST['WebPath'])) {
+		        $WebPath = $_POST['WebPath'];
+            }
+		    if(isset($_POST['picture_ids'])) {
+		        $Picture_ids= $_POST['picture_ids'];
+            }
+			$response = create_category( $_POST['ID'], $_POST['name'], $_POST['ParentID'], $WebPath, $Picture_ids );
 		}
 	}
 	echo $response;
