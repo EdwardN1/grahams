@@ -1150,11 +1150,19 @@ function getSingleProductImages($id)
 
 function getProductImages()
 {
+    error_log('getProductImages');
+    define('WP_USE_THEMES', false);
+    if(file_exists('/var/www/html/wp-load.php')) {
+        require_once('/var/www/html/wp-load.php');
+    } else {
+        error_log('Cannot Load WordPress');
+    }
+
     $res = array();
     $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
     $loop = get_posts($args);
     //$loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
-    foreach ($loop as $post): setup_postdata($post);
+    /*foreach ($loop as $post): setup_postdata($post);
         if (have_rows('product_images')):
             while (have_rows('product_images')): the_row();
                 $api_link = get_sub_field('api_link');
@@ -1186,6 +1194,9 @@ function getProductImages()
             endwhile;
         endif;
     endforeach;
+    wp_reset_postdata();
+    return $res;
+    */
     /*while ($loop->have_posts()) : $loop->the_post();
         if (have_rows('product_images')):
             while (have_rows('product_images')): the_row();
@@ -1217,9 +1228,11 @@ function getProductImages()
                 }
             endwhile;
         endif;
-    endwhile;*/
+    endwhile;
     wp_reset_postdata();
     return $res;
+    */
+
 }
 
 
