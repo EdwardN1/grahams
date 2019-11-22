@@ -1150,9 +1150,9 @@ function getSingleProductImages($id)
 
 function getProductImages()
 {
-    error_log('getProductImages');
+    error_log('Begin: getProductImages');
     define('WP_USE_THEMES', false);
-    if(file_exists('/var/www/html/wp-load.php')) {
+    if (file_exists('/var/www/html/wp-load.php')) {
         require_once('/var/www/html/wp-load.php');
     } else {
         error_log('Cannot Load WordPress');
@@ -1161,10 +1161,11 @@ function getProductImages()
     $res = array();
     $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
     $loop = get_posts($args);
-    //$loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
-    /*foreach ($loop as $post): setup_postdata($post);
-        if (have_rows('product_images')):
-            while (have_rows('product_images')): the_row();
+
+    foreach ($loop as $post): setup_postdata($post);
+        $postID = $post->ID;
+        if (have_rows('product_images',$postID)):
+            while (have_rows('product_images',$postID)): the_row();
                 $api_link = get_sub_field('api_link');
                 $api_image_id = get_sub_field('api_image_id');
                 if (!imageImported($api_image_id)) {
@@ -1178,8 +1179,8 @@ function getProductImages()
                 }
             endwhile;
         endif;
-        if (have_rows('variation_images')):
-            while (have_rows('variation_images')): the_row();
+        if (have_rows('variation_images',$postID)):
+            while (have_rows('variation_images',$postID)): the_row();
                 $api_link = get_sub_field('api_link');
                 $api_image_id = get_sub_field('api_image_id');
                 if (!imageImported($api_image_id)) {
@@ -1195,9 +1196,11 @@ function getProductImages()
         endif;
     endforeach;
     wp_reset_postdata();
+    error_log('End: getProductImages');
     return $res;
-    */
-    /*while ($loop->have_posts()) : $loop->the_post();
+
+    /*$loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
+    while ($loop->have_posts()) : $loop->the_post();
         if (have_rows('product_images')):
             while (have_rows('product_images')): the_row();
                 $api_link = get_sub_field('api_link');
@@ -1232,6 +1235,7 @@ function getProductImages()
     wp_reset_postdata();
     return $res;
     */
+
 
 }
 
@@ -1300,8 +1304,51 @@ function linkProductGroupImages($id)
 
 function linkProductImages()
 {
+    error_log('Begin: linkProductImages');
+    define('WP_USE_THEMES', false);
+    if (file_exists('/var/www/html/wp-load.php')) {
+        require_once('/var/www/html/wp-load.php');
+    } else {
+        error_log('Cannot Load WordPress');
+    }
     $res = '';
-    $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
+    $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
+    $loop = get_posts($args);
+    foreach ($loop as $post): setup_postdata($post);
+        $res .= 'Checking Product: ' . get_the_title($post) . '</br>';
+        $postID = $post->ID;
+        if (have_rows('variation_images', $postID)):
+            $res .= '<br><span style="color: green;">Found Variation Images to Check</span></br>';
+            while (have_rows('variation_images', $postID)): the_row();
+                $api_id = get_sub_field('api_image_id');
+                $res .= 'Looking for Image: ' . $api_id . '</br>';
+                $attachmentID = imageIDfromAPIID($api_id);
+                $res .= 'AttachmentID for ' . $api_id . ' = ' . $attachmentID . '</br>';
+                if ($attachmentID) {
+                    update_sub_field('image', $attachmentID);
+                } else {
+                    $res .= 'Image ID ' . $api_id . ' not found in media library</br>';
+                }
+            endwhile;
+        endif;
+        if (have_rows('product_images', $postID)):
+            $res .= '<br><span style="color: green;">Found Variation Images to Check</span></br>';
+            while (have_rows('product_images', $postID)): the_row();
+                $api_id = get_sub_field('api_image_id');
+                $res .= 'Looking for Image: ' . $api_id . '</br>';
+                $attachmentID = imageIDfromAPIID($api_id);
+                $res .= 'AttachmentID for ' . $api_id . ' = ' . $attachmentID . '</br>';
+                if ($attachmentID) {
+                    update_sub_field('image', $attachmentID);
+                } else {
+                    $res .= 'Image ID ' . $api_id . ' not found in media library</br>';
+                }
+            endwhile;
+        endif;
+        $res .= '<hr>';
+    endforeach;
+
+    /*$loop = new WP_Query($args);
     if ($loop->have_posts()):
         while ($loop->have_posts()) : $loop->the_post();
             $res .= 'Checking Product: ' . get_the_title() . '</br>';
@@ -1336,8 +1383,10 @@ function linkProductImages()
             endif;
             $res .= '<hr>';
         endwhile;
-    endif;
+    endif;*/
     wp_reset_postdata();
+
+    error_log('End: linkProductImages');
 
     return $res;
 }
