@@ -325,7 +325,7 @@ function getAPIIDFromCode($code)
 function getProductFromID($productID, $variationID)
 {
     $res = false;
-    global $post;
+   /* global $post;
     $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
 
     $loop = get_posts($args);
@@ -339,9 +339,11 @@ function getProductFromID($productID, $variationID)
                 break;
             }
         }
-    endforeach;
+    endforeach;*/
 
-    /*$loop = new WP_Query($args);
+   $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
+
+   $loop = new WP_Query($args);
     if ($loop->have_posts()):
         while ($loop->have_posts()) : $loop->the_post();
             $api_id = get_field('api_id');
@@ -353,7 +355,7 @@ function getProductFromID($productID, $variationID)
                 }
             }
         endwhile;
-    endif;*/
+    endif;
 
     wp_reset_postdata();
 
@@ -802,15 +804,15 @@ function imageImported($id)
         'meta_key' => 'api_id',
         'meta_value' => $id
     );
-    /*$loop = new WP_Query($args);
+    $loop = new WP_Query($args);
 
-    return $loop->have_posts();*/
-    $loop = get_posts($args);
+    return $loop->have_posts();
+    /*$loop = get_posts($args);
     if (empty($loop)) {
         return false;
     } else {
         return true;
-    }
+    }*/
 
 }
 
@@ -827,22 +829,22 @@ function imageIDfromAPIID($id)
         'meta_key' => 'api_id',
         'meta_value' => $id
     );
-    /*$loop = new WP_Query($args);
+    $loop = new WP_Query($args);
     if ($loop->have_posts()) :
         while ($loop->have_posts()) : $loop->the_post();
             $res = get_the_ID();
             break;
         endwhile;
-    endif;*/
+    endif;
 
-    $loop = get_posts($args);
+    /*$loop = get_posts($args);
 
     foreach ($loop as $post): setup_postdata($post);
         $res = get_the_ID();
         break;
-    endforeach;
+    endforeach;*/
 
-    //wp_reset_postdata();
+    wp_reset_postdata();
     return $res;
 }
 
@@ -1151,7 +1153,8 @@ function getSingleProductImages($id)
 function getProductImages()
 {
     error_log('Begin: getProductImages');
-    define('WP_USE_THEMES', false);
+    $res = array();
+    /*define('WP_USE_THEMES', false);
     if (file_exists('/var/www/html/wp-load.php')) {
         require_once('/var/www/html/wp-load.php');
     } else {
@@ -1159,7 +1162,7 @@ function getProductImages()
     }
 
     $res = array();
-    $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
+    $args = array('post_type' => 'grahams_product', 'posts_per_page' => 100);
     $loop = get_posts($args);
 
     foreach ($loop as $post): setup_postdata($post);
@@ -1197,9 +1200,10 @@ function getProductImages()
     endforeach;
     wp_reset_postdata();
     error_log('End: getProductImages');
-    return $res;
+    return $res;*/
 
-    /*$loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
+    //$loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => 100, 'page' => 5));
+    $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
     while ($loop->have_posts()) : $loop->the_post();
         if (have_rows('product_images')):
             while (have_rows('product_images')): the_row();
@@ -1232,9 +1236,12 @@ function getProductImages()
             endwhile;
         endif;
     endwhile;
+
     wp_reset_postdata();
+    error_log('End: getProductImages');
+
     return $res;
-    */
+
 
 
 }
@@ -1305,14 +1312,15 @@ function linkProductGroupImages($id)
 function linkProductImages()
 {
     error_log('Begin: linkProductImages');
-    define('WP_USE_THEMES', false);
+    $res = '';
+    /*define('WP_USE_THEMES', false);
     if (file_exists('/var/www/html/wp-load.php')) {
         require_once('/var/www/html/wp-load.php');
     } else {
         error_log('Cannot Load WordPress');
     }
-    $res = '';
-    $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
+
+    $args = array('post_type' => 'grahams_product', 'posts_per_page' => 100);
     $loop = get_posts($args);
     foreach ($loop as $post): setup_postdata($post);
         $res .= 'Checking Product: ' . get_the_title($post) . '</br>';
@@ -1346,9 +1354,10 @@ function linkProductImages()
             endwhile;
         endif;
         $res .= '<hr>';
-    endforeach;
-
-    /*$loop = new WP_Query($args);
+    endforeach;*/
+    //$args = array('post_type' => 'grahams_product', 'posts_per_page' => 100, 'paged' => 5);
+    $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
+    $loop = new WP_Query($args);
     if ($loop->have_posts()):
         while ($loop->have_posts()) : $loop->the_post();
             $res .= 'Checking Product: ' . get_the_title() . '</br>';
@@ -1383,7 +1392,7 @@ function linkProductImages()
             endif;
             $res .= '<hr>';
         endwhile;
-    endif;*/
+    endif;
     wp_reset_postdata();
 
     error_log('End: linkProductImages');
