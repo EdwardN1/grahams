@@ -196,7 +196,7 @@ if ($ie11)
                                             <div class="cell auto">Get sorted fast</div>
                                         </div>
                                     </div>
-                                    <div class="cell shrink" style="padding-right: 1em;">
+                                    <div class="cell shrink show-for-large" style="padding-right: 1em;">
                                         <div class="grid-x">
                                             <div class="cell shrink"><img src="<?php echo get_icon('gearhead'); ?>"></div>
                                             <div class="cell auto">Talk to people in the know</div>
