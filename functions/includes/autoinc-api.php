@@ -1,5 +1,25 @@
 <?php
 
+// Force certificate validation. You need a valid certificate in the site, self generated certificates are NOT VALID.
+add_filter( 'https_local_ssl_verify', '__return_true' );
+
+// Setting a custom timeout value for cURL. Using a high value for priority to ensure the function runs after any other added to the same action hook.
+add_action('http_api_curl', 'sar_custom_curl_timeout', 9999, 1);
+function sar_custom_curl_timeout( $handle ){
+    curl_setopt( $handle, CURLOPT_CONNECTTIMEOUT, 30 ); // 30 seconds. Too much for production, only for testing.
+    curl_setopt( $handle, CURLOPT_TIMEOUT, 30 ); // 30 seconds. Too much for production, only for testing.
+}
+// Setting custom timeout for the HTTP request
+add_filter( 'http_request_timeout', 'sar_custom_http_request_timeout', 9999 );
+function sar_custom_http_request_timeout( $timeout_value ) {
+    return 30; // 30 seconds. Too much for production, only for testing.
+}
+// Setting custom timeout in HTTP request args
+add_filter('http_request_args', 'sar_custom_http_request_args', 9999, 1);
+function sar_custom_http_request_args( $r ){
+    $r['timeout'] = 30; // 30 seconds. Too much for production, only for testing.
+    return $r;
+}
 
 function displayJSON($apiCall)
 {
@@ -58,10 +78,60 @@ function make_api_call($url)
 
 }
 
+function insert_attachment_from_url($url, $parent_post_id = null)
+{
+    if (!class_exists('WP_Http'))
+        include_once(ABSPATH . WPINC . '/class-http.php');
+    $http = new WP_Http();
+    /*$resp = array();
+    $args = array('method'=>'GET');
+    $response = $http->handle_redirects($url,$args,$resp);
+    if(!$response) {
+        $response = $http->request($url);
+    }*/
+    $response = $http->request($url);
+    if (!is_wp_error($response)):
+        if ($response['response']['code'] != 200) {
+            return false;
+        }
+        $upload = wp_upload_bits(basename($url), null, $response['body']);
+        if (!empty($upload['error'])) {
+            return false;
+        }
+        $file_path = $upload['file'];
+        $file_name = basename($file_path);
+        $file_type = wp_check_filetype($file_name, null);
+        $attachment_title = sanitize_file_name(pathinfo($file_name, PATHINFO_FILENAME));
+        $wp_upload_dir = wp_upload_dir();
+        $post_info = array(
+            'guid' => $wp_upload_dir['url'] . '/' . $file_name,
+            'post_mime_type' => $file_type['type'],
+            'post_title' => $attachment_title,
+            'post_content' => '',
+            'post_status' => 'inherit',
+        );
+        // Create the attachment
+        $attach_id = wp_insert_attachment($post_info, $file_path, $parent_post_id);
+        // Include image.php
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+        // Define attachment metadata
+        $attach_data = wp_generate_attachment_metadata($attach_id, $file_path);
+        // Assign metadata to attachment
+        wp_update_attachment_metadata($attach_id, $attach_data);
+        return $attach_id;
+    else:
+        error_log($response->get_error_message());
+        return false;
+    endif;
+
+}
+
 function get_image_file($url)
 {
     $method = get_field('api_retrieval', 'options');
+    error_log('get_image_file method: ' . $method);
     if ($method == 'cUrl') {
+        error_log('Getting Remote File using cUrl - ' . $url);
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -70,7 +140,10 @@ function get_image_file($url)
         $apiCall = curl_exec($ch);
         curl_close($ch);
         return $apiCall;
+        /*$http = wp_remote_get( $url );
+        return $http;*/
     } else {
+        error_log('Getting Remote File using file_get_contents - ' . $url);
         return file_get_contents($url);
     }
 }
@@ -323,25 +396,25 @@ function getAPIIDFromCode($code)
 function getProductFromID($productID, $variationID)
 {
     $res = false;
-   /* global $post;
+    /* global $post;
+     $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
+
+     $loop = get_posts($args);
+
+     foreach ($loop as $post): setup_postdata($post);
+         $api_id = get_field('api_id');
+         if ($api_id == $productID) {
+             $variation_id = get_field('variation_id');
+             if ($variation_id == $variationID) {
+                 $res = get_the_ID();
+                 break;
+             }
+         }
+     endforeach;*/
+
     $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
 
-    $loop = get_posts($args);
-
-    foreach ($loop as $post): setup_postdata($post);
-        $api_id = get_field('api_id');
-        if ($api_id == $productID) {
-            $variation_id = get_field('variation_id');
-            if ($variation_id == $variationID) {
-                $res = get_the_ID();
-                break;
-            }
-        }
-    endforeach;*/
-
-   $args = array('post_type' => 'grahams_product', 'posts_per_page' => -1);
-
-   $loop = new WP_Query($args);
+    $loop = new WP_Query($args);
     if ($loop->have_posts()):
         while ($loop->have_posts()) : $loop->the_post();
             $api_id = get_field('api_id');
@@ -860,29 +933,37 @@ function importSingleProductImages($productID, $variationID)
                     $api_link = get_sub_field('api_link');
                     $api_image_id = get_sub_field('api_image_id');
                     if (!imageImported($api_image_id)) {
-                        $uploaddir = wp_upload_dir();
-                        $filename = $api_image_id . '-' . uniqid() . '.jpg';
-                        $uploadfile = $uploaddir['path'] . '/' . $filename;
-                        $contents = get_image_file($api_link);
-                        if ($contents) {
-                            $savefile = fopen($uploadfile, 'w');
-                            fwrite($savefile, $contents);
-                            fclose($savefile);
-                            $wp_filetype = wp_check_filetype(basename($filename), null);
-                            $attachment = array(
-                                'post_mime_type' => $wp_filetype['type'],
-                                'post_title' => $filename,
-                                'post_content' => '',
-                                'post_status' => 'inherit'
-                            );
-                            $attach_id = wp_insert_attachment($attachment, $uploadfile);
-                            $imagenew = get_post($attach_id);
-                            $fullsizepath = get_attached_file($imagenew->ID);
-                            $attach_data = wp_generate_attachment_metadata($attach_id, $fullsizepath);
-                            wp_update_attachment_metadata($attach_id, $attach_data);
+
+                        $attach_id = insert_attachment_from_url($api_link, get_the_ID());
+                        if ($attach_id) {
                             update_field('api_id', $api_image_id, $attach_id);
+                            $res = 'Product Images Imported via WP_HTTP Object';
+                        } else {
+                            $res = 'Product Images Import WP_HTTP Object Error for - ' . $api_link;
                         }
-                        $res = 'Product Images Imported';
+                        /* $uploaddir = wp_upload_dir();
+                         $filename = $api_image_id . '-' . uniqid() . '.jpg';
+                         $uploadfile = $uploaddir['path'] . '/' . $filename;
+                         $contents = get_image_file($api_link);
+                         if ($contents) {
+                             $savefile = fopen($uploadfile, 'w');
+                             fwrite($savefile, $contents);
+                             fclose($savefile);
+                             $wp_filetype = wp_check_filetype(basename($filename), null);
+                             $attachment = array(
+                                 'post_mime_type' => $wp_filetype['type'],
+                                 'post_title' => $filename,
+                                 'post_content' => '',
+                                 'post_status' => 'inherit'
+                             );
+                             $attach_id = wp_insert_attachment($attachment, $uploadfile);
+                             $imagenew = get_post($attach_id);
+                             $fullsizepath = get_attached_file($imagenew->ID);
+                             $attach_data = wp_generate_attachment_metadata($attach_id, $fullsizepath);
+                             wp_update_attachment_metadata($attach_id, $attach_data);
+                             update_field('api_id', $api_image_id, $attach_id);
+                         }
+                         $res = 'Product Images Imported';*/
                     } else {
                         $res = 'Product Images Already Imported';
                     }
@@ -893,7 +974,16 @@ function importSingleProductImages($productID, $variationID)
                     $api_link = get_sub_field('api_link');
                     $api_image_id = get_sub_field('api_image_id');
                     if (!imageImported($api_image_id)) {
-                        $uploaddir = wp_upload_dir();
+
+                        $attach_id = insert_attachment_from_url($api_link, get_the_ID());
+                        if ($attach_id) {
+                            update_field('api_id', $api_image_id, $attach_id);
+                            $res = 'Product Images Imported via WP_HTTP Object';
+                        } else {
+                            $res = 'Product Images Import WP_HTTP Object Error for - ' . $api_link;
+                        }
+
+                        /*$uploaddir = wp_upload_dir();
                         $filename = $api_image_id . '-' . uniqid() . '.jpg';
                         $uploadfile = $uploaddir['path'] . '/' . $filename;
                         $contents = get_image_file($api_link);
@@ -915,7 +1005,7 @@ function importSingleProductImages($productID, $variationID)
                             wp_update_attachment_metadata($attach_id, $attach_data);
                             update_field('api_id', $api_image_id, $attach_id);
                         }
-                        $res = 'Product Images Imported';
+                        $res = 'Product Images Imported';*/
                     } else {
                         $res = 'Product Images Already Imported';
                     }
@@ -936,7 +1026,16 @@ function importProductImages()
                 $api_link = get_sub_field('api_link');
                 $api_image_id = get_sub_field('api_image_id');
                 if (!imageImported($api_image_id)) {
-                    $uploaddir = wp_upload_dir();
+
+                    $attach_id = insert_attachment_from_url($api_link, get_the_ID());
+                    if ($attach_id) {
+                        update_field('api_id', $api_image_id, $attach_id);
+                        $res = 'Product Images Imported via WP_HTTP Object';
+                    } else {
+                        $res = 'Product Images Import WP_HTTP Object Error for - ' . $api_link;
+                    }
+
+                    /*$uploaddir = wp_upload_dir();
                     $filename = $api_image_id . '-' . uniqid() . '.jpg';
                     $uploadfile = $uploaddir['path'] . '/' . $filename;
                     $contents = get_image_file($api_link);
@@ -957,7 +1056,7 @@ function importProductImages()
                         $attach_data = wp_generate_attachment_metadata($attach_id, $fullsizepath);
                         wp_update_attachment_metadata($attach_id, $attach_data);
                         update_field('api_id', $api_image_id, $attach_id);
-                    }
+                    }*/
                 }
             endwhile;
         endif;
@@ -974,7 +1073,16 @@ function importVariationImages()
                 $api_link = get_sub_field('api_link');
                 $api_image_id = get_sub_field('api_image_id');
                 if (!imageImported($api_image_id)) {
-                    $uploaddir = wp_upload_dir();
+
+                    $attach_id = insert_attachment_from_url($api_link, get_the_ID());
+                    if ($attach_id) {
+                        update_field('api_id', $api_image_id, $attach_id);
+                        $res = 'Product Images Imported via WP_HTTP Object';
+                    } else {
+                        $res = 'Product Images Import WP_HTTP Object Error for - ' . $api_link;
+                    }
+
+                    /*$uploaddir = wp_upload_dir();
                     $filename = $api_image_id . '-' . uniqid() . '.jpg';
                     $uploadfile = $uploaddir['path'] . '/' . $filename;
                     $contents = get_image_file($api_link);
@@ -995,7 +1103,7 @@ function importVariationImages()
                         $attach_data = wp_generate_attachment_metadata($attach_id, $fullsizepath);
                         wp_update_attachment_metadata($attach_id, $attach_data);
                         update_field('api_id', $api_image_id, $attach_id);
-                    }
+                    }*/
                 }
             endwhile;
         endif;
@@ -1016,7 +1124,16 @@ function importCategoryImages()
             $api_link = get_field('api_link', $term);
             $res .= $term->name . ' has image id - ' . $api_image_id . ' and link = ' . $api_link . '</br>';
             if (!imageImported($api_image_id)) {
-                $uploaddir = wp_upload_dir();
+
+                $attach_id = insert_attachment_from_url($api_link, get_the_ID());
+                if ($attach_id) {
+                    update_field('api_id', $api_image_id, $attach_id);
+                    $res = 'Product Images Imported via WP_HTTP Object';
+                } else {
+                    $res = 'Product Images Import WP_HTTP Object Error for - ' . $api_link;
+                }
+
+                /*$uploaddir = wp_upload_dir();
                 $filename = $api_image_id . '-' . uniqid() . '.jpg';
                 $uploadfile = $uploaddir['path'] . '/' . $filename;
                 $contents = get_image_file($api_link);
@@ -1037,7 +1154,7 @@ function importCategoryImages()
                     $attach_data = wp_generate_attachment_metadata($attach_id, $fullsizepath);
                     wp_update_attachment_metadata($attach_id, $attach_data);
                     update_field('api_id', $api_image_id, $attach_id);
-                }
+                }*/
             }
         }
     }
@@ -1057,7 +1174,16 @@ function importPicture($id, $webpath)
 {
     $res = 'Picture Import Error';
     if (!imageImported($id)) {
-        $uploaddir = wp_upload_dir();
+
+        $attach_id = insert_attachment_from_url($webpath);
+        if ($attach_id) {
+            update_field('api_id', $id, $attach_id);
+            $res = 'Product Images Imported via WP_HTTP Object';
+        } else {
+            $res = 'Product Images Import WP_HTTP Object Error for - ' . $webpath;
+        }
+
+        /*$uploaddir = wp_upload_dir();
         $filename = $id . '-' . uniqid() . '.jpg';
         $uploadfile = $uploaddir['path'] . '/' . $filename;
         $contents = get_image_file($webpath);
@@ -1079,7 +1205,7 @@ function importPicture($id, $webpath)
             wp_update_attachment_metadata($attach_id, $attach_data);
             update_field('api_id', $id, $attach_id);
             $res = 'Image Imported Sucessfully';
-        }
+        }*/
     } else {
         $res = 'Image Already Imported';
     }
@@ -1191,7 +1317,6 @@ function getProductImages()
     error_log('End: getProductImages');
 
     return $res;
-
 
 
 }
