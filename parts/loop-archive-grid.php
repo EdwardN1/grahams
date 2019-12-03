@@ -8,6 +8,8 @@
 // Adjust the amount of rows in the grid
 //$grid_columns = 5; ?>
 
+<?php $imageFirstURL = ''; ?>
+
 <?php if (0 === ($wp_query->current_post)): ?>
 
 <div class="grid-x grid-margin-x grid-padding-x archive-grid small-up-1 medium-up-4 large-up-5"> <!--Begin Grid-->
@@ -33,7 +35,7 @@
 				</section> -->
 
             <?php if (have_rows('variation_images')) : ?>
-                <?php $imageFirstURL = ''; ?>
+
                 <?php while (have_rows('variation_images')) : the_row(); ?>
                     <?php $image = get_sub_field('image'); ?>
                     <?php $imageURL = $image['url']; ?>

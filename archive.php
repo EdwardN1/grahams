@@ -18,53 +18,55 @@ get_header(); ?>
         <?php
         $thisTerm = get_term_by('slug', get_query_var('term'), get_query_var('taxonomy'));
 
-        if ($thisTerm->taxonomy == 'grahamscat') {
-            ?>
-            <div class="grid-container text-center breadcrumbs">
-                <?php
-                $divider = '';
-                if ($thisTerm->parent > 0) {
-                    $parentTerm = get_term_by("id", $thisTerm->parent, "grahamscat");
-                    echo '<a href="/product-category/' . $parentTerm->slug . '" class="green">' . '«  Back to  ' . $parentTerm->name . '</a>';
-                    $divider = ' | ';
-                }
-                foreach (get_terms('grahamscat', array('hide_empty' => false, 'parent' => $thisTerm->term_id)) as $child_term) {
-                    echo $divider . '<a href="/product-category/' . $child_term->slug . '" class="green">' . $child_term->name . '</a>';
-                    $divider = ' | ';
-                }
-
+        if($thisTerm) {
+            if ($thisTerm->taxonomy == 'grahamscat') {
                 ?>
-            </div>
-            <?php
-            $gridTerms = get_terms('grahamscat', array('hide_empty' => false, 'parent' => $thisTerm->term_id));
-            if ($gridTerms) {
-                ?>
-                <div class="grid-x grid-margin-x grid-padding-x archive-grid small-up-1 medium-up-4 large-up-5">
+                <div class="grid-container text-center breadcrumbs">
                     <?php
-                    foreach ($gridTerms as $gridTerm) {
-                        $catURL = '/product-category/'.$gridTerm->slug;
-                        $catIMG = get_field('image',$gridTerm);
-                        $catName = $gridTerm->name;
-                        ?>
-                        <div class="cell panel product-carousel no-border">
-                            <div class="carousel-slide">
-                                <a href="<?php echo $catURL; ?>" class="carousel-link-container">
-                                    <div class="slide-image">
-                                        <img src="<?php echo $catIMG['url']; ?>">
-                                    </div>
-                                    <div class="slide-title text-center">
-                                        <?php echo $catName; ?>
-                                    </div>
-
-                                </a>
-                            </div>
-                        </div>
-                        <?php
+                    $divider = '';
+                    if ($thisTerm->parent > 0) {
+                        $parentTerm = get_term_by("id", $thisTerm->parent, "grahamscat");
+                        echo '<a href="/product-category/' . $parentTerm->slug . '" class="green">' . '«  Back to  ' . $parentTerm->name . '</a>';
+                        $divider = ' | ';
                     }
+                    foreach (get_terms('grahamscat', array('hide_empty' => false, 'parent' => $thisTerm->term_id)) as $child_term) {
+                        echo $divider . '<a href="/product-category/' . $child_term->slug . '" class="green">' . $child_term->name . '</a>';
+                        $divider = ' | ';
+                    }
+
                     ?>
                 </div>
-                <hr>
                 <?php
+                $gridTerms = get_terms('grahamscat', array('hide_empty' => false, 'parent' => $thisTerm->term_id));
+                if ($gridTerms) {
+                    ?>
+                    <div class="grid-x grid-margin-x grid-padding-x archive-grid small-up-1 medium-up-4 large-up-5">
+                        <?php
+                        foreach ($gridTerms as $gridTerm) {
+                            $catURL = '/product-category/' . $gridTerm->slug;
+                            $catIMG = get_field('image', $gridTerm);
+                            $catName = $gridTerm->name;
+                            ?>
+                            <div class="cell panel product-carousel no-border">
+                                <div class="carousel-slide">
+                                    <a href="<?php echo $catURL; ?>" class="carousel-link-container">
+                                        <div class="slide-image">
+                                            <img src="<?php echo $catIMG['url']; ?>">
+                                        </div>
+                                        <div class="slide-title text-center">
+                                            <?php echo $catName; ?>
+                                        </div>
+
+                                    </a>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <hr>
+                    <?php
+                }
             }
         }
 
