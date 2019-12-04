@@ -67,7 +67,7 @@ if ($ie11)
                                     YOUR LOCAL SPECIALIST
                                 </div>
                                 <div class="cell shrink hide-for-large">
-                                    <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="grey button-link" style="margin-left: 2px;">
+                                    <a href="/store-locator/" class="grey button-link" style="margin-left: 2px;">
                                         <img src="<?php echo get_icon('target'); ?>">
                                         <span>Find Branch</span>
                                     </a>
@@ -86,7 +86,7 @@ if ($ie11)
                                     <span class="button-link">All prices Ex VAT</span>
                                 </div>
                                 <div class="cell shrink show-for-large">
-                                    <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="grey button-link">
+                                    <a href="/store-locator/" class="grey button-link">
                                         <img src="<?php echo get_icon('target'); ?>">
                                         <span>Find Branch</span>
                                     </a>
