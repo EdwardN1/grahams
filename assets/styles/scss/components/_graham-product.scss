@@ -87,6 +87,16 @@
       padding-left: 4rem;
       padding-right: 4rem;
       margin-right: 4rem;
+      &.wishlist.remove {
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin-right: 2rem;
+      }
+      &.wishlist.add {
+        padding-left: 4rem;
+        padding-right: 4rem;
+        margin-right: 2.5rem;
+      }
     }
 
     .button.green {
