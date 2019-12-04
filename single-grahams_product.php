@@ -87,8 +87,8 @@ get_header(); ?>
                     <span class="only">Only</span>
                     £<?php echo $price; ?><span class="only"> Ex VAT</span>
                 </div>
-                <div class="buttons"><!--<a href="#" class="button lime">Enquire Now</a>--> <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="button green">Nearest
-                        Stockist</a></div>
+                <div class="buttons"><a href="#" class="button lime wishlist add" data-post="<?php the_ID();?>">Add to wishlist</a> <a href="#" class="button lime wishlist remove" data-post="<?php the_ID();?>">Remove from wishlist</a> <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="button green">Nearest
+                        stockist</a> </div>
                 <ul class="accordion" data-accordion data-allow-all-closed="true">
 
 					<?php if ( $summary ): ?>
@@ -125,14 +125,91 @@ get_header(); ?>
 					<?php endif; ?>
 
 
-                    <!--<li class="accordion-item" data-accordion-item>
-                        <a href="#" class="accordion-title">Availability</a>
+                    <li class="accordion-item wishlist display" data-accordion-item>
+                        <a href="#" class="accordion-title">Wishlist</a>
                         <div class="accordion-content" data-tab-content>
-			                <?php /*echo $availability; */ ?>
+                            <?php
+                            echo get_wish_list();
+                            ?>
                         </div>
-                    </li>-->
+                    </li>
 
                 </ul>
+
+                <div class="wishlist">
+                    <script>
+                        jQuery(document).ready(function ($) {
+                            function setupWishList() {
+                                let json_wishes = Cookies.get('wishlist');
+                                let postID = $('.wishlist.add').data('post');
+                                //window.console.log('posts in wishlist: ' + json_wishes);
+                                //window.console.log('This post is: ' + postID);
+                                if(json_wishes) {
+                                    let wishes = JSON.parse(json_wishes);
+                                    if(wishes.includes(postID)) {
+                                        //window.console.log('Thinks that postID is in wishlist');
+                                        $('.wishlist.add').hide();
+                                        $('.wishlist.remove').show();
+                                    } else {
+                                        //window.console.log('Thinks that postID is not in wishlist');
+                                        $('.wishlist.add').show();
+                                        $('.wishlist.remove').hide();
+                                    }
+                                    if(wishes.length < 1) {
+                                        //window.console.log('Thinks wishlist is empty');
+                                        $('.wishlist.remove').hide();
+                                        $('.wishlist.add').show();
+                                    }
+                                } else {
+                                    //window.console.log('Thinks wishlist not created yet');
+                                    $('.wishlist.remove').hide();
+                                    $('.wishlist.add').show();
+                                }
+                                jQuery.ajax({
+                                    type : "post",
+                                    url : "<?php echo admin_url( 'admin-ajax.php' );?>",
+                                    data : {action: "get_wish_list"},
+                                    success: function(response) {
+                                        $('.wishlist .accordion-content').html(response);
+                                    }
+                                })
+                            }
+                            setupWishList();
+                            $('.wishlist.add').click(function (e) {
+                                e.preventDefault();
+                                //window.console.log('Add Clicked');
+                                let postID = $(this).data('post');
+                                let json_wishes = Cookies.get('wishlist');
+                                let wishes = [];
+                                if(json_wishes) {
+                                    wishes = JSON.parse(json_wishes);
+                                    if(!wishes.includes(postID)) {
+                                        wishes.push(postID);
+                                    }
+                                }
+                                json_wishes = JSON.stringify(wishes);
+                                Cookies.set('wishlist',json_wishes);
+                                setupWishList();
+                            });
+                            $('.wishlist.remove').click(function (e) {
+                                e.preventDefault();
+                                let postID = $(this).data('post');
+                                let json_wishes = Cookies.get('wishlist');
+                                let wishes = [];
+                                if(json_wishes) {
+                                    wishes = JSON.parse(json_wishes);
+                                    if(wishes.includes(postID)) {
+                                        let index = wishes.indexOf(postID);
+                                        wishes.splice(index, 1);;
+                                    }
+                                }
+                                json_wishes = JSON.stringify(wishes);
+                                Cookies.set('wishlist',json_wishes);
+                                setupWishList();
+                            });
+                        });
+                    </script>
+                </div>
             </div>
         </div>
     </div>
