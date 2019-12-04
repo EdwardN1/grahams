@@ -47,6 +47,7 @@
             <?php else : ?>
                 <?php // no rows found ?>
             <?php endif; ?>
+            <?php if ($imageFirstURL == ''):$imageFirstURL = get_template_directory_uri().'/assets/images/no-image-icon.png';endif; ?>
             <?php if ($imageFirstURL): ?>
                 <a href="<?php the_permalink(); ?>" class="carousel-link-container">
                     <div class="slide-image">
