@@ -1,5 +1,11 @@
 <?php
 
+function checkMailRequestSecure() {
+    if ( ! check_ajax_referer( 'mailing-security-nonce', 'security' ) ) {
+        wp_send_json_error( 'Invalid security token sent.' );
+        wp_die();
+    }
+}
 
 /**
  * ========================== Ajax Actions ==============================
@@ -13,6 +19,15 @@ add_action('wp_ajax_get_email_wish_list', 'ajax_get_email_wish_list');
 
 add_action('wp_ajax_nopriv_get_plain_email_wish_list', 'ajax_get_plain_email_wish_list');
 add_action('wp_ajax_get_plain_email_wish_list', 'ajax_get_plain_email_wish_list');
+
+add_action('wp_ajax_nopriv_send_SMTP_wishlist', 'ajax_send_SMTP_wishlist');
+add_action('wp_ajax_gsend_SMTP_wishlist', 'ajax_send_SMTP_wishlist');
+
+function ajax_send_SMTP_wishlist() {
+    checkMailRequestSecure();
+    echo send_SMTP_wishlist();
+    exit;
+}
 
 function ajax_get_wish_list()
 {
@@ -30,6 +45,10 @@ function ajax_get_plain_email_wish_list()
 {
     echo get_plain_email_wish_list();
     exit;
+}
+
+function send_SMTP_wishlist() {
+    $mail = new PHPMailer(true);
 }
 
 function get_wish_list()
