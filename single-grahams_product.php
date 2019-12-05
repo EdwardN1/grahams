@@ -87,7 +87,7 @@ get_header(); ?>
                     <span class="only">Only</span>
                     £<?php echo $price; ?><span class="only"> Ex VAT</span>
                 </div>
-                <div class="buttons"><a href="#" class="button lime wishlist add" data-post="<?php the_ID();?>">Add to wishlist</a> <a href="#" class="button lime wishlist remove" data-post="<?php the_ID();?>">Remove from wishlist</a> <a href="https://www.grahamplumbersmerchant.co.uk/branch-locator/" target="_blank" class="button green">Nearest
+                <div class="buttons"><a href="#" class="button lime wishlist add" data-post="<?php the_ID();?>">Add to wishlist</a> <a href="#" class="button lime wishlist remove" data-post="<?php the_ID();?>">Remove from wishlist</a> <a href="/store-locator/" class="button green">Nearest
                         stockist</a> </div>
                 <ul class="accordion" data-accordion data-allow-all-closed="true">
 
@@ -128,9 +128,39 @@ get_header(); ?>
                     <li class="accordion-item wishlist display" data-accordion-item>
                         <a href="#" class="accordion-title">Wishlist</a>
                         <div class="accordion-content" data-tab-content>
+                            <div class="list">
                             <?php
                             echo get_wish_list();
                             ?>
+                            </div>
+                            <div class="email-form">
+                                <script>
+                                    function sendmail() {
+                                        jQuery.ajax({
+                                            type : "get",
+                                            dataType : 'text',
+                                            url : "<?php echo admin_url( 'admin-ajax.php' );?>",
+                                            data : {action: "get_plain_email_wish_list"},
+                                            success: function(response) {
+                                                window.open('mailto:'+jQuery('#pmEmail').val()+'?subject='+jQuery('#pmSubject').val()+'&body='+response);
+                                            }
+                                        })
+
+                                    }
+                                </script>
+                                <strong>Email wishlist:</strong><br>
+                                <form action="javascript:sendmail();" name="wlForm" method="post">
+                                    <label>
+                                        email: <input name="pmEmail" id="pmEmail" type="text" maxlength="64" style="width:98%;" />
+                                    </label>
+                                    <label>
+                                        subject:
+                                        <input name="pmSubject" id="pmSubject" type="text" maxlength="64" style="width:98%;" />
+                                    </label>
+                                    <input name="pmSubmit" type="submit" value="Send" />
+                                </form>
+                            </div>
+
                         </div>
                     </li>
 
@@ -139,6 +169,7 @@ get_header(); ?>
                 <div class="wishlist">
                     <script>
                         jQuery(document).ready(function ($) {
+
                             function setupWishList() {
                                 let json_wishes = Cookies.get('wishlist');
                                 let postID = $('.wishlist.add').data('post');
@@ -150,27 +181,31 @@ get_header(); ?>
                                         //window.console.log('Thinks that postID is in wishlist');
                                         $('.wishlist.add').hide();
                                         $('.wishlist.remove').show();
+                                        $('.email-form').show();
                                     } else {
                                         //window.console.log('Thinks that postID is not in wishlist');
                                         $('.wishlist.add').show();
                                         $('.wishlist.remove').hide();
+                                        $('.email-form').show();
                                     }
                                     if(wishes.length < 1) {
                                         //window.console.log('Thinks wishlist is empty');
                                         $('.wishlist.remove').hide();
                                         $('.wishlist.add').show();
+                                        $('.email-form').hide();
                                     }
                                 } else {
                                     //window.console.log('Thinks wishlist not created yet');
                                     $('.wishlist.remove').hide();
                                     $('.wishlist.add').show();
+                                    $('.email-form').hide();
                                 }
                                 jQuery.ajax({
                                     type : "post",
                                     url : "<?php echo admin_url( 'admin-ajax.php' );?>",
                                     data : {action: "get_wish_list"},
                                     success: function(response) {
-                                        $('.wishlist .accordion-content').html(response);
+                                        $('.wishlist .accordion-content .list').html(response);
                                     }
                                 })
                             }
