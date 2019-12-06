@@ -136,15 +136,31 @@ get_header(); ?>
                             <div class="email-form">
                                 <script>
                                     function sendmail() {
+                                        let email = [];
+                                        email.push(jQuery('#pmEmail').val());
+                                        email.push(jQuery('#pmSubject').val());
+
+                                        let json_email = JSON.stringify(email);
+                                        Cookies.set('eparams',json_email);
+
                                         jQuery.ajax({
+                                            type : "post",
+                                            data: {action: 'send_SMTP_wishlist', security: mailing_ajax_object.security},
+                                            url : mailing_ajax_object.ajax_url,
+                                            success: function(response) {
+                                                alert(response);
+                                            }
+                                        })
+
+                                        /*jQuery.ajax({
                                             type : "get",
                                             dataType : 'text',
-                                            url : "<?php echo admin_url( 'admin-ajax.php' );?>",
+                                            url : mailing_ajax_object.ajax_url,
                                             data : {action: "get_plain_email_wish_list"},
                                             success: function(response) {
                                                 window.open('mailto:'+jQuery('#pmEmail').val()+'?subject='+jQuery('#pmSubject').val()+'&body='+response);
                                             }
-                                        })
+                                        })*/
 
                                     }
                                 </script>
@@ -202,7 +218,7 @@ get_header(); ?>
                                 }
                                 jQuery.ajax({
                                     type : "post",
-                                    url : "<?php echo admin_url( 'admin-ajax.php' );?>",
+                                    url : mailing_ajax_object.ajax_url,
                                     data : {action: "get_wish_list"},
                                     success: function(response) {
                                         $('.wishlist .accordion-content .list').html(response);

@@ -21,7 +21,7 @@ add_action('wp_ajax_nopriv_get_plain_email_wish_list', 'ajax_get_plain_email_wis
 add_action('wp_ajax_get_plain_email_wish_list', 'ajax_get_plain_email_wish_list');
 
 add_action('wp_ajax_nopriv_send_SMTP_wishlist', 'ajax_send_SMTP_wishlist');
-add_action('wp_ajax_gsend_SMTP_wishlist', 'ajax_send_SMTP_wishlist');
+add_action('wp_ajax_send_SMTP_wishlist', 'ajax_send_SMTP_wishlist');
 
 function ajax_send_SMTP_wishlist() {
     checkMailRequestSecure();
@@ -48,7 +48,65 @@ function ajax_get_plain_email_wish_list()
 }
 
 function send_SMTP_wishlist() {
-    $mail = new PHPMailer(true);
+    $res = '';
+    if (isset($_COOKIE['wishlist'])) {
+        $wishlist = json_decode($_COOKIE['wishlist']);
+        if (!empty($wishlist)) {
+            if (isset($_COOKIE['eparams'])) {
+                $eparam_list = json_decode($_COOKIE['eparams']);
+                if(!empty($eparam_list)) {
+                    $to = $eparam_list[0];
+                    $subject = 'Wishlist from Graham Direct Website';
+                    if($eparam_list[1]) {
+                        $subject = $eparam_list[1];
+                    }
+                    if(filter_var($to, FILTER_VALIDATE_EMAIL)) {
+                        $mail = new PHPMailer(true);
+                        try {
+                            //Server settings
+                            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+                            $mail->isSMTP();                                            // Send using SMTP
+                            $mail->Host = get_field('smtp_server', 'option');                    // Set the SMTP server to send through
+                            $mail->SMTPAuth = true;                                   // Enable SMTP authentication
+                            $mail->Username = get_field('username', 'option');                     // SMTP username
+                            $mail->Password = get_field('password', 'option');                               // SMTP password
+                            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+                            $mail->Port = 587;                                    // TCP port to connect to
+
+                            //Recipients
+                            $mail->setFrom(get_field('from_address', 'option'), 'Graham Direct Website');
+                            $mail->addAddress($to);     // Add a recipient
+                            if (get_field('reply_to_address', 'option')) {
+                                $mail->addReplyTo(get_field('reply_to_address', 'option'));
+                            }
+
+                            // Attachments
+
+                            // Content
+                            $mail->isHTML(true);                                  // Set email format to HTML
+                            $mail->Subject = $subject;
+                            $mail->Body = get_email_wish_list();
+                            $mail->AltBody = get_plain_email_wish_list();
+
+                            $mail->send();
+                            $res = 'Wishlist has been sent';
+                        } catch (Exception $e) {
+                            $res = "Wishlist could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                        }
+                    } else {
+                        $res = 'Please enter a valid email address';
+                    }
+                } else {
+                    $res = 'Please enter an email address and subject';
+                }
+            } else {
+                $res = 'Please enter an email address and subject';
+            }
+        }
+    } else {
+        $res = 'You need to add something to your wish list before you can email it';
+    }
+    return $res;
 }
 
 function get_wish_list()
