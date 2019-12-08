@@ -53,7 +53,7 @@ function send_SMTP_wishlist() {
         $wishlist = json_decode($_COOKIE['wishlist']);
         if (!empty($wishlist)) {
             if (isset($_COOKIE['eparams'])) {
-                $eparam_list = json_decode($_COOKIE['eparams']);
+                $eparam_list = json_decode(trim($_COOKIE['eparams'],'\\"'));
                 if(!empty($eparam_list)) {
                     $to = $eparam_list[0];
                     $subject = 'Wishlist from Graham Direct Website';
@@ -94,13 +94,16 @@ function send_SMTP_wishlist() {
                             $res = "Wishlist could not be sent. Mailer Error: {$mail->ErrorInfo}";
                         }
                     } else {
-                        $res = 'Please enter a valid email address';
+                        $res = 'Please enter a valid email address - ';
+	                    error_log('Cannot eval email address - '. str_replace('\\\\','',$_COOKIE['eparams']) . ' - ' . $eparam_list[0]);
                     }
                 } else {
                     $res = 'Please enter an email address and subject';
+	                error_log('Cannot read eparams cookie - '. $_COOKIE['eparams'] . ' - ' . $eparam_list);
                 }
             } else {
                 $res = 'Please enter an email address and subject';
+                error_log('Cannot get eparams cookie');
             }
         }
     } else {

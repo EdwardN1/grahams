@@ -136,12 +136,15 @@ get_header(); ?>
                             <div class="email-form">
                                 <script>
                                     function sendmail() {
-                                        let email = [];
+                                        /*let email = [];
                                         email.push(jQuery('#pmEmail').val());
                                         email.push(jQuery('#pmSubject').val());
 
-                                        let json_email = JSON.stringify(email);
+                                        let json_email = JSON.stringify(email);*/
+                                        let json_email = '{['+jQuery('#pmEmail').val()+','+jQuery('#pmSubject').val()+']}';
                                         Cookies.set('eparams',json_email);
+
+                                        window.console.log('eparams = '+json_email);
 
                                         jQuery.ajax({
                                             type : "post",
@@ -188,9 +191,19 @@ get_header(); ?>
 
                             function setupWishList() {
                                 let json_wishes = Cookies.get('wishlist');
+                                let json_eparams = Cookies.get('eparams');
                                 let postID = $('.wishlist.add').data('post');
                                 //window.console.log('posts in wishlist: ' + json_wishes);
                                 //window.console.log('This post is: ' + postID);
+                                if(json_eparams) {
+                                    let eparams = JSON.parse(json_eparams);
+                                    if(eparams.length > 0) {
+                                        $('#pmEmail').val(eparams[0]);
+                                    }
+                                    if(eparams.length > 1) {
+                                        $('#pmSubject').val(eparams[1]);
+                                    }
+                                }
                                 if(json_wishes) {
                                     let wishes = JSON.parse(json_wishes);
                                     if(wishes.includes(postID)) {
