@@ -87,8 +87,10 @@ get_header(); ?>
                     <span class="only">Only</span>
                     £<?php echo $price; ?><span class="only"> Ex VAT</span>
                 </div>
-                <div class="buttons"><a href="#" class="button lime wishlist add" data-post="<?php the_ID();?>">Add to wishlist</a> <a href="#" class="button lime wishlist remove" data-post="<?php the_ID();?>">Remove from wishlist</a> <a href="/store-locator/" class="button green">Nearest
-                        stockist</a> </div>
+                <div class="buttons"><a href="#" class="button lime wishlist add" data-post="<?php the_ID(); ?>">Add to wishlist</a> <a href="#" class="button lime wishlist remove"
+                                                                                                                                        data-post="<?php the_ID(); ?>">Remove from wishlist</a> <a
+                            href="/store-locator/" class="button green">Nearest
+                        stockist</a></div>
                 <ul class="accordion" data-accordion data-allow-all-closed="true">
 
 					<?php if ( $summary ): ?>
@@ -129,54 +131,23 @@ get_header(); ?>
                         <a href="#" class="accordion-title">Wishlist</a>
                         <div class="accordion-content" data-tab-content>
                             <div class="list">
-                            <?php
-                            echo get_wish_list();
-                            ?>
+								<?php
+								echo get_wish_list();
+								?>
                             </div>
                             <div class="email-form">
-                                <script>
-                                    function sendmail() {
-                                        /*let email = [];
-                                        email.push(jQuery('#pmEmail').val());
-                                        email.push(jQuery('#pmSubject').val());
-
-                                        let json_email = JSON.stringify(email);*/
-                                        let json_email = '{['+jQuery('#pmEmail').val()+','+jQuery('#pmSubject').val()+']}';
-                                        Cookies.set('eparams',json_email);
-
-                                        window.console.log('eparams = '+json_email);
-
-                                        jQuery.ajax({
-                                            type : "post",
-                                            data: {action: 'send_SMTP_wishlist', security: mailing_ajax_object.security},
-                                            url : mailing_ajax_object.ajax_url,
-                                            success: function(response) {
-                                                alert(response);
-                                            }
-                                        })
-
-                                        /*jQuery.ajax({
-                                            type : "get",
-                                            dataType : 'text',
-                                            url : mailing_ajax_object.ajax_url,
-                                            data : {action: "get_plain_email_wish_list"},
-                                            success: function(response) {
-                                                window.open('mailto:'+jQuery('#pmEmail').val()+'?subject='+jQuery('#pmSubject').val()+'&body='+response);
-                                            }
-                                        })*/
-
-                                    }
-                                </script>
                                 <strong>Email wishlist:</strong><br>
-                                <form action="javascript:sendmail();" name="wlForm" method="post">
+                                <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                                <form name="wlForm" method="post" id="wlForm">
                                     <label>
-                                        email: <input name="pmEmail" id="pmEmail" type="text" maxlength="64" style="width:98%;" />
+                                        email: <input name="pmEmail" id="pmEmail" type="text" maxlength="64" style="width:98%;"/>
                                     </label>
                                     <label>
                                         subject:
-                                        <input name="pmSubject" id="pmSubject" type="text" maxlength="64" style="width:98%;" />
+                                        <input name="pmSubject" id="pmSubject" type="text" maxlength="64" style="width:98%;"/>
                                     </label>
-                                    <input name="pmSubmit" type="submit" value="Send" />
+                                    <div class="g-recaptcha" data-sitekey="<?php the_field('site_key','option');?>"></div><br>
+                                    <input name="pmSubmit" type="submit" value="Send"/>
                                 </form>
                             </div>
 
@@ -185,95 +156,6 @@ get_header(); ?>
 
                 </ul>
 
-                <div class="wishlist">
-                    <script>
-                        jQuery(document).ready(function ($) {
-
-                            function setupWishList() {
-                                let json_wishes = Cookies.get('wishlist');
-                                let json_eparams = Cookies.get('eparams');
-                                let postID = $('.wishlist.add').data('post');
-                                //window.console.log('posts in wishlist: ' + json_wishes);
-                                //window.console.log('This post is: ' + postID);
-                                if(json_eparams) {
-                                    let eparams = JSON.parse(json_eparams);
-                                    if(eparams.length > 0) {
-                                        $('#pmEmail').val(eparams[0]);
-                                    }
-                                    if(eparams.length > 1) {
-                                        $('#pmSubject').val(eparams[1]);
-                                    }
-                                }
-                                if(json_wishes) {
-                                    let wishes = JSON.parse(json_wishes);
-                                    if(wishes.includes(postID)) {
-                                        //window.console.log('Thinks that postID is in wishlist');
-                                        $('.wishlist.add').hide();
-                                        $('.wishlist.remove').show();
-                                        $('.email-form').show();
-                                    } else {
-                                        //window.console.log('Thinks that postID is not in wishlist');
-                                        $('.wishlist.add').show();
-                                        $('.wishlist.remove').hide();
-                                        $('.email-form').show();
-                                    }
-                                    if(wishes.length < 1) {
-                                        //window.console.log('Thinks wishlist is empty');
-                                        $('.wishlist.remove').hide();
-                                        $('.wishlist.add').show();
-                                        $('.email-form').hide();
-                                    }
-                                } else {
-                                    //window.console.log('Thinks wishlist not created yet');
-                                    $('.wishlist.remove').hide();
-                                    $('.wishlist.add').show();
-                                    $('.email-form').hide();
-                                }
-                                jQuery.ajax({
-                                    type : "post",
-                                    url : mailing_ajax_object.ajax_url,
-                                    data : {action: "get_wish_list"},
-                                    success: function(response) {
-                                        $('.wishlist .accordion-content .list').html(response);
-                                    }
-                                })
-                            }
-                            setupWishList();
-                            $('.wishlist.add').click(function (e) {
-                                e.preventDefault();
-                                //window.console.log('Add Clicked');
-                                let postID = $(this).data('post');
-                                let json_wishes = Cookies.get('wishlist');
-                                let wishes = [];
-                                if(json_wishes) {
-                                    wishes = JSON.parse(json_wishes);
-                                    if(!wishes.includes(postID)) {
-                                        wishes.push(postID);
-                                    }
-                                }
-                                json_wishes = JSON.stringify(wishes);
-                                Cookies.set('wishlist',json_wishes);
-                                setupWishList();
-                            });
-                            $('.wishlist.remove').click(function (e) {
-                                e.preventDefault();
-                                let postID = $(this).data('post');
-                                let json_wishes = Cookies.get('wishlist');
-                                let wishes = [];
-                                if(json_wishes) {
-                                    wishes = JSON.parse(json_wishes);
-                                    if(wishes.includes(postID)) {
-                                        let index = wishes.indexOf(postID);
-                                        wishes.splice(index, 1);;
-                                    }
-                                }
-                                json_wishes = JSON.stringify(wishes);
-                                Cookies.set('wishlist',json_wishes);
-                                setupWishList();
-                            });
-                        });
-                    </script>
-                </div>
             </div>
         </div>
     </div>
