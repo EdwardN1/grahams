@@ -34,7 +34,7 @@ jQuery(document).ready(function ($) {
                 $('.wishlist .accordion-content .list').html(response);
             }
         })
-    };
+    }
 
     function sendmail() {
         Cookies.set('eparams_a', jQuery('#pmEmail').val());
@@ -47,7 +47,27 @@ jQuery(document).ready(function ($) {
                 alert(response);
             }
         })
-    };
+    }
+
+    $(document).on("click",'.wlRemove', function (e) {
+        e.preventDefault();
+        let postID = $(this).data('post');
+        let json_wishes = Cookies.get('wishlist');
+        let wishes = [];
+        let newWishes = [];
+        if (json_wishes) {
+            wishes = JSON.parse(json_wishes);
+            wishes.forEach(function (wish,index) {
+                if(wish!=postID) {
+                    newWishes.push(wish);
+                }
+            });
+            json_wishes = JSON.stringify(newWishes);
+            Cookies.set('wishlist', json_wishes);
+            setupWishList();
+        }
+    });
+
 
     setupWishList();
     $('.wishlist.add').click(function (e) {

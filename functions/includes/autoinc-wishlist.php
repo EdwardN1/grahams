@@ -111,13 +111,17 @@ function send_SMTP_wishlist() {
 										//Server settings
 										$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
 										$mail->isSMTP();                                            // Send using SMTP
-										$mail->Host       = get_field( 'smtp_server', 'option' );                    // Set the SMTP server to send through
-										$mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-										$mail->Username   = get_field( 'username', 'option' );                     // SMTP username
-										$mail->Password   = get_field( 'password', 'option' );                               // SMTP password
-										$mail->SMTPSecure = "tls";         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-										$mail->Port       = 587;                                    // TCP port to connect to
-
+										$mail->Host       = get_field( 'smtp_server', 'option' );
+										if(get_field('require_login','option')) {
+											$mail->SMTPAuth   = true;
+											$mail->Username   = get_field( 'username', 'option' );                     // SMTP username
+											$mail->Password   = get_field( 'password', 'option' );                               // SMTP password
+											$mail->SMTPSecure = "tls";         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+											$mail->Port       = 587;                                    // TCP port to connect to
+										} else {
+											$mail->SMTPAuth   = false;
+											$mail->Port       = 25;                                    // TCP port to connect to
+										}
 										//Recipients
 										$mail->setFrom( get_field( 'from_address', 'option' ), 'Graham Direct Website' );
 										$mail->addAddress( $to );     // Add a recipient
@@ -132,9 +136,9 @@ function send_SMTP_wishlist() {
 										$mail->Subject = $subject;
 										$mail->Body    = get_email_wish_list();
 										$mail->AltBody = get_plain_email_wish_list();
-										//ob_start();
+										ob_start();
 										$mail->send();
-										//ob_get_clean();
+										ob_get_clean();
 										$res = 'Wishlist has been sent';
 									} catch ( Exception $e ) {
 										$res = "Wishlist could not be sent. Mailer Error: {$mail->ErrorInfo}";
@@ -188,6 +192,7 @@ function get_wish_list() {
 				endif;
 				$res .= '<div class="cell shrink" style="line-height: 75px; padding-left: 1em; padding-right: 1em;"><a href="' . $permalink . '">' . get_field( 'code', $wish ) . '</a></div>';
 				$res .= '<div class="cell shrink" style="line-height: 75px; padding-left: 1em; padding-right: 1em;"><a href="' . $permalink . '">' . get_the_title( $wish ) . '</a></div>';
+				$res .= '<div class="cell shrink" style="line-height: 75px; padding-left: 1em; padding-right: 1em;"><a href="#" class="wlRemove" data-post="'.$wish.'" style="color: red;">x</a>'.'</div>';
 				$res .= '</div>';
 			}
 		}
