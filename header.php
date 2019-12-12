@@ -63,7 +63,7 @@ if ($ie11)
                                     <a href="/"><img src="<?php echo get_field('logo', 'option')['url']; ?>"></a>
                                     <?php endif;?>
                                 </div>
-                                <div class="cell shrink show-for-large full-height-text green">
+                                <div class="cell shrink full-height-text green hide-early">
                                     YOUR LOCAL SPECIALIST
                                 </div>
                                 <div class="cell shrink hide-for-large">
@@ -82,6 +82,13 @@ if ($ie11)
                         </div>
                         <div class="cell shrink">
                             <div class="grid-x top-icons">
+                                <div class="cell shrink show-for-large">
+                                    <?php $credit_account_form = get_field('credit_account_form','option'); ?>
+                                    <span><a href="<?php echo $credit_account_form['url']; ?>" target="_blank" class="grey button-link" style="line-height: 42px;">Account Application</a></span>
+                                </div>
+                                <div class="cell shrink show-for-large">
+                                    <span><a href="https://billing.grahamplumbersmerchant.co.uk/" target="_blank" class="grey button-link" style="line-height: 42px;">E-Invoicing</a></span>
+                                </div>
                                 <div class="cell shrink show-for-large">
                                     <span class="button-link">All prices Ex VAT</span>
                                 </div>
