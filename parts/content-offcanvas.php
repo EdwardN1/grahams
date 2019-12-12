@@ -49,6 +49,19 @@
         </a>
     </div>
 
+    <div style="padding-left: 1rem; padding-bottom: 0.5rem;">
+        <?php $credit_account_form = get_field('credit_account_form','option'); ?>
+        <a href="<?php echo $credit_account_form['url']; ?>" class="grey button-link" target="_blank">
+            <span>Account Application</span>
+        </a>
+    </div>
+
+    <div style="padding-left: 1rem; padding-bottom: 0.5rem;">
+        <a href="/https://billing.grahamplumbersmerchant.co.uk/" class="grey button-link">
+            <span>E-Invoicing</span>
+        </a>
+    </div>
+
     <div style="padding-left: 0.5rem;">
         <a href="https://www.getplumbedin.co.uk/" target="_blank" class="grey button-link">
             <img src="<?php echo get_icon('plumbed in'); ?>">

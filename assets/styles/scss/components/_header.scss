@@ -30,9 +30,15 @@ header {
 
       }
     }
+    .hide-early {
+      display: none;
+      @include breakpoint(1168) {
+        display: block;
+      }
+    }
     span {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding-left: 0.4rem;
+      padding-right: 0.4rem;
       line-height: $top-mobile-height;
       @include breakpoint(360) {
         line-height: $top-desktop-height;

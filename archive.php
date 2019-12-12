@@ -36,6 +36,9 @@ get_header(); ?>
 
                     ?>
                 </div>
+                <div class="grid-container">
+                    <?php echo term_description();?>
+                </div>
                 <?php
                 $gridTerms = get_terms('grahamscat', array('hide_empty' => false, 'parent' => $thisTerm->term_id));
                 if ($gridTerms) {
