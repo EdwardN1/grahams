@@ -86,9 +86,9 @@ if ($ie11)
                                     <?php $credit_account_form = get_field('credit_account_form','option'); ?>
                                     <span><a href="<?php echo $credit_account_form['url']; ?>" target="_blank" class="grey button-link" style="line-height: 42px;">Account Application</a></span>
                                 </div>
-                                <div class="cell shrink show-for-large">
+                                <!--<div class="cell shrink show-for-large">
                                     <span><a href="https://billing.grahamplumbersmerchant.co.uk/" target="_blank" class="grey button-link" style="line-height: 42px;">E-Invoicing</a></span>
-                                </div>
+                                </div>-->
                                 <div class="cell shrink show-for-large">
                                     <span class="button-link">All prices Ex VAT</span>
                                 </div>
