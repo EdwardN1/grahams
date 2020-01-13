@@ -324,16 +324,21 @@ adminJQ(function ($) {
     });
 
     $('#UpdateSince').on('click',function () {
-        //updateProductsSinceQueue.reset();
-        /*let dpDate = $('.custom_date').datepicker('getDate');
-        let dateUtc = localAsUtc(dpDate);
-        let iso = dateUtc.toISOString(); // returns "2016-12-06T00:00:00.000Z"
-        alert(iso);*/
-        //updateProductsSinceQueue.queue(ajaxurl,{action: 'get_all_categories'})
-        //updateProductsSinceQueue.process();
+
+        /** Check Categories First
         updateSinceQueue.reset();
         updateSinceQueue.queue(ajaxurl,{action: 'get_all_categories'});
         updateSinceQueue.process();
+         **/
+
+        /** Do not check categories **/
+        updateSinceProducts.reset();
+        let dpDate = $('.custom_date').datepicker('getDate');
+        let dateUtc = localAsUtc(dpDate);
+        let iso = dateUtc.toISOString();
+        updateSinceProducts.queue(ajaxurl,{action: 'get_all_changed_products_since', timeCode: iso});
+        updateSinceProducts.process();
+
     });
 
 
