@@ -157,7 +157,9 @@ function get_image_file($url)
 
 function get_api_all_changed_products_since($datetime = '2002-10-02T10:00:00-00:00')
 {
-	$r = make_api_call('https://epim.azure-api.net/Grahams/api/ProductsUpdatedSince?ChangedSinceUTC=' . $datetime);
+    $xdatetime = substr($datetime, 0, 10).'T10:00:00-00:00';
+	$r = make_api_call('https://epim.azure-api.net/Grahams/api/ProductsUpdatedSince?ChangedSinceUTC=' . $xdatetime);
+    //$r = make_api_call('https://epim.azure-api.net/Grahams/api/ProductsUpdatedSince?ChangedSinceUTC=' . '2020-01-06T10:00:00-00:00');
     return $r;
 }
 
