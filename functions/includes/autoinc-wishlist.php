@@ -104,53 +104,49 @@ function send_SMTP_wishlist() {
 								$apiCall      = curl_exec( $ch );
 								$responseData = json_decode( $apiCall );
 								curl_close( $ch );
-								if(is_object($responseData)) {
-                                    $reCapVerify = $responseData->success;
-                                    if ($reCapVerify) {
-                                        $mail = new PHPMailer(true);
-                                        try {
-                                            //Server settings
-                                            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
-                                            $mail->isSMTP();                                            // Send using SMTP
-                                            $mail->Host = get_field('smtp_server', 'option');
-                                            if (get_field('require_login', 'option')) {
-                                                $mail->SMTPAuth = true;
-                                                $mail->Username = get_field('username', 'option');                     // SMTP username
-                                                $mail->Password = get_field('password', 'option');                               // SMTP password
-                                                $mail->SMTPSecure = "tls";         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-                                                $mail->Port = 587;                                    // TCP port to connect to
-                                            } else {
-                                                $mail->SMTPAuth = false;
-                                                $mail->Port = 25;                                    // TCP port to connect to
-                                            }
-                                            //Recipients
-                                            $mail->setFrom(get_field('from_address', 'option'), 'Graham Direct Website');
-                                            $mail->addAddress($to);     // Add a recipient
-                                            if (get_field('reply_to_address', 'option')) {
-                                                $mail->addReplyTo(get_field('reply_to_address', 'option'));
-                                            }
+								$reCapVerify = $responseData->success;
+								if ( $reCapVerify ) {
+									$mail = new PHPMailer( true );
+									try {
+										//Server settings
+										$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+										$mail->isSMTP();                                            // Send using SMTP
+										$mail->Host       = get_field( 'smtp_server', 'option' );
+										if(get_field('require_login','option')) {
+											$mail->SMTPAuth   = true;
+											$mail->Username   = get_field( 'username', 'option' );                     // SMTP username
+											$mail->Password   = get_field( 'password', 'option' );                               // SMTP password
+											$mail->SMTPSecure = "tls";         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+											$mail->Port       = 587;                                    // TCP port to connect to
+										} else {
+											$mail->SMTPAuth   = false;
+											$mail->Port       = 25;                                    // TCP port to connect to
+										}
+										//Recipients
+										$mail->setFrom( get_field( 'from_address', 'option' ), 'Graham Direct Website' );
+										$mail->addAddress( $to );     // Add a recipient
+										if ( get_field( 'reply_to_address', 'option' ) ) {
+											$mail->addReplyTo( get_field( 'reply_to_address', 'option' ) );
+										}
 
-                                            // Attachments
+										// Attachments
 
-                                            // Content
-                                            $mail->isHTML(true);                                  // Set email format to HTML
-                                            $mail->Subject = $subject;
-                                            $mail->Body = get_email_wish_list();
-                                            $mail->AltBody = get_plain_email_wish_list();
-                                            ob_start();
-                                            $mail->send();
-                                            ob_get_clean();
-                                            $res = 'Wishlist has been sent';
-                                        } catch (Exception $e) {
-                                            $res = "Wishlist could not be sent. Mailer Error: {$mail->ErrorInfo}";
-                                            error_log($mail->ErrorInfo);
-                                        }
-                                    } else {
-                                        $res = 'Google reCapture Error. Message not sent';
-                                    }
-                                } else {
-								    $res = 'Invalid Google Response - '.$responseData;
-                                }
+										// Content
+										$mail->isHTML( true );                                  // Set email format to HTML
+										$mail->Subject = $subject;
+										$mail->Body    = get_email_wish_list();
+										$mail->AltBody = get_plain_email_wish_list();
+										ob_start();
+										$mail->send();
+										ob_get_clean();
+										$res = 'Wishlist has been sent';
+									} catch ( Exception $e ) {
+										$res = "Wishlist could not be sent. Mailer Error: {$mail->ErrorInfo}";
+										error_log($mail->ErrorInfo);
+									}
+								} else {
+									$res = 'Google reCapture Error. Message not sent';
+								}
 							} else {
 								$res = 'You can not leave the reCaptcha Code empty';
 							}

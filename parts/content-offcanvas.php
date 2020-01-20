@@ -56,11 +56,11 @@
         </a>
     </div>
 
-    <!--<div style="padding-left: 1rem; padding-bottom: 0.5rem;">
-        <a href="https://billing.grahamplumbersmerchant.co.uk/" class="grey button-link">
+    <div style="padding-left: 1rem; padding-bottom: 0.5rem;">
+        <a href="/https://billing.grahamplumbersmerchant.co.uk/" class="grey button-link">
             <span>E-Invoicing</span>
         </a>
-    </div>-->
+    </div>
 
     <div style="padding-left: 0.5rem;">
         <a href="https://www.getplumbedin.co.uk/" target="_blank" class="grey button-link">
