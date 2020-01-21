@@ -318,7 +318,7 @@ adminJQ(function ($) {
         _o('Request: ' + request);
         _o('<br>Data: ' + data);
         if(action==='sort_categories') {
-            updateAllProducts.queue(ajaxurl,{action: 'cat_image_link'});
+            updateCatDetailsQueue.queue(ajaxurl,{action: 'cat_image_link'});
         }
 
     });

@@ -182,7 +182,7 @@ function get_api_picture($id)
 {
     $res = make_api_call('https://epim.azure-api.net/Grahams/api/Pictures/' . $id);
     if($id == '64746') {
-        error_log($res);
+        //error_log($res);
     }
     return $res;
 }
@@ -1392,17 +1392,20 @@ function getProductImages()
 
 function linkCategoryImages()
 {
-    $terms = get_terms(array(
+    error_log('Link Category Images Started');
+	$terms = get_terms(array(
         'taxonomy' => 'grahamscat',
-        'hide_empty' => true,
+        'hide_empty' => false,
     ));
     foreach ($terms as $term) {
         $api_id = get_field('api_picture_ids', $term);
         $attachmentID = imageIDfromAPIID($api_id);
         if ($attachmentID) {
+        	error_log('linking image to '.$term->name);
             update_field('image', $attachmentID, $term);
         }
     }
+    error_log('Link Category Images Ended');
 }
 
 function linkProductGroupImages($id)
