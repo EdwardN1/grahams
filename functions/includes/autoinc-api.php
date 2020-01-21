@@ -138,9 +138,9 @@ function get_image_file($url)
 {
 
     $method = get_field('api_retrieval', 'options');
-    error_log('get_image_file method: ' . $method);
+    //error_log('get_image_file method: ' . $method);
     if ($method == 'cUrl') {
-        error_log('Getting Remote File using cUrl - ' . $url);
+        //error_log('Getting Remote File using cUrl - ' . $url);
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -150,7 +150,7 @@ function get_image_file($url)
         curl_close($ch);
         return $apiCall;
     } else {
-        error_log('Getting Remote File using file_get_contents - ' . $url);
+        //error_log('Getting Remote File using file_get_contents - ' . $url);
         return file_get_contents($url);
     }
 }
@@ -180,7 +180,11 @@ function get_api_category($id)
 
 function get_api_picture($id)
 {
-    return make_api_call('https://epim.azure-api.net/Grahams/api/Pictures/' . $id);
+    $res = make_api_call('https://epim.azure-api.net/Grahams/api/Pictures/' . $id);
+    if($id == '64746') {
+        error_log($res);
+    }
+    return $res;
 }
 
 function get_api_all_products()
@@ -1227,7 +1231,7 @@ function getCategoryFromId($id)
     $res = false;
     $terms = get_terms(array(
         'taxonomy' => 'grahamscat',
-        'hide_empty' => true,
+        'hide_empty' => false,
     ));
     foreach ($terms as $term) {
         $api_id = get_field('api_id', $term);
@@ -1245,6 +1249,9 @@ function getCategoryImages($id)
     if ($term) {
         $api_picture_ids = get_field('api_picture_ids', $term);
         $res = str_getcsv($api_picture_ids);
+        //error_log($term->name.': picture IDS - '.print_r($res,true));
+    } else {
+        //error_log('Term not found for ID: '.$id);
     }
     return json_encode($res);
 }
@@ -1288,6 +1295,41 @@ function getProductImages()
 {
     error_log('Begin: getProductImages');
     $res = array();
+
+    /*$gpLoop = get_posts(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
+
+    foreach ($gpLoop as $post) : setup_postdata($post);
+        if (have_rows('product_images',$post)):
+            while (have_rows('product_images',$post)): the_row();
+                $api_link = get_sub_field('api_link');
+                $api_image_id = get_sub_field('api_image_id');
+                if (!imageImported($api_image_id)) {
+                    $rec = array();
+                    $rec['id'] = $api_image_id;
+                    $rec['link'] = $api_link;
+                    if (!in_array($rec, $res)) {
+                        $res[] = $rec;
+                    }
+                    //$res[] = $api_image_id;
+                }
+            endwhile;
+        endif;
+        if (have_rows('variation_images',$post)):
+            while (have_rows('variation_images',$post)): the_row();
+                $api_link = get_sub_field('api_link');
+                $api_image_id = get_sub_field('api_image_id');
+                if (!imageImported($api_image_id)) {
+                    $rec = array();
+                    $rec['id'] = $api_image_id;
+                    $rec['link'] = $api_link;
+                    if (!in_array($rec, $res)) {
+                        $res[] = $rec;
+                    }
+                    //$res[] = $api_image_id;
+                }
+            endwhile;
+        endif;
+    endforeach;*/
 
     $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
     while ($loop->have_posts()) : $loop->the_post();

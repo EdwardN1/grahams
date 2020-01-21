@@ -40,7 +40,11 @@ function epim_admin_page()
         </p>
         <hr>
         <p>
-            or <button id="CreateCategories" class="button">Create and Update all (Ajax)</button> (This will take a long time)
+            or <button id="CreateAll" class="button">Create and Update all (Ajax)</button> (This will take a long time)
+        </p>
+        <hr>
+        <p>
+            or <button id="CreateCategories" class="button">Create and Update Categories</button>
         </p>
         <hr>
         <div id="ePimResult"></div>
