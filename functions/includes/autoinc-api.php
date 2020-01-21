@@ -261,14 +261,22 @@ function create_category($id, $name, $ParentID, $picture_webpath, $picture_ids)
         update_field('api_link', $picture_webpath, 'grahamscat_' . $term->term_id);
         $pSuffix = '';
         $pField = '';
+        $pFirst = '';
         if ($picture_ids) {
             foreach ($picture_ids as $picture_id) {
                 $pField .= $pSuffix;
                 $pSuffix = ',';
                 $pField .= $picture_id;
+                if($pFirst=='') {
+                	$pFirst = $picture_id;
+                }
             }
         }
         update_field('api_picture_ids', $pField, 'grahamscat_' . $term->term_id);
+        if($pFirst!='') {
+	        $pWebPath = getPictureWebLink($pFirst);
+	        update_field('api_link', $pWebPath, 'grahamscat_' . $term->term_id);
+        }
         $response = $name . ' Category Updated ';
     } else {
         $newTerm = wp_insert_term($name, 'grahamscat');
@@ -279,14 +287,22 @@ function create_category($id, $name, $ParentID, $picture_webpath, $picture_ids)
             update_field('api_parents', $ParentID, 'grahamscat_' . $newTerm["term_id"]);
             $pSuffix = '';
             $pField = '';
+	        $pFirst = '';
             if ($picture_ids) {
                 foreach ($picture_ids as $picture_id) {
                     $pField .= $pSuffix;
                     $pSuffix = ',';
                     $pField .= $picture_id;
+	                if($pFirst=='') {
+		                $pFirst = $picture_id;
+	                }
                 }
             }
             update_field('api_picture_ids', $pField, 'grahamscat_' . $newTerm["term_id"]);
+	        if($pFirst!='') {
+		        $pWebPath = getPictureWebLink($pFirst);
+		        update_field('api_link', $pWebPath, 'grahamscat_' . $term->term_id);
+	        }
             $response = $name . ' Category Created';
         }
     }
@@ -1177,7 +1193,7 @@ function getPictureWebLink($id)
     $jsonPicture = get_api_picture($id);
     $picture = json_decode($jsonPicture);
     //error_log($picture->WebPath);
-    return $picture->WebPath;
+    return $picture->Path;
 }
 
 function importPicture($id, $webpath)
