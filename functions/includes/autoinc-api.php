@@ -305,7 +305,7 @@ function create_category($id, $name, $ParentID, $picture_webpath, $picture_ids)
             update_field('api_picture_ids', $pField, 'grahamscat_' . $newTerm["term_id"]);
 	        if($pFirst!='') {
 		        $pWebPath = getPictureWebLink($pFirst);
-		        update_field('api_link', $pWebPath, 'grahamscat_' . $term->term_id);
+		        update_field('api_link', $pWebPath, 'grahamscat_' . $newTerm["term_id"]);
 	        }
             $response = $name . ' Category Created';
         }
