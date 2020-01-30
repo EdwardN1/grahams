@@ -22,7 +22,7 @@ function epim_admin_page()
             <button id="btnReqest" class="button">Request</button>
         </p>-->
         <p>
-            <strong>Update by product code(SKU):</strong>
+            <strong>Update by product code(SKU):</strong><br>This will only update existing products. If you have added new products in ePim then you need to Create them using either of the two options below first.
         </p>
         <p>
             <input type="text" id="pCode"><br>
@@ -32,7 +32,7 @@ function epim_admin_page()
         </p>
         <hr>
         <p>
-            or <strong>Update by product changed since:</strong>
+            or <strong>Create of Update by product added or changed since:</strong><br>NB if you have added new Categories in ePim, Create and Update those first as per below.
         </p>
         <p><input type="text" class="custom_date" name="start_date" id="#start_date" value=""/></p>
         <p>
@@ -40,7 +40,7 @@ function epim_admin_page()
         </p>
         <hr>
         <p>
-            or <button id="CreateAll" class="button">Create and Update all (Ajax)</button> (This will take a long time)
+            or <button id="CreateAll" class="button">Create and Update all (Ajax)</button><br>(This will take a long time)
         </p>
         <hr>
         <p>

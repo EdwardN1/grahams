@@ -1392,7 +1392,7 @@ function getProductImages()
 
 function linkCategoryImages()
 {
-    //error_log('Link Category Images Started');
+    error_log('Link Category Images Started');
 	$terms = get_terms(array(
         'taxonomy' => 'grahamscat',
         'hide_empty' => false,
@@ -1401,11 +1401,11 @@ function linkCategoryImages()
         $api_id = get_field('api_picture_ids', $term);
         $attachmentID = imageIDfromAPIID($api_id);
         if ($attachmentID) {
-        	//error_log('linking image to '.$term->name);
+        	error_log('linking image to '.$term->name);
             update_field('image', $attachmentID, $term);
         }
     }
-    //error_log('Link Category Images Ended');
+    error_log('Link Category Images Ended');
 }
 
 function linkProductGroupImages($id)

@@ -32,7 +32,7 @@ function admin_enqueue($hook) {
 	wp_register_style('jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
 	wp_enqueue_style('jquery-ui');
 	wp_enqueue_script('process_queue_script', get_template_directory_uri() . '/assets/scripts/processQueue.js');
-    wp_enqueue_script('epim_admin_scripts', get_template_directory_uri() . '/assets/scripts/admin.js','process_queue_script');
+    wp_enqueue_script('epim_admin_scripts', get_template_directory_uri() . '/assets/scripts/admin.js','process_queue_script', '1.0.1');
 	/*$params = array(
 		'ajaxurl' => admin_url('admin-ajax.php', $protocol),
 		'ajax_nonce' => wp_create_nonce('epim-graham'),
