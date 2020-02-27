@@ -33,5 +33,38 @@
         }
       }
     }
+    &.small-12 {
+      .image-link-grid-cell-contents {
+        padding-bottom: 1rem;
+        padding-left: 0;
+        padding-right: 0;
+        @include breakpoint(medium) {
+          padding-bottom: 1rem;
+        }
+        &.cell-pad {
+          @include breakpoint(medium) {
+            padding-bottom: 1rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+          }
+        }
+
+        &.left-cell-pad {
+
+          @include breakpoint(medium) {
+            padding-bottom: 1rem;
+            padding-left: 0.5rem;
+          }
+        }
+
+        &.right-cell-pad {
+
+          @include breakpoint(medium) {
+            padding-bottom: 1rem;
+            padding-right: 0.5rem;
+          }
+        }
+      }
+    }
   }
 }

@@ -169,15 +169,21 @@ header {
     font-family: $archivonarrow;
     font-weight: bold;
     font-size: 12px;
-    height: 40px;
+    height: 60px;
     line-height: 1.2;
     margin-top: 30px;
     margin-bottom: 12px;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
     @include breakpoint(356) {
       margin-bottom: 0;
     }
     @include breakpoint(530) {
       margin-top: 40px;
+    }
+    @include breakpoint(medium) {
+      max-width: 100%;
     }
     @include  breakpoint(large) {
       font-size: 18px;

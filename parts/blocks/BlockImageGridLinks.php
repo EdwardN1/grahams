@@ -29,7 +29,7 @@
                 <?php $href = ''; ?>
 
                 <?php $external_url = get_sub_field('external_url'); ?>
-                <?php echo $external_url; ?>
+                <?php //echo $external_url; ?>
                 <?php $text_link = get_sub_field('text_link'); ?>
 
                 <?php $internal_page = get_sub_field('internal_page'); ?>
