@@ -7,9 +7,9 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class( '' ); ?> role="article" itemscope itemtype="http://schema.org/WebPage">
 
     <section class="entry-content" itemprop="text">
-
+        <div class="grid-container">
 			<?php the_content(); ?>
-
+        </div>
     </section> <!-- end article section -->
 
 </article> <!-- end article -->
