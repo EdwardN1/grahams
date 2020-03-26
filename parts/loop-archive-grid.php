@@ -10,18 +10,21 @@
 
 <?php $imageFirstURL = ''; ?>
 
-<?php if (0 === ($wp_query->current_post)): ?>
+<?php if ( 0 === ( $wp_query->current_post ) ): ?>
 
 <div class="grid-x grid-margin-x grid-padding-x archive-grid small-up-1 medium-up-4 large-up-5"> <!--Begin Grid-->
 
-    <?php endif; ?>
+	<?php endif; ?>
 
     <!--Item: -->
-    <div class="cell panel product-carousel no-border">
+	<?php
+	if ( get_field( 'price' ) != 0 ):
+		?>
+        <div class="cell panel product-carousel no-border">
 
-        <article id="post-<?php the_ID(); ?>" <?php post_class('carousel-slide'); ?> role="article">
+            <article id="post-<?php the_ID(); ?>" <?php post_class( 'carousel-slide' ); ?> role="article">
 
-            <!--<section class="featured-image" itemprop="text">
+                <!--<section class="featured-image" itemprop="text">
 					<?php /*the_post_thumbnail('full'); */ ?>
 				</section>
 			
@@ -34,46 +37,48 @@
 					<?php /*the_content('<button class="tiny">' . __( 'Read more...', 'jointswp' ) . '</button>'); */ ?>
 				</section> -->
 
-            <?php if (have_rows('variation_images')) : ?>
+				<?php if ( have_rows( 'variation_images' ) ) : ?>
 
-                <?php while (have_rows('variation_images')) : the_row(); ?>
-                    <?php $image = get_sub_field('image'); ?>
-                    <?php $imageURL = $image['url']; ?>
-                    <?php $imageALT = $image['alt']; ?>
-                    <?php if ($image) { ?>
-                        <?php if ($imageFirstURL == ''):$imageFirstURL = $imageURL;endif; ?>
-                    <?php } ?>
-                <?php endwhile; ?>
-            <?php else : ?>
-                <?php // no rows found ?>
-            <?php endif; ?>
-            <?php if ($imageFirstURL == ''):$imageFirstURL = get_template_directory_uri().'/assets/images/no-image-icon.png';endif; ?>
-            <?php if ($imageFirstURL): ?>
-                <a href="<?php the_permalink(); ?>" class="carousel-link-container">
-                    <div class="slide-image">
-                        <img src="<?php echo $imageFirstURL; ?>">
-                    </div>
-                    <div class="slide-title">
-                        <?php the_title(); ?>
-                    </div>
-                    <div class="slide-code">
-                        <?php the_field('code'); ?>
-                    </div>
-                    <div class="only">
-                        Only
-                    </div>
-                    <div class="slide-price">
-                        <?php $price = number_format(get_field('price'), 2); ?>
-                        £<?php echo $price; ?>
-                    </div>
-                    <div class="only">Ex VAT</div>
-                </a>
-            <?php endif; ?>
-        </article> <!-- end article -->
+					<?php while ( have_rows( 'variation_images' ) ) : the_row(); ?>
+						<?php $image = get_sub_field( 'image' ); ?>
+						<?php $imageURL = $image['url']; ?>
+						<?php $imageALT = $image['alt']; ?>
+						<?php if ( $image ) { ?>
+							<?php if ( $imageFirstURL == '' ):$imageFirstURL = $imageURL;endif; ?>
+						<?php } ?>
+					<?php endwhile; ?>
+				<?php else : ?>
+					<?php // no rows found ?>
+				<?php endif; ?>
+				<?php if ( $imageFirstURL == '' ):$imageFirstURL = get_template_directory_uri() . '/assets/images/no-image-icon.png';endif; ?>
+				<?php if ( $imageFirstURL ): ?>
+                    <a href="<?php the_permalink(); ?>" class="carousel-link-container">
+                        <div class="slide-image">
+                            <img src="<?php echo $imageFirstURL; ?>">
+                        </div>
+                        <div class="slide-title">
+							<?php the_title(); ?>
+                        </div>
+                        <div class="slide-code">
+							<?php the_field( 'code' ); ?>
+                        </div>
+                        <div class="only">
+                            Only
+                        </div>
+                        <div class="slide-price">
+							<?php $price = number_format( get_field( 'price' ), 2 ); ?>
+                            £<?php echo $price; ?>
+                        </div>
+                        <div class="only">Ex VAT</div>
+                    </a>
+				<?php endif; ?>
+            </article> <!-- end article -->
 
-    </div>
+        </div>
 
-    <?php if (($wp_query->current_post + 1) === $wp_query->post_count): ?>
+	<?php endif; ?>
+
+	<?php if ( ( $wp_query->current_post + 1 ) === $wp_query->post_count ): ?>
 
 </div>  <!--End Grid -->
 
