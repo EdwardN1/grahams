@@ -188,13 +188,12 @@ if ( $ie11 ) {
                         </div>
                         <div class="clearfix"></div>
 					<?php else: ?>
-                        <div class="grid-x">
+                        <div class="grid-x show-for-medium">
                             <div class="cell auto show-for-medium"></div>
                             <div class="cell shrink">
                                 <div class="grid-x">
                                     <div class="cell large-shrink medium-shrink small-12">
                                         <div class="grid-x">
-
                                             <div class="cell shrink" style="padding-right: 1em;">
                                                 <div class="grid-x">
                                                     <div class="cell shrink"><img src="<?php echo get_icon( 'checklist' ); ?>"></div>
@@ -229,6 +228,41 @@ if ( $ie11 ) {
                                 </div>
                             </div>
                             <div class="cell auto show-for-medium"></div>
+                        </div>
+                        <div class="grid-x hide-for-medium">
+                            <div class="cell small-6 medium-6 large-6">
+                                <div class="grid-x">
+                                    <div class="cell shrink" style="padding-right: 1em;">
+                                        <div class="grid-x">
+                                            <div class="cell shrink"><img src="<?php echo get_icon( 'checklist' ); ?>"></div>
+                                            <div class="cell auto icon-text">Get the products you're after</div>
+                                        </div>
+                                    </div>
+                                    <div class="cell shrink" style="padding-right: 1em;">
+                                        <div class="grid-x">
+                                            <div class="cell shrink"><img src="<?php echo get_icon( 'gearhead' ); ?>"></div>
+                                            <div class="cell auto icon-text">Talk to people in the know</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="cell small-6 medium-6 large-6">
+                                <div class="grid-x">
+                                    <div class="cell shrink" style="padding-right: 1em;">
+                                        <div class="grid-x">
+                                            <div class="cell shrink"><img src="<?php echo get_icon( 'stopwatch' ); ?>"></div>
+                                            <div class="cell auto icon-text">Get sorted fast</div>
+                                        </div>
+                                    </div>
+                                    <div class="cell shrink">
+                                        <div class="grid-x">
+                                            <div class="cell shrink"><img src="<?php echo get_icon( 'pound' ); ?>" style="max-height:45px;"></div>
+                                            <div class="cell auto icon-text">Great value for service</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 					<?php endif; ?>
 
