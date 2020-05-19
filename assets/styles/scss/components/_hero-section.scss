@@ -22,7 +22,7 @@
 #home-section-1 {
   @include xy-grid-container();
   margin-bottom: 2rem;
-  .hero-image-section {
+  .hero-image-section, .hero-slide {
     max-height: 154px;
     height: 10.694vw;
     background-size: contain;
@@ -43,7 +43,7 @@
 #home-section-1-mobile {
   @include xy-grid-container();
   margin-bottom: 1rem;
-  .hero-image-section {
+  .hero-image-section, .hero-slide {
     height: 18.125vw;
     background-size: cover;
     background-repeat: no-repeat;
@@ -63,7 +63,7 @@
 #home-section-2 {
   @include xy-grid-container();
   margin-bottom: 2rem;
-  .hero-image-section {
+  .hero-image-section, .hero-slide {
     max-height: 476px;
     height: 32.381vw;
     background-size: cover;
@@ -85,7 +85,7 @@
 #home-section-2-mobile {
   @include xy-grid-container();
   margin-bottom: 1rem;
-  .hero-image-section {
+  .hero-image-section, .hero-slide {
     background-size: cover;
     background-repeat: no-repeat;
     height: 50.625vw;
