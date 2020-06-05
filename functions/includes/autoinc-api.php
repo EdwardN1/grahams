@@ -138,7 +138,7 @@ function get_image_file($url)
 {
 
     $method = get_field('api_retrieval', 'options');
-    //error_log('get_image_file method: ' . $method);
+    error_log('get_image_file method: ' . $method);
     if ($method == 'cUrl') {
         //error_log('Getting Remote File using cUrl - ' . $url);
         $ch = curl_init($url);
@@ -150,7 +150,7 @@ function get_image_file($url)
         curl_close($ch);
         return $apiCall;
     } else {
-        //error_log('Getting Remote File using file_get_contents - ' . $url);
+        error_log('Getting Remote File using file_get_contents - ' . $url);
         return file_get_contents($url);
     }
 }
@@ -1197,7 +1197,7 @@ function getPictureWebLink($id)
     $jsonPicture = get_api_picture($id);
     $picture = json_decode($jsonPicture);
     //error_log($picture->WebPath);
-    return $picture->Path;
+    return $picture->WebPath;
 }
 
 function importPicture($id, $webpath)
@@ -1309,7 +1309,7 @@ function getSingleProductImages($id)
 
 function getProductImages()
 {
-    error_log('Begin: getProductImages');
+    //error_log('Begin: getProductImages');
     $res = array();
 
     /*$gpLoop = get_posts(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
@@ -1382,7 +1382,7 @@ function getProductImages()
     endwhile;
 
     wp_reset_postdata();
-    error_log('End: getProductImages');
+    //error_log('End: getProductImages');
 
     return $res;
 

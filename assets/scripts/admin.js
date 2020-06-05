@@ -24,7 +24,7 @@ adminJQ = jQuery.noConflict();
 adminJQ(function ($) {
 
     let debug = false;
-    let cMax = 1;
+    let cMax = 5;
 
     function _o(text) {
         $('#ePimResult').prepend(text + '<br>');
@@ -103,7 +103,7 @@ adminJQ(function ($) {
                 let pictures = JSON.parse(data);
                 let obj = this;
                 $(pictures).each(function (index, picture) {
-                    obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.Path});
+                    obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
                 })
             }
         }
@@ -253,7 +253,7 @@ adminJQ(function ($) {
                 let pictures = JSON.parse(data);
                 let obj = this;
                 $(pictures).each(function (index, picture) {
-                    obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.Path});
+                    obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
                 })
 
             }
@@ -304,7 +304,7 @@ adminJQ(function ($) {
                 let pictures = JSON.parse(data);
                 let obj = this;
                 $(pictures).each(function (index, picture) {
-                    obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.Path});
+                    obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
                 })
 
             }
@@ -368,7 +368,7 @@ adminJQ(function ($) {
                 let obj = this;
                 $(pictures).each(function (index, picture) {
 
-                    obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.Path});
+                    obj.queue(ajaxurl,{action: 'import_picture', ID: picture.Id, weblink: picture.WebPath});
                 })
 
             }
@@ -408,6 +408,16 @@ adminJQ(function ($) {
         let iso = dateUtc.toISOString();
         updateSinceProducts.queue(ajaxurl,{action: 'get_all_changed_products_since', timeCode: iso});
         updateSinceProducts.process();
+
+    });
+
+    $('#GetProductsImages').on('click',function () {
+
+        _o('Getting Product Images');
+        window.console.log('Getting Product Images');
+        processProductImages.reset();
+        processProductImages.queue(ajaxurl,{action: 'get_product_images'});
+        processProductImages.process();
 
     });
 
