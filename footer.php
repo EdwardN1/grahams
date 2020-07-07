@@ -20,12 +20,13 @@
         <div class="grid-container">
             <div class="grid-x">
                 <div class="logo-phone-contact cell shrink">
-                    <div>
-                        <img src="<?php echo get_field('logo_reversed', 'option')['url']; ?>">
-                    </div>
                     <div class="telephone-number">
                         <a href="<?php echo get_field('telephone_link', 'option'); ?>"><?php echo get_field('telephone_number', 'option') ?></a>
                     </div>
+                    <div style="min-height: 131px;">
+                        <!--<img src="<?php echo get_field('logo_reversed', 'option')['url']; ?>">-->
+                    </div>
+
                     <div class="prices hide-for-large">
                         All Prices Ex Vat
                     </div>

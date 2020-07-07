@@ -138,7 +138,7 @@ if ( $ie11 ) {
                 <div class="grid-container">
                     <div class="grid-x">
                         <div class="cell auto secondary-logo">
-                            <a href="/"><img src="<?php echo get_secondary_logo( 'Always Available' ); ?>"></a>
+                            <a href="/store-locator/"><img src="<?php echo get_secondary_logo( 'Always Available' ); ?>"></a>
                         </div>
                         <div class="cell auto search-form show-for-large">
 							<?php get_search_form(); ?>
