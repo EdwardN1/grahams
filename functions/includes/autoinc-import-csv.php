@@ -17,4 +17,5 @@ function wpam_import_shortcode($params=array()) {
                 fclose($handle);
             }
         }
+    }
 }
