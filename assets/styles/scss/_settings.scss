@@ -94,10 +94,12 @@ $white: #ffffff;
 $green: #2e6c4c;
 $lime: #a5c242;
 $red: #d54f38;
+$primary-colour: $green;
 $body-background: $white;
 $body-font-color: $black;
 /*$body-font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;*/
 $body-font-family: $archivo;
+$secondary-font: $archivo;
 $body-antialiased: true;
 $global-margin: 1rem;
 $global-padding: 1rem;

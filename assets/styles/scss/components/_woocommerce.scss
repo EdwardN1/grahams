@@ -1,0 +1,288 @@
+$images-left-width: 33%;
+$summary-right-width: 60%;
+$image-border: 1px solid $primary-color;
+
+.woocommerce, .woocommerce-page, .woocommerce-checkout {
+  padding-top: 1em;
+  .sidebar {
+    h4 {
+      border: none;
+      color: #434343;
+      font-family: $secondary-font;
+      font-size: 30px;
+      border-bottom: 1px solid #d7d7d7;
+      padding: 0;
+      line-height: 1.8;
+    }
+  }
+
+  .archive-product, .related.products {
+    .woocommerce-loop-category__title {
+      text-align:center;
+    }
+    .button {
+      display: none;
+    }
+    ul.products li.product .woocommerce-loop-product__title {
+      text-align: center;
+      min-height: 0;
+      height:93px;
+    }
+    ul.products li.product span.price {
+      text-align: center;
+      .only, .normal {
+        display: none;
+      }
+      .amount {
+        font-size: 20px;
+        margin: 0;
+        .woocommerce-Price-currencySymbol {
+          &:before {
+            content: "";
+          }
+          font-size: 20px;
+          color: $primary-color;
+        }
+        .pence {
+          margin: 0;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  .woocommerce-breadcrumb {
+    border-bottom: 1px solid #d7d7d7;
+    padding-top: 1em;
+    color: #767676;
+    a {
+      color: $primary-color;
+    }
+  }
+
+  ul.products li.product {
+    border: $image-border;
+    padding: 1rem;
+    height: 385px;
+    a {
+      img {
+
+        max-height: 203px;
+        width: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    .woocommerce-loop-product__title {
+      font-family: $secondary-font;
+      color: #0a0a0a;
+      min-height: 7em;
+    }
+    p.price, span.price {
+      line-height:1;
+      span {
+        color: $primary-color;
+        font-family: $secondary-font;
+        font-weight: 700;
+        line-height: 1;
+        font-size: 30px;
+        &.only {
+          font-size: 28px;
+        }
+        &.amount {
+          font-size: 56px;
+          display: inline-block;
+          margin-left: -0.15em;
+        }
+        &.pence {
+          font-size: 36px;
+          display: inline-block;
+          margin-left: -0.5em;
+        }
+        &.woocommerce-Price-currencySymbol {
+          font-size: 48px;
+          position: relative;
+          color: transparent;
+          &:before {
+            position: absolute;
+            color: $primary-color;
+            top: 0.1em;
+            right:0;
+            font-size: 36px;
+            content: "£";
+          }
+        }
+        &.normal {
+          font-size: 18px;
+          color: #0a0a0a;
+          font-family: $secondary-font;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+
+  .woocommerce-message {
+    border-top-color: $primary-color;
+    &::before {
+      content: "\e015";
+      color: $primary-color;
+    }
+  }
+
+  .woocommerce-info {
+    border-top-color: $secondary-color;
+
+    &::before {
+      color: $secondary-color;
+    }
+  }
+
+  cart table.cart td.actions .coupon .input-text,
+  table.cart td.actions .coupon .input-text,
+  #add_payment_method table.cart td.actions .coupon .input-text {
+    height: 3.3rem;
+  }
+
+  .quantity {
+    .qty {
+      height: 3.3rem;
+      border: $image-border;
+      width: 5rem;
+    }
+  }
+
+  a.button,	button.button, input.button, #respond input#submit,
+  #respond input#submit.alt,  a.button.alt, button.button.alt, input.button.alt, .berocket_aapf_reset_button {
+    background-color: $primary-color;
+    font-family: $secondary-font;
+    font-weight: 800;
+    color: #ffffff;
+    font-size: 24px;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-top: 0.618em;
+    padding-bottom: 0.618em;
+    border-radius: 0;
+    &:hover {
+      background-color: $primary-color;
+      color: #5a2e3d;
+    }
+  }
+  div.product {
+    form.cart {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-top: 1px solid #d7d7d7;
+      padding-top: 1rem;
+    }
+    h1.product_title {
+      line-height: 1.2;
+      padding-right: 3rem;
+      margin-bottom: 0.7rem;
+    }
+    div.images {
+      padding-top: 1rem;
+      .slick-product-gallery {
+        .product-image {
+          img {
+            max-height: 600px;
+            width: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+      }
+      .slick-thumbnail-gallery {
+        .product-image {
+          img {
+            max-height: 200px;
+            width: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+      }
+      @include breakpoint(769) {
+        width: $images-left-width;
+      }
+    }
+    div.summary {
+      &:after {
+        content: " ";
+        clear: both;
+      }
+      @include breakpoint(769) {
+        width: $summary-right-width;
+      }
+      .product_meta {
+        padding-bottom: 2rem;
+      }
+    }
+    p.price, span.price {
+      line-height:1;
+      span {
+        color: $primary-color;
+        font-family: $secondary-font;
+        font-weight: 800;
+        line-height: 1;
+        font-size: 30px;
+        &.only {
+          font-size: 28px;
+        }
+        &.amount {
+          font-size: 56px;
+          display: inline-block;
+          margin-left: -0.15em;
+        }
+        &.pence {
+          font-size: 36px;
+          display: inline-block;
+        }
+        &.woocommerce-Price-currencySymbol {
+          font-size: 48px;
+          position: relative;
+          color: transparent;
+          &:before {
+            position: absolute;
+            color: $primary-color;
+            top: 0.1em;
+            right:0;
+            font-size: 36px;
+            content: "£";
+          }
+        }
+        &.normal {
+          font-size: 18px;
+          color: #0a0a0a;
+          font-family: $secondary-font;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+
+  .slick-product-gallery, .slick-thumbnail-gallery {
+    margin-left: -1rem;
+    .product-image {
+      border: $image-border;
+      cursor: pointer;
+      width: 100%;
+      padding-top:0.5em;
+      padding-bottom:0.5em;
+      min-height: 280px;
+    }
+
+    .slick-slide {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  .slick-thumbnail-gallery {
+    padding-top: 1rem;
+  }
+}
