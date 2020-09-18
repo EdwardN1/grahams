@@ -59,7 +59,7 @@ adminJQ(function ($) {
                     action: 'create_product',
                     productID: product.Id,
                     variationID: variationID,
-                    bulletText: product.BulletText,
+                    bulletText: encodeURIComponent(product.BulletText),
                     productName: product.Name,
                     categoryIDs: product.CategoryIds,
                     pictureIDs: product.PictureIds
