@@ -14,6 +14,13 @@ function localAsUtc(date) {
     ));
 }
 
+function substChars(input) {
+    let output = input;
+    output = output.Replace("%", "percent");
+    output = output.Replace("&", "and");
+    return output;
+}
+
 
 function isNotValidDate(date) {
     return date == null || isNaN(date.getTime());
@@ -59,7 +66,7 @@ adminJQ(function ($) {
                     action: 'create_product',
                     productID: product.Id,
                     variationID: variationID,
-                    bulletText: encodeURIComponent(product.BulletText),
+                    bulletText: substChars(product.BulletText),
                     productName: product.Name,
                     categoryIDs: product.CategoryIds,
                     pictureIDs: product.PictureIds
@@ -133,7 +140,7 @@ adminJQ(function ($) {
                             action: 'create_product',
                             productID: product.Id,
                             variationID: variationID,
-                            bulletText: product.BulletText,
+                            bulletText: substChars(product.BulletText),
                             productName: product.Name,
                             categoryIDs: product.CategoryIds,
                             pictureIDs: product.PictureIds
@@ -184,7 +191,7 @@ adminJQ(function ($) {
                                 action: 'create_product',
                                 productID: product.Id,
                                 variationID: variationID,
-                                bulletText: product.BulletText,
+                                bulletText: substChars(ct.BulletText),
                                 productName: product.Name,
                                 categoryIDs: product.CategoryIds,
                                 pictureIDs: product.PictureIds
