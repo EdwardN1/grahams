@@ -16,8 +16,8 @@ function localAsUtc(date) {
 
 function substChars(input) {
     let output = input;
-    output = output.Replace("%", "percent");
-    output = output.Replace("&", "and");
+    output = output.replace("%", "percent");
+    output = output.replace("&", "and");
     return output;
 }
 
