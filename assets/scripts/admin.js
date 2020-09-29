@@ -191,7 +191,7 @@ adminJQ(function ($) {
                                 action: 'create_product',
                                 productID: product.Id,
                                 variationID: variationID,
-                                bulletText: substChars(ct.BulletText),
+                                bulletText: substChars(product.BulletText),
                                 productName: product.Name,
                                 categoryIDs: product.CategoryIds,
                                 pictureIDs: product.PictureIds
