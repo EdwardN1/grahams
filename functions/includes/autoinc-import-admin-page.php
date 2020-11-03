@@ -47,6 +47,10 @@ function epim_admin_page()
             or <button id="CreateCategories" class="button">Create and Update Categories</button>
         </p>
         <hr>
+        <p>
+            or <button id="GetProductsImages" class="button">Import / Update Product Images</button>
+        </p>
+        <hr>
         <div id="ePimResult"></div>
     </div>
     <?php

@@ -1309,7 +1309,7 @@ function getSingleProductImages($id)
 
 function getProductImages()
 {
-    //error_log('Begin: getProductImages');
+    error_log('Begin: getProductImages');
     $res = array();
 
     /*$gpLoop = get_posts(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
@@ -1347,9 +1347,12 @@ function getProductImages()
         endif;
     endforeach;*/
 
+
     $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
+    error_log('Number of products found = '.$loop->found_posts);
     while ($loop->have_posts()) : $loop->the_post();
         if (have_rows('product_images')):
+            error_log('Looking up Product for PostID: '.get_the_ID());
             while (have_rows('product_images')): the_row();
                 $api_link = get_sub_field('api_link');
                 $api_image_id = get_sub_field('api_image_id');
@@ -1365,6 +1368,7 @@ function getProductImages()
             endwhile;
         endif;
         if (have_rows('variation_images')):
+            error_log('Looking up Variation Images for PostID: '.get_the_ID());
             while (have_rows('variation_images')): the_row();
                 $api_link = get_sub_field('api_link');
                 $api_image_id = get_sub_field('api_image_id');
@@ -1382,7 +1386,7 @@ function getProductImages()
     endwhile;
 
     wp_reset_postdata();
-    //error_log('End: getProductImages');
+    error_log('End: getProductImages');
 
     return $res;
 
