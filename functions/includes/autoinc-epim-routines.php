@@ -115,7 +115,8 @@ function ajax_get_category_images() {
 function ajax_get_product_images() {
 	checkSecure();
 	$response = getProductImages();
-	//error_log(json_encode($response));
+
+	error_log(json_encode($response));
     header( "Content-Type: application/json charset=utf-8" );
 	echo json_encode($response);
 	exit;

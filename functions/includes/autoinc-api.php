@@ -1348,7 +1348,7 @@ function getProductImages()
     endforeach;*/
 
 
-    $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => -1));
+    $loop = new WP_Query(array('post_type' => 'grahams_product', 'posts_per_page' => 200));
     error_log('Number of products found = '.$loop->found_posts);
     while ($loop->have_posts()) : $loop->the_post();
         if (have_rows('product_images')):
@@ -1387,7 +1387,9 @@ function getProductImages()
 
     wp_reset_postdata();
     error_log('End: getProductImages');
-
+    error_log('====================================================');
+    error_log(print_r($res,true));
+    error_log('====================================================');
     return $res;
 
 
