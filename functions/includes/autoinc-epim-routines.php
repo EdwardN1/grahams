@@ -30,9 +30,12 @@ add_action( 'wp_ajax_import_picture', 'ajax_import_picture' );
 add_action( 'wp_ajax_sort_categories', 'ajax_sort_categories' );
 add_action( 'wp_ajax_cat_image_link', 'ajax_cat_image_link' );
 add_action( 'wp_ajax_product_image_link', 'ajax_product_image_link' );
+add_action( 'wp_ajax_single_product_image_link', 'ajax_single_product_image_link' );
 add_action( 'wp_ajax_product_group_image_link', 'ajax_product_group_image_link' );
 add_action( 'wp_ajax_create_product', 'ajax_create_product' );
 add_action( 'wp_ajax_get_product_images', 'ajax_get_product_images' );
+add_action( 'wp_ajax_get_product_IDs', 'ajax_get_product_IDs' );
+add_action( 'wp_ajax_get_product_pictures', 'ajax_get_product_pictures' );
 add_action( 'wp_ajax_product_ID_code', 'ajax_product_ID_from_code' );
 add_action( 'wp_ajax_get_single_product_images', 'ajax_get_single_product_images' );
 add_action( 'wp_ajax_import_single_product_images', 'ajax_import_single_product_images' );
@@ -114,12 +117,38 @@ function ajax_get_category_images() {
 
 function ajax_get_product_images() {
 	checkSecure();
+
 	$response = getProductImages();
 
-	error_log(json_encode($response));
+
     header( "Content-Type: application/json charset=utf-8" );
 	echo json_encode($response);
 	exit;
+}
+
+function ajax_get_product_pictures() {
+    checkSecure();
+    if ( ! empty( $_POST['ID'] ) ) {
+        $response = getProductPictures($_POST['ID']);
+        header( "Content-Type: application/json charset=utf-8" );
+        echo json_encode($response);
+    } else {
+        echo 'No PostID supplied';
+    }
+
+    exit;
+}
+
+function ajax_get_product_ids() {
+    checkSecure();
+    $response = getProductIDs();
+
+    $json = json_encode($response);
+
+    header( "Content-Type: application/json charset=utf-8" );
+    echo $json;
+
+    exit;
 }
 
 function ajax_create_product() {
@@ -160,6 +189,16 @@ function ajax_product_image_link() {
     echo linkProductImages();
     //linkVariationImages();
     //echo 'Product Images Linked';
+    exit;
+}
+
+function ajax_single_product_image_link() {
+    checkSecure();
+    if ( ! empty( $_POST['ID'] ) ) {
+        echo linkAProductImages($_POST['ID']);
+    } else {
+        echo 'No Product ID';
+    }
     exit;
 }
 

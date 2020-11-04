@@ -87,18 +87,41 @@ adminJQ(function ($) {
         _o('Action Completed: ' + action);
         _o('Request: ' + request);
         _o('<br>Data: ' + data);
+        if(action==='get_product_IDs') {
+            if ($.trim(data)) {
+                $(data).each(function (index, productID) {
+                    linkProductImages.queue(ajaxurl,{action: 'single_product_image_link', ID: productID});
+                });
+
+            }
+        }
     });
 
     let processProductImages = new ts_execute_queue('#ePimResult', function(){
         _o('Checking and linking product image data - this may take a while.....');
         linkProductImages.reset();
-        linkProductImages.queue(ajaxurl,{action: 'product_image_link'});
+        linkProductImages.queue(ajaxurl,{action: 'get_product_IDs'});
         linkProductImages.process();
     }, function (action, request, data) {
         _o('Action Completed: ' + action);
         _o('Request: ' + request);
         _o('<br>Data: ' + data);
         if(action==='get_product_images') {
+            if ($.trim(data)) {
+                $(data).each(function (index, productsImageID) {
+                    processProductImages.queue(ajaxurl,{action: 'get_picture_web_link', ID: productsImageID.id});
+                });
+            }
+        }
+        if(action==='get_product_IDs') {
+            if ($.trim(data)) {
+                $(data).each(function (index, productID) {
+                    processProductImages.queue(ajaxurl,{action: 'get_product_pictures', ID: productID});
+                });
+
+            }
+        }
+        if(action==='get_product_pictures') {
             if ($.trim(data)) {
                 $(data).each(function (index, productsImageID) {
                     processProductImages.queue(ajaxurl,{action: 'get_picture_web_link', ID: productsImageID.id});
@@ -114,6 +137,7 @@ adminJQ(function ($) {
                 })
             }
         }
+
     });
 
     let updateAllProducts = new ts_execute_queue('#ePimResult', function () {
@@ -423,7 +447,7 @@ adminJQ(function ($) {
         _o('Getting Product Images');
         window.console.log('Getting Product Images');
         processProductImages.reset();
-        processProductImages.queue(ajaxurl,{action: 'get_product_images'});
+        processProductImages.queue(ajaxurl,{action: 'get_product_IDs'});
         processProductImages.process();
 
     });
